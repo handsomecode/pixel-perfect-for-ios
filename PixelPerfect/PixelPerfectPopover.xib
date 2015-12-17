@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="PixelPerfectPopover" customModule="PixelPerfect" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DCt-va-v18">
+                    <rect key="frame" x="10" y="38" width="580" height="80"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="80" id="P9G-CT-rmo"/>
+                    </constraints>
+                </pickerView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PixelPerfect image:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZWU-2h-EJV">
+                    <rect key="frame" x="10" y="10" width="580" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fvS-ny-OAf">
+                    <rect key="frame" x="10" y="128" width="580" height="31"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Active" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xSu-Vi-ykX">
+                            <rect key="frame" x="0.0" y="-1" width="48" height="32"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YIF-sO-VGk">
+                            <rect key="frame" x="529" y="-1" width="51" height="31"/>
+                        </switch>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="xSu-Vi-ykX" secondAttribute="bottom" id="2GT-WS-POP"/>
+                        <constraint firstAttribute="trailing" secondItem="YIF-sO-VGk" secondAttribute="trailing" constant="2" id="ANS-3f-BYg"/>
+                        <constraint firstItem="YIF-sO-VGk" firstAttribute="top" secondItem="fvS-ny-OAf" secondAttribute="top" id="HQk-Ni-xPF"/>
+                        <constraint firstItem="xSu-Vi-ykX" firstAttribute="leading" secondItem="fvS-ny-OAf" secondAttribute="leading" id="ZKd-zd-5vH"/>
+                        <constraint firstItem="xSu-Vi-ykX" firstAttribute="top" secondItem="fvS-ny-OAf" secondAttribute="top" id="aT2-tZ-tPm"/>
+                        <constraint firstAttribute="bottom" secondItem="YIF-sO-VGk" secondAttribute="bottom" id="ipi-qy-1cV"/>
+                    </constraints>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x5n-8w-oZ7">
+                    <rect key="frame" x="281" y="170" width="39" height="30"/>
+                    <state key="normal" title="Close">
+                        <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                    </state>
+                    <connections>
+                        <action selector="closePressed:" destination="iN0-l3-epB" eventType="touchUpInside" id="fpo-iB-bhh"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="ZWU-2h-EJV" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="5uT-BN-enA"/>
+                <constraint firstItem="x5n-8w-oZ7" firstAttribute="top" secondItem="fvS-ny-OAf" secondAttribute="bottom" constant="10" id="8b5-HY-gZU"/>
+                <constraint firstItem="DCt-va-v18" firstAttribute="top" secondItem="ZWU-2h-EJV" secondAttribute="bottom" constant="8" id="CCD-eS-VZg"/>
+                <constraint firstItem="fvS-ny-OAf" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="DNe-ml-PPT"/>
+                <constraint firstItem="fvS-ny-OAf" firstAttribute="top" secondItem="DCt-va-v18" secondAttribute="bottom" constant="10" id="Fvg-Ee-X0x"/>
+                <constraint firstAttribute="trailing" secondItem="DCt-va-v18" secondAttribute="trailing" constant="10" id="Hrn-CI-Xf6"/>
+                <constraint firstItem="ZWU-2h-EJV" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="JO4-MF-XKS"/>
+                <constraint firstItem="x5n-8w-oZ7" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="MhA-CB-92o"/>
+                <constraint firstItem="DCt-va-v18" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="jmx-6r-iUs"/>
+                <constraint firstAttribute="trailing" secondItem="ZWU-2h-EJV" secondAttribute="trailing" constant="10" id="wKH-Jp-fiY"/>
+                <constraint firstAttribute="trailing" secondItem="fvS-ny-OAf" secondAttribute="trailing" constant="10" id="zfP-co-rIj"/>
+            </constraints>
+            <connections>
+                <outlet property="activeSwitch" destination="YIF-sO-VGk" id="xZs-23-Joh"/>
+                <outlet property="namesPicker" destination="DCt-va-v18" id="KmO-KY-IzI"/>
+            </connections>
+        </view>
+    </objects>
+</document>
