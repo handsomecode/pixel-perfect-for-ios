@@ -23,6 +23,7 @@ class PixelPerfectLayout : PixelPerfectView {
     private var isHorizontalDragging : Bool? = nil
     private var popover : PixelPerfectPopover!
     private var config : PixelPerfectConfig?
+    private var magnifier : Magnifier?
     
     convenience init () {
         self.init(frame:CGRect.zero)
@@ -46,6 +47,9 @@ class PixelPerfectLayout : PixelPerfectView {
         imageView.alpha = 0.5
         addActionButton()
         addSlider()
+        
+        let doubleTapAndMove =  UIDoubleTapAndMoveGestureRecognizer(target: self, action: "showZoom:")
+        addGestureRecognizer(doubleTapAndMove)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -104,6 +108,23 @@ class PixelPerfectLayout : PixelPerfectView {
         addEqualConstraint(popover, constant: -20, attribute: .Bottom, parent: self)
     }
     
+    func actionLongPress(gestureRecognizer:UIGestureRecognizer) {
+        actionButton.center = gestureRecognizer.locationInView(self)
+    }
+    
+    func showZoom(gestureRecognizer:UIGestureRecognizer) {
+        if gestureRecognizer.state == .Began {
+            magnifier = Magnifier()
+            magnifier!.setImage(makeScreenshot())
+            magnifier!.setPoint(gestureRecognizer.locationInView(self))
+            addSubview(magnifier!)
+        } else if gestureRecognizer.state == .Ended || gestureRecognizer.state == .Failed {
+            magnifier?.removeFromSuperview()
+        } else {
+            magnifier?.setPoint(gestureRecognizer.locationInView(self))
+        }
+    }
+    
     private func setImage(name : String) {
         if name == currentImage {
             return
@@ -132,7 +153,8 @@ class PixelPerfectLayout : PixelPerfectView {
         addEqualConstraint(actionButton, constant: 60, attribute: .Width, parent: nil)
         addEqualConstraint(actionButton, constant: 60, attribute: .Height, parent: nil)
         
-        
+        let longPress =  UILongPressGestureRecognizer(target: self, action: "actionLongPress:")
+        actionButton.addGestureRecognizer(longPress)
     }
     
     private func addSlider() {
@@ -146,6 +168,17 @@ class PixelPerfectLayout : PixelPerfectView {
         addEqualConstraint(opacitySlider, constant: 20, attribute: .Width, parent: nil)
         addEqualConstraint(opacitySlider, constant: 20, attribute: .Top, parent: self)
         addEqualConstraint(opacitySlider, constant: -20, attribute: .Bottom, parent: self)
+    }
+    
+    private func makeScreenshot() -> UIImage? {
+        if let delegate = UIApplication.sharedApplication().delegate, let optionalWindow = delegate.window, let window = optionalWindow {
+            UIGraphicsBeginImageContextWithOptions(self.frame.size, self.opaque, 0.0)
+            window.layer.renderInContext(UIGraphicsGetCurrentContext()!)
+            let image = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            return image
+        }
+        return nil
     }
 }
 
@@ -171,6 +204,48 @@ class Slider : UIView {
             return
         }
         let position = firstFinger.locationInView(self)
-        didValueChanged?(position.y / frame.height)
+        didValueChanged?(1 - position.y / frame.height)
     }
+}
+
+class Magnifier : UIView {
+    
+    private let kZoom : CGFloat = 2
+    private let imageView = UIImageView()
+    
+    private var area : CGRect?
+    private var imageFrame : CGRect?
+    
+    private var image : UIImage?
+    
+    convenience init () {
+        self.init(frame:CGRect.zero)
+        backgroundColor = UIColor(white: 0.0, alpha: 0.0)
+        opaque = false;
+    }
+    
+    func setImage(image : UIImage?) {
+        if let image = image {
+            self.image = image
+            self.frame = CGRect(x: -image.size.width * (kZoom - 1) / 2, y: -image.size.height * (kZoom - 1) / 2, width: image.size.width * kZoom, height: image.size.height * kZoom)
+        }
+        setNeedsDisplay()
+    }
+    
+    func setPoint(point : CGPoint) {
+        imageFrame = CGRect(x: -point.x * (kZoom - 1) - frame.origin.x, y: -point.y * (kZoom - 1) - frame.origin.y, width: frame.width, height: frame.height)
+        area = CGRect(x: point.x - 50 - frame.origin.x, y: point.y - 50 - frame.origin.y, width: 100, height: 100)
+        setNeedsDisplay()
+    }
+    
+    override func drawRect(rect: CGRect) {
+        if let area = area, let imageFrame = imageFrame {
+            let circularPath = UIBezierPath(ovalInRect: area)
+            circularPath.addClip()
+            UIColor.whiteColor().setFill()
+            image?.drawInRect(imageFrame)
+            circularPath.stroke()
+        }
+    }
+    
 }
