@@ -20,6 +20,7 @@
 		B928FB541C1ADDE400D4A365 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B928FB521C1ADDE400D4A365 /* Main.storyboard */; };
 		B928FB561C1ADDE400D4A365 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B928FB551C1ADDE400D4A365 /* Assets.xcassets */; };
 		B928FB591C1ADDE400D4A365 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B928FB571C1ADDE400D4A365 /* LaunchScreen.storyboard */; };
+		B9EFC54D1C23BB1100E3008E /* handsome-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = B9EFC54C1C23BB1100E3008E /* handsome-logo.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		B928FB551C1ADDE400D4A365 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B928FB581C1ADDE400D4A365 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B928FB5A1C1ADDE400D4A365 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B9EFC54C1C23BB1100E3008E /* handsome-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "handsome-logo.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +86,7 @@
 				B9108A751C21A2520037140F /* PixelPerfectConfig.swift */,
 				B9108A6D1C1FECB20037140F /* pixelperfect.bundle */,
 				B9108A771C22E3B30037140F /* UIDoubleTapAndMoveGestureRecognizer.swift */,
+				B9EFC54C1C23BB1100E3008E /* handsome-logo.png */,
 			);
 			path = PixelPerfect;
 			sourceTree = "<group>";
@@ -148,6 +151,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B928FB591C1ADDE400D4A365 /* LaunchScreen.storyboard in Resources */,
+				B9EFC54D1C23BB1100E3008E /* handsome-logo.png in Resources */,
 				B928FB561C1ADDE400D4A365 /* Assets.xcassets in Resources */,
 				B9108A741C219D8A0037140F /* PixelPerfectPopover.xib in Resources */,
 				B9108A6E1C1FECB20037140F /* pixelperfect.bundle in Resources */,

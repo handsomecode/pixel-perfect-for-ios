@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PixelPerfectLayout : PixelPerfectView {
+class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
     
     private let kBundleName = "pixelperfect"
     private let kBundleExt = "bundle"
@@ -24,6 +24,9 @@ class PixelPerfectLayout : PixelPerfectView {
     private var popover : PixelPerfectPopover!
     private var config : PixelPerfectConfig?
     private var magnifier : Magnifier?
+    
+    private var actionButtonTrailing : NSLayoutConstraint!
+    private var actionButtonBottom : NSLayoutConstraint!
     
     convenience init () {
         self.init(frame:CGRect.zero)
@@ -48,8 +51,18 @@ class PixelPerfectLayout : PixelPerfectView {
         addActionButton()
         addSlider()
         
+        imageView.userInteractionEnabled = true
+        
         let doubleTapAndMove =  UIDoubleTapAndMoveGestureRecognizer(target: self, action: "showZoom:")
+        doubleTapAndMove.delegate = self
         addGestureRecognizer(doubleTapAndMove)
+        
+        let move =  UIPanGestureRecognizer(target: self, action: "moveImage:")
+        doubleTapAndMove.delegate = self
+        imageView.addGestureRecognizer(move)
+        
+        let tap =  UITapGestureRecognizer(target: self, action: "moveAfterTap:")
+        imageView.addGestureRecognizer(tap)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -60,35 +73,14 @@ class PixelPerfectLayout : PixelPerfectView {
         return actionButton.frame.contains(point) || popover != nil ? true : abortTouch
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        if let firstFinger = touches.first {
-            startDraggingPoint = firstFinger.locationInView(self)
-        } else {
-            startDraggingPoint = nil
-        }
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
+        return popover == nil && !actionButton.frame.contains(touch.locationInView(self))
     }
     
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        guard let startDraggingPoint = startDraggingPoint, let firstFinger = touches.first else {
+    func actionPressed(gestureRecognizer:UIGestureRecognizer) {
+        if popover != nil {
             return
         }
-        let currentDraggingPoint = firstFinger.locationInView(self)
-        if isHorizontalDragging == nil {
-            isHorizontalDragging = abs(currentDraggingPoint.x - startDraggingPoint.x) > abs(currentDraggingPoint.y - startDraggingPoint.y)
-        }
-        if isHorizontalDragging! {
-            imageView.center.x += currentDraggingPoint.x - startDraggingPoint.x
-        } else {
-            imageView.center.y += currentDraggingPoint.y - startDraggingPoint.y
-        }
-        self.startDraggingPoint = currentDraggingPoint
-    }
-    
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        isHorizontalDragging = nil
-    }
-    
-    func actionPressed(sender: UIButton!) {
         popover = NSBundle.mainBundle().loadNibNamed("PixelPerfectPopover", owner: self, options: nil).first as! PixelPerfectPopover
         popover.setImageNames(imagesNames)
         popover.restore(config)
@@ -109,10 +101,19 @@ class PixelPerfectLayout : PixelPerfectView {
     }
     
     func actionLongPress(gestureRecognizer:UIGestureRecognizer) {
+        if popover != nil {
+            return
+        }
         actionButton.center = gestureRecognizer.locationInView(self)
+        actionButtonTrailing.constant = actionButton.frame.origin.x + actionButton.frame.width - frame.width
+        actionButtonBottom.constant = actionButton.frame.origin.y + actionButton.frame.height - frame.height
+        layoutIfNeeded()
     }
     
     func showZoom(gestureRecognizer:UIGestureRecognizer) {
+        if popover != nil {
+            return
+        }
         if gestureRecognizer.state == .Began {
             magnifier = Magnifier()
             magnifier!.setImage(makeScreenshot())
@@ -122,6 +123,45 @@ class PixelPerfectLayout : PixelPerfectView {
             magnifier?.removeFromSuperview()
         } else {
             magnifier?.setPoint(gestureRecognizer.locationInView(self))
+        }
+    }
+    
+    func moveImage(gestureRecognizer:UIGestureRecognizer) {
+        if popover != nil {
+            return
+        }
+        if gestureRecognizer.state == .Began {
+            startDraggingPoint = gestureRecognizer.locationInView(self)
+        } else if gestureRecognizer.state == .Ended || gestureRecognizer.state == .Failed {
+             isHorizontalDragging = nil
+        } else {
+            guard let startDraggingPoint = startDraggingPoint else {
+                return
+            }
+            
+            let currentDraggingPoint = gestureRecognizer.locationInView(self)
+            if isHorizontalDragging == nil {
+                isHorizontalDragging = abs(currentDraggingPoint.x - startDraggingPoint.x) > abs(currentDraggingPoint.y - startDraggingPoint.y)
+            }
+            if isHorizontalDragging! {
+                imageView.center.x += currentDraggingPoint.x - startDraggingPoint.x
+            } else {
+                imageView.center.y += currentDraggingPoint.y - startDraggingPoint.y
+            }
+            self.startDraggingPoint = currentDraggingPoint
+        }
+    }
+    
+    func moveAfterTap(gestureRecognizer:UIGestureRecognizer) {
+        let tapPoint = gestureRecognizer.locationInView(self)
+        if tapPoint.y < frame.height / 3 {
+            imageView.center.y -= 1
+        } else if tapPoint.y > frame.height * 2 / 3 {
+            imageView.center.y += 1
+        } else if tapPoint.x < frame.width / 3 {
+            imageView.center.x -= 1
+        } else if tapPoint.x > frame.width * 2 / 3 {
+            imageView.center.x += 1
         }
     }
     
@@ -140,21 +180,23 @@ class PixelPerfectLayout : PixelPerfectView {
     }
     
     private func addActionButton() {
-        actionButton.backgroundColor = UIColor.blueColor()
-        actionButton.setTitle("PP", forState: .Normal)
-        
-        actionButton.addTarget(self, action: "actionPressed:", forControlEvents: .TouchUpInside)
+        actionButton.backgroundColor = UIColor.blackColor()
+        actionButton.setImage(UIImage(named: "handsome-logo"), forState: .Normal)
+        actionButton.imageEdgeInsets = UIEdgeInsets.init(top: 20, left: 20, bottom: 20, right: 20)
         
         actionButton.translatesAutoresizingMaskIntoConstraints = false
         addSubview(actionButton)
         
-        addEqualConstraint(actionButton, constant: -10, attribute: .Trailing, parent: self)
-        addEqualConstraint(actionButton, constant: -10, attribute: .Bottom, parent: self)
+        actionButtonTrailing = addEqualConstraint(actionButton, constant: -10, attribute: .Trailing, parent: self)
+        actionButtonBottom = addEqualConstraint(actionButton, constant: -10, attribute: .Bottom, parent: self)
         addEqualConstraint(actionButton, constant: 60, attribute: .Width, parent: nil)
         addEqualConstraint(actionButton, constant: 60, attribute: .Height, parent: nil)
         
         let longPress =  UILongPressGestureRecognizer(target: self, action: "actionLongPress:")
         actionButton.addGestureRecognizer(longPress)
+        
+        let tap =  UITapGestureRecognizer(target: self, action: "actionPressed:")
+        actionButton.addGestureRecognizer(tap)
     }
     
     private func addSlider() {
@@ -198,13 +240,17 @@ class Slider : UIView {
 
     var didValueChanged : ((CGFloat)->())?
     
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesBegan(touches, withEvent: event)
-        guard let firstFinger = touches.first else {
-            return
+    convenience init () {
+        self.init(frame:CGRect.zero)
+        let move =  UIPanGestureRecognizer(target: self, action: "didFingerMoved:")
+        addGestureRecognizer(move)
+    }
+    
+    func didFingerMoved(gestureRecognizer:UIGestureRecognizer) {
+        let position = gestureRecognizer.locationInView(self)
+        if position.x>0 && position.x < frame.width {
+            didValueChanged?(1 - position.y / frame.height)
         }
-        let position = firstFinger.locationInView(self)
-        didValueChanged?(1 - position.y / frame.height)
     }
 }
 
@@ -247,5 +293,4 @@ class Magnifier : UIView {
             circularPath.stroke()
         }
     }
-    
 }
