@@ -47,7 +47,7 @@
                     </constraints>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x5n-8w-oZ7">
-                    <rect key="frame" x="281" y="210" width="39" height="30"/>
+                    <rect key="frame" x="281" y="253" width="39" height="30"/>
                     <state key="normal" title="Close">
                         <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                     </state>
@@ -78,27 +78,69 @@
                         <constraint firstAttribute="bottom" secondItem="q4i-tf-Ve8" secondAttribute="bottom" id="tws-A3-mtb"/>
                     </constraints>
                 </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GEd-ob-IeP">
+                    <rect key="frame" x="10" y="210" width="580" height="32"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Magnifier shape" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BGA-CX-vdE">
+                            <rect key="frame" x="0.0" y="0.0" width="123" height="32"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="3BI-ub-Ouk">
+                            <rect key="frame" x="465" y="2" width="115" height="29"/>
+                            <segments>
+                                <segment title="Circle"/>
+                                <segment title="Square"/>
+                            </segments>
+                        </segmentedControl>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="BGA-CX-vdE" secondAttribute="bottom" id="4vK-fV-Rc5"/>
+                        <constraint firstItem="3BI-ub-Ouk" firstAttribute="top" secondItem="GEd-ob-IeP" secondAttribute="top" constant="2" id="6dH-Ou-7wi"/>
+                        <constraint firstAttribute="bottom" secondItem="3BI-ub-Ouk" secondAttribute="bottom" constant="2" id="Us3-HR-PL0"/>
+                        <constraint firstItem="BGA-CX-vdE" firstAttribute="top" secondItem="GEd-ob-IeP" secondAttribute="top" id="bzm-Ou-NfI"/>
+                        <constraint firstAttribute="bottom" secondItem="3BI-ub-Ouk" secondAttribute="bottom" id="cYb-W0-KnH"/>
+                        <constraint firstItem="3BI-ub-Ouk" firstAttribute="centerY" secondItem="GEd-ob-IeP" secondAttribute="centerY" id="dzN-mI-exU"/>
+                        <constraint firstItem="BGA-CX-vdE" firstAttribute="leading" secondItem="GEd-ob-IeP" secondAttribute="leading" id="fFi-L2-MVr"/>
+                        <constraint firstAttribute="trailing" secondItem="3BI-ub-Ouk" secondAttribute="trailing" id="qHs-wo-rd0"/>
+                        <constraint firstItem="3BI-ub-Ouk" firstAttribute="centerY" secondItem="GEd-ob-IeP" secondAttribute="centerY" id="skl-NE-aas"/>
+                        <constraint firstItem="3BI-ub-Ouk" firstAttribute="top" secondItem="GEd-ob-IeP" secondAttribute="top" id="wD1-0e-my0"/>
+                    </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="cYb-W0-KnH"/>
+                            <exclude reference="skl-NE-aas"/>
+                            <exclude reference="wD1-0e-my0"/>
+                        </mask>
+                    </variation>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstItem="GEd-ob-IeP" firstAttribute="top" secondItem="WBc-rz-jsY" secondAttribute="bottom" constant="10" id="17U-3H-qOU"/>
                 <constraint firstItem="ZWU-2h-EJV" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="5uT-BN-enA"/>
+                <constraint firstItem="GEd-ob-IeP" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="6WH-K8-bfU"/>
                 <constraint firstItem="WBc-rz-jsY" firstAttribute="top" secondItem="fvS-ny-OAf" secondAttribute="bottom" constant="10" id="BDd-co-yLi"/>
                 <constraint firstItem="DCt-va-v18" firstAttribute="top" secondItem="ZWU-2h-EJV" secondAttribute="bottom" constant="8" id="CCD-eS-VZg"/>
                 <constraint firstItem="fvS-ny-OAf" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="DNe-ml-PPT"/>
                 <constraint firstItem="fvS-ny-OAf" firstAttribute="top" secondItem="DCt-va-v18" secondAttribute="bottom" constant="10" id="Fvg-Ee-X0x"/>
+                <constraint firstAttribute="trailing" secondItem="GEd-ob-IeP" secondAttribute="trailing" constant="10" id="H1q-7G-dKf"/>
                 <constraint firstAttribute="trailing" secondItem="DCt-va-v18" secondAttribute="trailing" constant="10" id="Hrn-CI-Xf6"/>
                 <constraint firstItem="ZWU-2h-EJV" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="JO4-MF-XKS"/>
-                <constraint firstItem="x5n-8w-oZ7" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="MhA-CB-92o"/>
                 <constraint firstItem="WBc-rz-jsY" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="Pxp-xs-xxC"/>
                 <constraint firstAttribute="trailing" secondItem="WBc-rz-jsY" secondAttribute="trailing" constant="10" id="X9L-as-8dO"/>
-                <constraint firstItem="x5n-8w-oZ7" firstAttribute="top" secondItem="WBc-rz-jsY" secondAttribute="bottom" constant="10" id="cWt-m3-5BI"/>
+                <constraint firstItem="x5n-8w-oZ7" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="jku-ws-gaN"/>
                 <constraint firstItem="DCt-va-v18" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="jmx-6r-iUs"/>
+                <constraint firstItem="x5n-8w-oZ7" firstAttribute="top" secondItem="GEd-ob-IeP" secondAttribute="bottom" constant="10" id="qTe-Fb-XBl"/>
                 <constraint firstAttribute="trailing" secondItem="ZWU-2h-EJV" secondAttribute="trailing" constant="10" id="wKH-Jp-fiY"/>
                 <constraint firstAttribute="trailing" secondItem="fvS-ny-OAf" secondAttribute="trailing" constant="10" id="zfP-co-rIj"/>
             </constraints>
             <connections>
                 <outlet property="activeSwitch" destination="YIF-sO-VGk" id="xZs-23-Joh"/>
                 <outlet property="gridSwitch" destination="q4i-tf-Ve8" id="llp-sV-sHO"/>
+                <outlet property="magnifierShapeSegmentedControl" destination="3BI-ub-Ouk" id="Owc-or-eqP"/>
                 <outlet property="namesPicker" destination="DCt-va-v18" id="KmO-KY-IzI"/>
             </connections>
         </view>

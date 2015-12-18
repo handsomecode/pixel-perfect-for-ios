@@ -13,4 +13,5 @@ struct PixelPerfectConfig {
     let active : Bool
     let imageName : String
     let grid : Bool
+    let magnifierCircular : Bool
 }

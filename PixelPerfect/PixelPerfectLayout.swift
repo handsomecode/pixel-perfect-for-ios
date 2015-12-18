@@ -104,7 +104,7 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
     func actionDoubleTapped(gestureRecognizer:UIGestureRecognizer) {
         abortTouch = !abortTouch
         actionButton.selected = abortTouch
-        config = PixelPerfectConfig(active : abortTouch, imageName : getConfigOrDefault().imageName, grid : getConfigOrDefault().grid)
+        config = PixelPerfectConfig(active : abortTouch, imageName : getConfigOrDefault().imageName, grid : getConfigOrDefault().grid, magnifierCircular : getConfigOrDefault().magnifierCircular)
     }
     
     func actionLongPress(gestureRecognizer:UIGestureRecognizer) {
@@ -122,7 +122,7 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
             return
         }
         if gestureRecognizer.state == .Began {
-            magnifier = Magnifier(showGrid: getConfigOrDefault().grid)
+            magnifier = Magnifier(showGrid: getConfigOrDefault().grid, isCircular: getConfigOrDefault().magnifierCircular)
             actionButton.hidden = true
             magnifier!.setImage(makeScreenshot())
             actionButton.hidden = false
@@ -244,7 +244,7 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
         if config != nil {
             return config!
         }
-        config = PixelPerfectConfig(active : true, imageName : imagesNames[0], grid : false)
+        config = PixelPerfectConfig(active : true, imageName : imagesNames[0], grid : false, magnifierCircular : true)
         return config!
     }
 }
@@ -282,19 +282,22 @@ class Slider : UIView {
 class Magnifier : UIView {
     
     private let kGridLinesCount : Int = 8
-    private let kAreaSize : CGFloat = 100
-    private let kZoom : CGFloat = 2
+    private let kAreaSize : CGFloat = 200
+    private let kZoom : CGFloat = 3
+    
     private let imageView = UIImageView()
     private var showGrid : Bool?
+    private var isCircular : Bool?
     
     private var area : CGRect?
     private var imageFrame : CGRect?
     
     private var image : UIImage?
     
-    init (showGrid : Bool) {
+    init (showGrid : Bool, isCircular : Bool) {
         super.init(frame:CGRect.zero)
         self.showGrid = showGrid
+        self.isCircular = isCircular
         backgroundColor = UIColor(white: 0.0, alpha: 0.0)
         opaque = false;
     }
@@ -320,7 +323,7 @@ class Magnifier : UIView {
     override func drawRect(rect: CGRect) {
         if let area = area, let imageFrame = imageFrame {
             
-            let circularPath = UIBezierPath(ovalInRect: area)
+            let circularPath = isCircular == nil || isCircular! ? UIBezierPath(ovalInRect: area) : UIBezierPath(rect: area)
             circularPath.addClip()
             image?.drawInRect(imageFrame)
             circularPath.stroke()

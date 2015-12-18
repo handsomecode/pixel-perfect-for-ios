@@ -15,6 +15,7 @@ class PixelPerfectPopover : PixelPerfectView, UIPickerViewDelegate, UIPickerView
     @IBOutlet weak var namesPicker: UIPickerView!
     @IBOutlet weak var activeSwitch: UISwitch!
     @IBOutlet weak var gridSwitch: UISwitch!
+    @IBOutlet weak var magnifierShapeSegmentedControl: UISegmentedControl!
     
     private var imagesNames : [String]!
     
@@ -38,6 +39,7 @@ class PixelPerfectPopover : PixelPerfectView, UIPickerViewDelegate, UIPickerView
             activeSwitch.on = config.active
             namesPicker.selectRow(imagesNames.indexOf(config.imageName)!, inComponent: 0, animated: false)
             gridSwitch.on = config.grid
+            magnifierShapeSegmentedControl.selectedSegmentIndex = config.magnifierCircular ? 0 : 1
         }
     }
     
@@ -58,7 +60,7 @@ class PixelPerfectPopover : PixelPerfectView, UIPickerViewDelegate, UIPickerView
     }
     
     @IBAction func closePressed(sender: AnyObject) {
-        let config = PixelPerfectConfig(active: activeSwitch.on, imageName: imagesNames[namesPicker.selectedRowInComponent(0)], grid: gridSwitch.on)
+        let config = PixelPerfectConfig(active: activeSwitch.on, imageName: imagesNames[namesPicker.selectedRowInComponent(0)], grid: gridSwitch.on, magnifierCircular : magnifierShapeSegmentedControl.selectedSegmentIndex == 0)
         didClose?(config)
     }
 }
