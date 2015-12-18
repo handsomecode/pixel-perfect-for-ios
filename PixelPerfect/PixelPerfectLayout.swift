@@ -62,6 +62,7 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
         imageView.addGestureRecognizer(move)
         
         let tap =  UITapGestureRecognizer(target: self, action: "moveAfterTap:")
+        tap.requireGestureRecognizerToFail(doubleTapAndMove)
         imageView.addGestureRecognizer(tap)
     }
 
@@ -100,6 +101,12 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
         addEqualConstraint(popover, constant: -20, attribute: .Bottom, parent: self)
     }
     
+    func actionDoubleTapped(gestureRecognizer:UIGestureRecognizer) {
+        abortTouch = !abortTouch
+        actionButton.selected = abortTouch
+        config = PixelPerfectConfig(active : abortTouch, imageName : config == nil ? imagesNames[0] : config!.imageName)
+    }
+    
     func actionLongPress(gestureRecognizer:UIGestureRecognizer) {
         if popover != nil {
             return
@@ -116,7 +123,9 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
         }
         if gestureRecognizer.state == .Began {
             magnifier = Magnifier()
+            actionButton.hidden = true
             magnifier!.setImage(makeScreenshot())
+            actionButton.hidden = false
             magnifier!.setPoint(gestureRecognizer.locationInView(self))
             addSubview(magnifier!)
         } else if gestureRecognizer.state == .Ended || gestureRecognizer.state == .Failed {
@@ -181,7 +190,8 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
     
     private func addActionButton() {
         actionButton.backgroundColor = UIColor.blackColor()
-        actionButton.setImage(UIImage(named: "handsome-logo"), forState: .Normal)
+        actionButton.setImage(UIImage(named: "handsome-logo-inactive"), forState: .Normal)
+        actionButton.setImage(UIImage(named: "handsome-logo-active"), forState: .Selected)
         actionButton.imageEdgeInsets = UIEdgeInsets.init(top: 20, left: 20, bottom: 20, right: 20)
         
         actionButton.translatesAutoresizingMaskIntoConstraints = false
@@ -197,6 +207,13 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
         
         let tap =  UITapGestureRecognizer(target: self, action: "actionPressed:")
         actionButton.addGestureRecognizer(tap)
+        
+        let doubleTap =  UITapGestureRecognizer(target: self, action: "actionDoubleTapped:")
+        doubleTap.numberOfTapsRequired = 2
+        
+        tap.requireGestureRecognizerToFail(doubleTap)
+        actionButton.addGestureRecognizer(doubleTap)
+        actionButton.selected = true
     }
     
     private func addSlider() {

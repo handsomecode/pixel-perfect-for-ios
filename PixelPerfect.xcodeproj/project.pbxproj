@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		B9108A681C1FB2930037140F /* PixelPerfectLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9108A671C1FB2930037140F /* PixelPerfectLayout.swift */; };
 		B9108A6A1C1FB75B0037140F /* PixelPerfectController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9108A691C1FB75B0037140F /* PixelPerfectController.swift */; };
-		B9108A6E1C1FECB20037140F /* pixelperfect.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B9108A6D1C1FECB20037140F /* pixelperfect.bundle */; };
 		B9108A701C21997B0037140F /* PixelPerfectPopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9108A6F1C21997B0037140F /* PixelPerfectPopover.swift */; };
 		B9108A721C219CC30037140F /* PixelPerfectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9108A711C219CC30037140F /* PixelPerfectView.swift */; };
 		B9108A741C219D8A0037140F /* PixelPerfectPopover.xib in Resources */ = {isa = PBXBuildFile; fileRef = B9108A731C219D8A0037140F /* PixelPerfectPopover.xib */; };
@@ -20,13 +19,14 @@
 		B928FB541C1ADDE400D4A365 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B928FB521C1ADDE400D4A365 /* Main.storyboard */; };
 		B928FB561C1ADDE400D4A365 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B928FB551C1ADDE400D4A365 /* Assets.xcassets */; };
 		B928FB591C1ADDE400D4A365 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B928FB571C1ADDE400D4A365 /* LaunchScreen.storyboard */; };
-		B9EFC54D1C23BB1100E3008E /* handsome-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = B9EFC54C1C23BB1100E3008E /* handsome-logo.png */; };
+		B9EFC5501C23D24600E3008E /* handsome-logo-inactive.png in Resources */ = {isa = PBXBuildFile; fileRef = B9EFC54E1C23D24600E3008E /* handsome-logo-inactive.png */; };
+		B9EFC5511C23D24600E3008E /* handsome-logo-active.png in Resources */ = {isa = PBXBuildFile; fileRef = B9EFC54F1C23D24600E3008E /* handsome-logo-active.png */; };
+		B9EFC5551C23D9B500E3008E /* pixelperfect.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B9EFC5541C23D9B500E3008E /* pixelperfect.bundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		B9108A671C1FB2930037140F /* PixelPerfectLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PixelPerfectLayout.swift; sourceTree = "<group>"; };
 		B9108A691C1FB75B0037140F /* PixelPerfectController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PixelPerfectController.swift; sourceTree = "<group>"; };
-		B9108A6D1C1FECB20037140F /* pixelperfect.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = pixelperfect.bundle; sourceTree = "<group>"; };
 		B9108A6F1C21997B0037140F /* PixelPerfectPopover.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PixelPerfectPopover.swift; sourceTree = "<group>"; };
 		B9108A711C219CC30037140F /* PixelPerfectView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PixelPerfectView.swift; sourceTree = "<group>"; };
 		B9108A731C219D8A0037140F /* PixelPerfectPopover.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PixelPerfectPopover.xib; sourceTree = "<group>"; };
@@ -39,7 +39,9 @@
 		B928FB551C1ADDE400D4A365 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B928FB581C1ADDE400D4A365 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B928FB5A1C1ADDE400D4A365 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B9EFC54C1C23BB1100E3008E /* handsome-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "handsome-logo.png"; sourceTree = "<group>"; };
+		B9EFC54E1C23D24600E3008E /* handsome-logo-inactive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "handsome-logo-inactive.png"; sourceTree = "<group>"; };
+		B9EFC54F1C23D24600E3008E /* handsome-logo-active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "handsome-logo-active.png"; sourceTree = "<group>"; };
+		B9EFC5541C23D9B500E3008E /* pixelperfect.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = pixelperfect.bundle; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,9 +86,10 @@
 				B9108A6F1C21997B0037140F /* PixelPerfectPopover.swift */,
 				B9108A731C219D8A0037140F /* PixelPerfectPopover.xib */,
 				B9108A751C21A2520037140F /* PixelPerfectConfig.swift */,
-				B9108A6D1C1FECB20037140F /* pixelperfect.bundle */,
 				B9108A771C22E3B30037140F /* UIDoubleTapAndMoveGestureRecognizer.swift */,
-				B9EFC54C1C23BB1100E3008E /* handsome-logo.png */,
+				B9EFC5541C23D9B500E3008E /* pixelperfect.bundle */,
+				B9EFC54E1C23D24600E3008E /* handsome-logo-inactive.png */,
+				B9EFC54F1C23D24600E3008E /* handsome-logo-active.png */,
 			);
 			path = PixelPerfect;
 			sourceTree = "<group>";
@@ -150,11 +153,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9EFC5501C23D24600E3008E /* handsome-logo-inactive.png in Resources */,
+				B9EFC5511C23D24600E3008E /* handsome-logo-active.png in Resources */,
 				B928FB591C1ADDE400D4A365 /* LaunchScreen.storyboard in Resources */,
-				B9EFC54D1C23BB1100E3008E /* handsome-logo.png in Resources */,
+				B9EFC5551C23D9B500E3008E /* pixelperfect.bundle in Resources */,
 				B928FB561C1ADDE400D4A365 /* Assets.xcassets in Resources */,
 				B9108A741C219D8A0037140F /* PixelPerfectPopover.xib in Resources */,
-				B9108A6E1C1FECB20037140F /* pixelperfect.bundle in Resources */,
 				B928FB541C1ADDE400D4A365 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

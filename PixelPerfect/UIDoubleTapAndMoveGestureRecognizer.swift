@@ -36,13 +36,16 @@ class UIDoubleTapAndMoveGestureRecognizer : UIGestureRecognizer {
     }
     
     func doubleTapTimeExpired() {
+        state = .Failed
         isFirstTapDetected = false
         isDoubleTapDetected = false
     }
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent) {
         super.touchesEnded(touches, withEvent: event)
-        state = .Ended
+        if !isFirstTapDetected {
+            state = .Ended
+        }
         isDoubleTapDetected = false
     }
     
