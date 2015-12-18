@@ -47,7 +47,7 @@
                     </constraints>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x5n-8w-oZ7">
-                    <rect key="frame" x="281" y="170" width="39" height="30"/>
+                    <rect key="frame" x="281" y="210" width="39" height="30"/>
                     <state key="normal" title="Close">
                         <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                     </state>
@@ -55,23 +55,50 @@
                         <action selector="closePressed:" destination="iN0-l3-epB" eventType="touchUpInside" id="fpo-iB-bhh"/>
                     </connections>
                 </button>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WBc-rz-jsY">
+                    <rect key="frame" x="10" y="169" width="580" height="31"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Grid in zoom" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zOD-hh-eDk">
+                            <rect key="frame" x="0.0" y="0.0" width="97" height="31"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="q4i-tf-Ve8">
+                            <rect key="frame" x="529" y="0.0" width="51" height="31"/>
+                        </switch>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="zOD-hh-eDk" firstAttribute="top" secondItem="WBc-rz-jsY" secondAttribute="top" id="4rL-no-hwL"/>
+                        <constraint firstItem="zOD-hh-eDk" firstAttribute="leading" secondItem="WBc-rz-jsY" secondAttribute="leading" id="OKV-PR-NOy"/>
+                        <constraint firstAttribute="trailing" secondItem="q4i-tf-Ve8" secondAttribute="trailing" constant="2" id="cLT-91-PMp"/>
+                        <constraint firstItem="q4i-tf-Ve8" firstAttribute="top" secondItem="WBc-rz-jsY" secondAttribute="top" id="dOi-vs-OMg"/>
+                        <constraint firstAttribute="bottom" secondItem="zOD-hh-eDk" secondAttribute="bottom" id="m89-ds-Wvi"/>
+                        <constraint firstAttribute="bottom" secondItem="q4i-tf-Ve8" secondAttribute="bottom" id="tws-A3-mtb"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="ZWU-2h-EJV" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="5uT-BN-enA"/>
-                <constraint firstItem="x5n-8w-oZ7" firstAttribute="top" secondItem="fvS-ny-OAf" secondAttribute="bottom" constant="10" id="8b5-HY-gZU"/>
+                <constraint firstItem="WBc-rz-jsY" firstAttribute="top" secondItem="fvS-ny-OAf" secondAttribute="bottom" constant="10" id="BDd-co-yLi"/>
                 <constraint firstItem="DCt-va-v18" firstAttribute="top" secondItem="ZWU-2h-EJV" secondAttribute="bottom" constant="8" id="CCD-eS-VZg"/>
                 <constraint firstItem="fvS-ny-OAf" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="DNe-ml-PPT"/>
                 <constraint firstItem="fvS-ny-OAf" firstAttribute="top" secondItem="DCt-va-v18" secondAttribute="bottom" constant="10" id="Fvg-Ee-X0x"/>
                 <constraint firstAttribute="trailing" secondItem="DCt-va-v18" secondAttribute="trailing" constant="10" id="Hrn-CI-Xf6"/>
                 <constraint firstItem="ZWU-2h-EJV" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="JO4-MF-XKS"/>
                 <constraint firstItem="x5n-8w-oZ7" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="MhA-CB-92o"/>
+                <constraint firstItem="WBc-rz-jsY" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="Pxp-xs-xxC"/>
+                <constraint firstAttribute="trailing" secondItem="WBc-rz-jsY" secondAttribute="trailing" constant="10" id="X9L-as-8dO"/>
+                <constraint firstItem="x5n-8w-oZ7" firstAttribute="top" secondItem="WBc-rz-jsY" secondAttribute="bottom" constant="10" id="cWt-m3-5BI"/>
                 <constraint firstItem="DCt-va-v18" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="jmx-6r-iUs"/>
                 <constraint firstAttribute="trailing" secondItem="ZWU-2h-EJV" secondAttribute="trailing" constant="10" id="wKH-Jp-fiY"/>
                 <constraint firstAttribute="trailing" secondItem="fvS-ny-OAf" secondAttribute="trailing" constant="10" id="zfP-co-rIj"/>
             </constraints>
             <connections>
                 <outlet property="activeSwitch" destination="YIF-sO-VGk" id="xZs-23-Joh"/>
+                <outlet property="gridSwitch" destination="q4i-tf-Ve8" id="llp-sV-sHO"/>
                 <outlet property="namesPicker" destination="DCt-va-v18" id="KmO-KY-IzI"/>
             </connections>
         </view>

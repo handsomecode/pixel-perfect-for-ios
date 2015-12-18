@@ -14,6 +14,7 @@ class PixelPerfectPopover : PixelPerfectView, UIPickerViewDelegate, UIPickerView
 
     @IBOutlet weak var namesPicker: UIPickerView!
     @IBOutlet weak var activeSwitch: UISwitch!
+    @IBOutlet weak var gridSwitch: UISwitch!
     
     private var imagesNames : [String]!
     
@@ -36,6 +37,7 @@ class PixelPerfectPopover : PixelPerfectView, UIPickerViewDelegate, UIPickerView
         if let config = config {
             activeSwitch.on = config.active
             namesPicker.selectRow(imagesNames.indexOf(config.imageName)!, inComponent: 0, animated: false)
+            gridSwitch.on = config.grid
         }
     }
     
@@ -56,7 +58,7 @@ class PixelPerfectPopover : PixelPerfectView, UIPickerViewDelegate, UIPickerView
     }
     
     @IBAction func closePressed(sender: AnyObject) {
-        let config = PixelPerfectConfig(active: activeSwitch.on, imageName: imagesNames[namesPicker.selectedRowInComponent(0)])
+        let config = PixelPerfectConfig(active: activeSwitch.on, imageName: imagesNames[namesPicker.selectedRowInComponent(0)], grid: gridSwitch.on)
         didClose?(config)
     }
 }

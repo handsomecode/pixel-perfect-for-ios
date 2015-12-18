@@ -84,7 +84,7 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
         }
         popover = NSBundle.mainBundle().loadNibNamed("PixelPerfectPopover", owner: self, options: nil).first as! PixelPerfectPopover
         popover.setImageNames(imagesNames)
-        popover.restore(config)
+        popover.restore(getConfigOrDefault())
         popover.didClose = { pixelPerfectConfig in
             self.config = pixelPerfectConfig
             self.abortTouch = pixelPerfectConfig.active
@@ -104,7 +104,7 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
     func actionDoubleTapped(gestureRecognizer:UIGestureRecognizer) {
         abortTouch = !abortTouch
         actionButton.selected = abortTouch
-        config = PixelPerfectConfig(active : abortTouch, imageName : config == nil ? imagesNames[0] : config!.imageName)
+        config = PixelPerfectConfig(active : abortTouch, imageName : getConfigOrDefault().imageName, grid : getConfigOrDefault().grid)
     }
     
     func actionLongPress(gestureRecognizer:UIGestureRecognizer) {
@@ -122,7 +122,7 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
             return
         }
         if gestureRecognizer.state == .Began {
-            magnifier = Magnifier()
+            magnifier = Magnifier(showGrid: getConfigOrDefault().grid)
             actionButton.hidden = true
             magnifier!.setImage(makeScreenshot())
             actionButton.hidden = false
@@ -239,6 +239,14 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
         }
         return nil
     }
+    
+    private func getConfigOrDefault() -> PixelPerfectConfig {
+        if config != nil {
+            return config!
+        }
+        config = PixelPerfectConfig(active : true, imageName : imagesNames[0], grid : false)
+        return config!
+    }
 }
 
 class CircularButton : UIButton {
@@ -273,18 +281,26 @@ class Slider : UIView {
 
 class Magnifier : UIView {
     
+    private let kGridLinesCount : Int = 8
+    private let kAreaSize : CGFloat = 100
     private let kZoom : CGFloat = 2
     private let imageView = UIImageView()
+    private var showGrid : Bool?
     
     private var area : CGRect?
     private var imageFrame : CGRect?
     
     private var image : UIImage?
     
-    convenience init () {
-        self.init(frame:CGRect.zero)
+    init (showGrid : Bool) {
+        super.init(frame:CGRect.zero)
+        self.showGrid = showGrid
         backgroundColor = UIColor(white: 0.0, alpha: 0.0)
         opaque = false;
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("Magnifier does not support NSCoding")
     }
     
     func setImage(image : UIImage?) {
@@ -297,17 +313,35 @@ class Magnifier : UIView {
     
     func setPoint(point : CGPoint) {
         imageFrame = CGRect(x: -point.x * (kZoom - 1) - frame.origin.x, y: -point.y * (kZoom - 1) - frame.origin.y, width: frame.width, height: frame.height)
-        area = CGRect(x: point.x - 50 - frame.origin.x, y: point.y - 50 - frame.origin.y, width: 100, height: 100)
+        area = CGRect(x: point.x - kAreaSize/2 - frame.origin.x, y: point.y - kAreaSize/2 - frame.origin.y, width: kAreaSize, height: kAreaSize)
         setNeedsDisplay()
     }
     
     override func drawRect(rect: CGRect) {
         if let area = area, let imageFrame = imageFrame {
+            
             let circularPath = UIBezierPath(ovalInRect: area)
             circularPath.addClip()
-            UIColor.whiteColor().setFill()
             image?.drawInRect(imageFrame)
             circularPath.stroke()
+            
+            guard let showGrid = showGrid else {
+                return
+            }
+            
+            if showGrid {
+                UIColor(red: 1.0, green: 0, blue: 0, alpha: 0.3).setStroke()
+                let linePath = UIBezierPath()
+                let linesDelta = kAreaSize / (CGFloat(kGridLinesCount) + 1)
+                for i in 0..<kGridLinesCount {
+                    linePath.moveToPoint(CGPointMake(area.origin.x + linesDelta * (CGFloat(i) + 1), area.origin.y))
+                    linePath.addLineToPoint(CGPointMake(area.origin.x + linesDelta * (CGFloat(i) + 1), area.origin.y + area.size.height))
+                    
+                    linePath.moveToPoint(CGPointMake(area.origin.x, area.origin.y + linesDelta * (CGFloat(i) + 1)))
+                    linePath.addLineToPoint(CGPointMake(area.origin.x + area.size.width, area.origin.y + linesDelta * (CGFloat(i) + 1)))
+                }
+                linePath.stroke()
+            }
         }
     }
 }
