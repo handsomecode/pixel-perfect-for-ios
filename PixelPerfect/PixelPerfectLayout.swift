@@ -12,6 +12,8 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
     
     private let kBundleName = "pixelperfect"
     private let kBundleExt = "bundle"
+    private let kMicroPositioningOffset : CGFloat = 3
+    private let kMicroPositioningFactor : CGFloat = 7
     
     private let imageView = UIImageView()
     private let actionButton = CircularButton()
@@ -24,6 +26,7 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
     private var popover : PixelPerfectPopover!
     private var config : PixelPerfectConfig?
     private var magnifier : Magnifier?
+    private var microPositioningEnabled : Bool!
     
     private var actionButtonTrailing : NSLayoutConstraint!
     private var actionButtonBottom : NSLayoutConstraint!
@@ -53,17 +56,22 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
         
         imageView.userInteractionEnabled = true
         
-        let doubleTapAndMove =  UIDoubleTapAndMoveGestureRecognizer(target: self, action: "showZoom:")
-        doubleTapAndMove.delegate = self
-        addGestureRecognizer(doubleTapAndMove)
+        let tap =  UITapGestureRecognizer(target: self, action: "showZoom:")
+        tap.delegate = self
+        addGestureRecognizer(tap)
         
         let move =  UIPanGestureRecognizer(target: self, action: "moveImage:")
-        doubleTapAndMove.delegate = self
+        move.delegate = self
+        move.requireGestureRecognizerToFail(tap)
         imageView.addGestureRecognizer(move)
         
-        let tap =  UITapGestureRecognizer(target: self, action: "moveAfterTap:")
-        tap.requireGestureRecognizerToFail(doubleTapAndMove)
-        imageView.addGestureRecognizer(tap)
+//        let longPress =  UILongPressGestureRecognizer(target: self, action: "moveAfterLongPress:")
+//        longPress.delegate = self
+//        addGestureRecognizer(longPress)
+        
+//        let tap =  UITapGestureRecognizer(target: self, action: "moveAfterTap:")
+//        tap.requireGestureRecognizerToFail(longPress)
+//        imageView.addGestureRecognizer(tap)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -111,6 +119,10 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
         if popover != nil {
             return
         }
+        if magnifier != nil {
+            magnifier!.removeFromSuperview()
+            magnifier = nil
+        }
         actionButton.center = gestureRecognizer.locationInView(self)
         actionButtonTrailing.constant = actionButton.frame.origin.x + actionButton.frame.width - frame.width
         actionButtonBottom.constant = actionButton.frame.origin.y + actionButton.frame.height - frame.height
@@ -121,17 +133,47 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
         if popover != nil {
             return
         }
-        if gestureRecognizer.state == .Began {
+        if magnifier != nil {
+            magnifier!.removeFromSuperview()
+            self.magnifier = nil
+            return
+        }
+        if gestureRecognizer.state == .Ended {
             magnifier = Magnifier(showGrid: getConfigOrDefault().grid, isCircular: getConfigOrDefault().magnifierCircular)
             actionButton.hidden = true
             magnifier!.setImage(makeScreenshot())
             actionButton.hidden = false
             magnifier!.setPoint(gestureRecognizer.locationInView(self))
+            let move =  UIPanGestureRecognizer(target: self, action: "moveMagnifier:")
+            move.delegate = magnifier
+            magnifier!.addGestureRecognizer(move)
+            
+            let tap =  UITapGestureRecognizer(target: self, action: "tapMagnifier:")
+            magnifier!.addGestureRecognizer(tap)
             addSubview(magnifier!)
-        } else if gestureRecognizer.state == .Ended || gestureRecognizer.state == .Failed {
-            magnifier?.removeFromSuperview()
+        }
+    }
+    
+    func tapMagnifier(gestureRecognizer:UIGestureRecognizer) {
+        guard let magnifier = magnifier else {
+            return
+        }
+        let finger = gestureRecognizer.locationInView(self)
+        if !magnifier.isPointInside(finger) {
+            magnifier.removeFromSuperview()
+            self.magnifier = nil
+        }
+    }
+    
+    func moveMagnifier(gestureRecognizer:UIPanGestureRecognizer) {
+        guard let magnifier = magnifier else {
+            return
+        }
+        let finger = gestureRecognizer.locationInView(self)
+        if gestureRecognizer.state == .Ended {
+            magnifier.endMove()
         } else {
-            magnifier?.setPoint(gestureRecognizer.locationInView(self))
+            magnifier.move(finger, initialTouchPoint: gestureRecognizer.translationInView(self))
         }
     }
     
@@ -141,8 +183,43 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
         }
         if gestureRecognizer.state == .Began {
             startDraggingPoint = gestureRecognizer.locationInView(self)
+            microPositioningEnabled = true
         } else if gestureRecognizer.state == .Ended || gestureRecognizer.state == .Failed {
-             isHorizontalDragging = nil
+            isHorizontalDragging = nil
+            microPositioningEnabled = true
+        } else {
+            guard let startDraggingPoint = startDraggingPoint else {
+                return
+            }
+            let currentDraggingPoint = gestureRecognizer.locationInView(self)
+            if isHorizontalDragging == nil {
+                isHorizontalDragging = abs(currentDraggingPoint.x - startDraggingPoint.x) > abs(currentDraggingPoint.y - startDraggingPoint.y)
+            }
+            if microPositioningEnabled! {
+                microPositioningEnabled = abs(currentDraggingPoint.x - startDraggingPoint.x) < kMicroPositioningOffset && abs(currentDraggingPoint.y - startDraggingPoint.y) < kMicroPositioningOffset
+            }
+            if isHorizontalDragging! {
+                imageView.center.x += microPositioningEnabled! ? (currentDraggingPoint.x - startDraggingPoint.x) / kMicroPositioningFactor : currentDraggingPoint.x - startDraggingPoint.x
+            } else {
+                imageView.center.y += microPositioningEnabled! ? (currentDraggingPoint.y - startDraggingPoint.y) / kMicroPositioningFactor : currentDraggingPoint.y - startDraggingPoint.y
+            }
+            self.startDraggingPoint = currentDraggingPoint
+            
+            if let magnifier = magnifier {
+                magnifier.hidden = true
+                actionButton.hidden = true
+                magnifier.setImage(makeScreenshot())
+                magnifier.hidden = false
+                actionButton.hidden = false
+            }
+        }
+    }
+    
+    func moveAfterLongPress(gestureRecognizer:UIGestureRecognizer) {
+        if gestureRecognizer.state == .Began {
+            startDraggingPoint = gestureRecognizer.locationInView(self)
+        } else if gestureRecognizer.state == .Ended || gestureRecognizer.state == .Failed {
+            isHorizontalDragging = nil
         } else {
             guard let startDraggingPoint = startDraggingPoint else {
                 return
@@ -153,15 +230,20 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
                 isHorizontalDragging = abs(currentDraggingPoint.x - startDraggingPoint.x) > abs(currentDraggingPoint.y - startDraggingPoint.y)
             }
             if isHorizontalDragging! {
-                imageView.center.x += currentDraggingPoint.x - startDraggingPoint.x
+                imageView.center.x += (currentDraggingPoint.x - startDraggingPoint.x) / 7
             } else {
-                imageView.center.y += currentDraggingPoint.y - startDraggingPoint.y
+                imageView.center.y += (currentDraggingPoint.y - startDraggingPoint.y) / 7
             }
             self.startDraggingPoint = currentDraggingPoint
         }
     }
     
     func moveAfterTap(gestureRecognizer:UIGestureRecognizer) {
+        if magnifier != nil {
+            magnifier!.removeFromSuperview()
+            magnifier = nil
+            return
+        }
         let tapPoint = gestureRecognizer.locationInView(self)
         if tapPoint.y < frame.height / 3 {
             imageView.center.y -= 1
@@ -244,7 +326,7 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
         if config != nil {
             return config!
         }
-        config = PixelPerfectConfig(active : true, imageName : imagesNames[0], grid : false, magnifierCircular : true)
+        config = PixelPerfectConfig(active : true, imageName : imagesNames[0], grid : false, magnifierCircular : false)
         return config!
     }
 }
@@ -279,7 +361,7 @@ class Slider : UIView {
     }
 }
 
-class Magnifier : UIView {
+class Magnifier : UIView, UIGestureRecognizerDelegate {
     
     private let kGridLinesCount : Int = 8
     private let kAreaSize : CGFloat = 200
@@ -293,6 +375,7 @@ class Magnifier : UIView {
     private var imageFrame : CGRect?
     
     private var image : UIImage?
+    private var startMovingPoint : CGPoint?
     
     init (showGrid : Bool, isCircular : Bool) {
         super.init(frame:CGRect.zero)
@@ -300,6 +383,14 @@ class Magnifier : UIView {
         self.isCircular = isCircular
         backgroundColor = UIColor(white: 0.0, alpha: 0.0)
         opaque = false;
+    }
+    
+    override func pointInside(point: CGPoint, withEvent event: UIEvent?) -> Bool {
+        return area!.contains(point)
+    }
+    
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
+        return area!.contains(touch.locationInView(self))
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -309,15 +400,42 @@ class Magnifier : UIView {
     func setImage(image : UIImage?) {
         if let image = image {
             self.image = image
-            self.frame = CGRect(x: -image.size.width * (kZoom - 1) / 2, y: -image.size.height * (kZoom - 1) / 2, width: image.size.width * kZoom, height: image.size.height * kZoom)
+            self.frame = CGRect(x: 0, y: 0, width: image.size.width, height: image.size.height)
         }
         setNeedsDisplay()
     }
     
     func setPoint(point : CGPoint) {
-        imageFrame = CGRect(x: -point.x * (kZoom - 1) - frame.origin.x, y: -point.y * (kZoom - 1) - frame.origin.y, width: frame.width, height: frame.height)
-        area = CGRect(x: point.x - kAreaSize/2 - frame.origin.x, y: point.y - kAreaSize/2 - frame.origin.y, width: kAreaSize, height: kAreaSize)
+        imageFrame = CGRect(x: -point.x * (kZoom - 1), y: -point.y * (kZoom - 1), width: frame.width * kZoom, height: frame.height * kZoom)
+        var x = point.x - kAreaSize / 2
+        x = x > 0 ? x : 0
+        x = x > frame.width - kAreaSize ? frame.width - kAreaSize : x
+        var y = point.y - kAreaSize / 2
+        y = y > 0 ? y : 0
+        y = y > frame.height - kAreaSize ? frame.height - kAreaSize : y
+        area = CGRect(x: x, y: y, width: kAreaSize, height: kAreaSize)
         setNeedsDisplay()
+    }
+    
+    func move(point : CGPoint, initialTouchPoint : CGPoint) {
+        if startMovingPoint == nil {
+            startMovingPoint = CGPoint(x: point.x - initialTouchPoint.x, y: point.y - initialTouchPoint.y)
+        }
+        if let area = area {
+            
+            area.width
+            
+            setPoint(CGPoint(x: area.origin.x + area.width/2 + frame.origin.x + point.x - startMovingPoint!.x, y: area.origin.y + area.height/2 + frame.origin.y + point.y - startMovingPoint!.y))
+            startMovingPoint = point
+        }
+    }
+    
+    func endMove() {
+        startMovingPoint = nil
+    }
+     
+    func isPointInside(point : CGPoint) -> Bool {
+        return area != nil && area!.contains(CGPoint(x: point.x - frame.origin.x, y: point.y - frame.origin.y))
     }
     
     override func drawRect(rect: CGRect) {
