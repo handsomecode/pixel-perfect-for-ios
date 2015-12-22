@@ -12,11 +12,11 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
     
     private let kBundleName = "pixelperfect"
     private let kBundleExt = "bundle"
-    private let kMicroPositioningOffset : CGFloat = 3
+    private let kMicroPositioningOffset : CGFloat = 7
     private let kMicroPositioningFactor : CGFloat = 7
     
     private let imageView = UIImageView()
-    private let actionButton = CircularButton()
+    private var actionButton : PixelPerfectActionButton!
     private let opacitySlider = Slider()
     private var imagesNames : [String]!
     private var currentImage : String = ""
@@ -57,21 +57,13 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
         imageView.userInteractionEnabled = true
         
         let tap =  UITapGestureRecognizer(target: self, action: "showZoom:")
+        tap.numberOfTapsRequired = 2
         tap.delegate = self
         addGestureRecognizer(tap)
         
         let move =  UIPanGestureRecognizer(target: self, action: "moveImage:")
         move.delegate = self
-        move.requireGestureRecognizerToFail(tap)
-        imageView.addGestureRecognizer(move)
-        
-//        let longPress =  UILongPressGestureRecognizer(target: self, action: "moveAfterLongPress:")
-//        longPress.delegate = self
-//        addGestureRecognizer(longPress)
-        
-//        let tap =  UITapGestureRecognizer(target: self, action: "moveAfterTap:")
-//        tap.requireGestureRecognizerToFail(longPress)
-//        imageView.addGestureRecognizer(tap)
+        addGestureRecognizer(move)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -205,6 +197,8 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
             }
             self.startDraggingPoint = currentDraggingPoint
             
+            actionButton.setOffset(Int(imageView.frame.origin.x), y: Int(imageView.frame.origin.y))
+            
             if let magnifier = magnifier {
                 magnifier.hidden = true
                 actionButton.hidden = true
@@ -212,47 +206,6 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
                 magnifier.hidden = false
                 actionButton.hidden = false
             }
-        }
-    }
-    
-    func moveAfterLongPress(gestureRecognizer:UIGestureRecognizer) {
-        if gestureRecognizer.state == .Began {
-            startDraggingPoint = gestureRecognizer.locationInView(self)
-        } else if gestureRecognizer.state == .Ended || gestureRecognizer.state == .Failed {
-            isHorizontalDragging = nil
-        } else {
-            guard let startDraggingPoint = startDraggingPoint else {
-                return
-            }
-            
-            let currentDraggingPoint = gestureRecognizer.locationInView(self)
-            if isHorizontalDragging == nil {
-                isHorizontalDragging = abs(currentDraggingPoint.x - startDraggingPoint.x) > abs(currentDraggingPoint.y - startDraggingPoint.y)
-            }
-            if isHorizontalDragging! {
-                imageView.center.x += (currentDraggingPoint.x - startDraggingPoint.x) / 7
-            } else {
-                imageView.center.y += (currentDraggingPoint.y - startDraggingPoint.y) / 7
-            }
-            self.startDraggingPoint = currentDraggingPoint
-        }
-    }
-    
-    func moveAfterTap(gestureRecognizer:UIGestureRecognizer) {
-        if magnifier != nil {
-            magnifier!.removeFromSuperview()
-            magnifier = nil
-            return
-        }
-        let tapPoint = gestureRecognizer.locationInView(self)
-        if tapPoint.y < frame.height / 3 {
-            imageView.center.y -= 1
-        } else if tapPoint.y > frame.height * 2 / 3 {
-            imageView.center.y += 1
-        } else if tapPoint.x < frame.width / 3 {
-            imageView.center.x -= 1
-        } else if tapPoint.x > frame.width * 2 / 3 {
-            imageView.center.x += 1
         }
     }
     
@@ -271,10 +224,7 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
     }
     
     private func addActionButton() {
-        actionButton.backgroundColor = UIColor.blackColor()
-        actionButton.setImage(UIImage(named: "handsome-logo-inactive"), forState: .Normal)
-        actionButton.setImage(UIImage(named: "handsome-logo-active"), forState: .Selected)
-        actionButton.imageEdgeInsets = UIEdgeInsets.init(top: 20, left: 20, bottom: 20, right: 20)
+        actionButton = NSBundle.mainBundle().loadNibNamed("PixelPerfectActionButton", owner: self, options: nil).first as! PixelPerfectActionButton
         
         actionButton.translatesAutoresizingMaskIntoConstraints = false
         addSubview(actionButton)
@@ -328,18 +278,6 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
         }
         config = PixelPerfectConfig(active : true, imageName : imagesNames[0], grid : false, magnifierCircular : false)
         return config!
-    }
-}
-
-class CircularButton : UIButton {
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        layer.cornerRadius = min(frame.width, frame.height)/2
-        layer.borderColor = UIColor.whiteColor().CGColor
-        layer.borderWidth = 2
-        layer.masksToBounds = true
     }
 }
 
