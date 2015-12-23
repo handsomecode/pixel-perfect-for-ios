@@ -19,21 +19,14 @@ class PixelPerfectActionButton : UIView {
         super.awakeFromNib()
         xLabel.hidden = true
         yLabel.hidden = true
-        
-        setState(.PP)
     }
     
     @IBOutlet weak var image: UIImageView!
     @IBOutlet weak var xLabel: UILabel!
     @IBOutlet weak var yLabel: UILabel!
     
-    var selected : Bool! {
-        didSet(newValue) {
-            if newValue != nil {
-                setState(newValue! ? .PP : .APP)
-            }
-        }
-    }
+    private var fixedOffsetX = 0
+    private var fixedOffsetY = 0
     
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -48,8 +41,13 @@ class PixelPerfectActionButton : UIView {
         image.hidden = true
         xLabel.hidden = false
         yLabel.hidden = false
-        xLabel.text = "\(x)"
-        yLabel.text = "\(y)"
+        updateLabels(x, y: y)
+    }
+    
+    func fixOffset(x: Int, y: Int) {
+        fixedOffsetX = x
+        fixedOffsetY = y
+        updateLabels(x, y: y)
     }
     
     func setState(state : State) {
@@ -61,5 +59,10 @@ class PixelPerfectActionButton : UIView {
         } else if state == .APP {
             image.image = UIImage(named: "pp-app")
         }
+    }
+    
+    private func updateLabels(x: Int, y: Int) {
+        xLabel.text = "\(x - fixedOffsetX)px"
+        yLabel.text = "\(y - fixedOffsetY)px"
     }
 }

@@ -19,6 +19,7 @@
 		B9227E9E1C297B8900C62C66 /* pp-app@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B9227E9B1C297B8900C62C66 /* pp-app@3x.png */; };
 		B9227E9F1C297B8900C62C66 /* pp-both@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B9227E9C1C297B8900C62C66 /* pp-both@3x.png */; };
 		B9227EA01C297B8900C62C66 /* pp-pp@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B9227E9D1C297B8900C62C66 /* pp-pp@3x.png */; };
+		B9227EA21C2A6A5700C62C66 /* UIDoubleTapAndWaitGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9227EA11C2A6A5700C62C66 /* UIDoubleTapAndWaitGestureRecognizer.swift */; };
 		B928FB4F1C1ADDE400D4A365 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B928FB4E1C1ADDE400D4A365 /* AppDelegate.swift */; };
 		B928FB511C1ADDE400D4A365 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B928FB501C1ADDE400D4A365 /* ViewController.swift */; };
 		B928FB541C1ADDE400D4A365 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B928FB521C1ADDE400D4A365 /* Main.storyboard */; };
@@ -42,6 +43,7 @@
 		B9227E9B1C297B8900C62C66 /* pp-app@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pp-app@3x.png"; sourceTree = "<group>"; };
 		B9227E9C1C297B8900C62C66 /* pp-both@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pp-both@3x.png"; sourceTree = "<group>"; };
 		B9227E9D1C297B8900C62C66 /* pp-pp@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pp-pp@3x.png"; sourceTree = "<group>"; };
+		B9227EA11C2A6A5700C62C66 /* UIDoubleTapAndWaitGestureRecognizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIDoubleTapAndWaitGestureRecognizer.swift; sourceTree = "<group>"; };
 		B928FB4B1C1ADDE400D4A365 /* PixelPerfect.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PixelPerfect.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B928FB4E1C1ADDE400D4A365 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B928FB501C1ADDE400D4A365 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -98,6 +100,7 @@
 				B9108A751C21A2520037140F /* PixelPerfectConfig.swift */,
 				B9227E911C2971D000C62C66 /* PixelPerfectActionButton.xib */,
 				B9227E931C29792A00C62C66 /* PixelPerfectActionButton.swift */,
+				B9227EA11C2A6A5700C62C66 /* UIDoubleTapAndWaitGestureRecognizer.swift */,
 				B9108A771C22E3B30037140F /* UIDoubleTapAndMoveGestureRecognizer.swift */,
 				B9227E9B1C297B8900C62C66 /* pp-app@3x.png */,
 				B9227E9C1C297B8900C62C66 /* pp-both@3x.png */,
@@ -192,6 +195,7 @@
 				B9108A701C21997B0037140F /* PixelPerfectPopover.swift in Sources */,
 				B928FB511C1ADDE400D4A365 /* ViewController.swift in Sources */,
 				B9227E941C29792A00C62C66 /* PixelPerfectActionButton.swift in Sources */,
+				B9227EA21C2A6A5700C62C66 /* UIDoubleTapAndWaitGestureRecognizer.swift in Sources */,
 				B928FB4F1C1ADDE400D4A365 /* AppDelegate.swift in Sources */,
 				B9108A781C22E3B30037140F /* UIDoubleTapAndMoveGestureRecognizer.swift in Sources */,
 				B9108A721C219CC30037140F /* PixelPerfectView.swift in Sources */,
