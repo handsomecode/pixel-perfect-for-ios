@@ -370,12 +370,44 @@ class Magnifier : UIView, UIGestureRecognizerDelegate {
         if startMovingPoint == nil {
             startMovingPoint = CGPoint(x: point.x - initialTouchPoint.x, y: point.y - initialTouchPoint.y)
         }
-        if let area = area {
+        
+        if let area = area, imageFrame = imageFrame {
+            var areadx = point.x - startMovingPoint!.x
+            var aready = point.y - startMovingPoint!.y
+            var imagedx = -areadx * (kZoom - 1)
+            var imagedy = -aready * (kZoom - 1)
             
-            area.width
+            if (area.origin.x == 0) || (area.origin.x + area.width == frame.width) {
+               imagedx *= 2
+            }
             
-            setPoint(CGPoint(x: area.origin.x + area.width/2 + frame.origin.x + point.x - startMovingPoint!.x, y: area.origin.y + area.height/2 + frame.origin.y + point.y - startMovingPoint!.y))
+            if (area.origin.y == 0) || (area.origin.y + area.height == frame.height) {
+                imagedy *= 2
+            }
+            
+            imagedx = imageFrame.origin.x + imagedx > 0 ? -imageFrame.origin.x : imagedx
+            imagedx = imageFrame.origin.x + imagedx + imageFrame.width < frame.width ? frame.width - (imageFrame.origin.x + imageFrame.width) : imagedx
+            
+            imagedy = imageFrame.origin.y + imagedy > 0 ? -imageFrame.origin.y : imagedy
+            imagedy = imageFrame.origin.y + imagedy + imageFrame.height <  frame.height ? frame.height - (imageFrame.origin.y + imageFrame.height) : imagedy
+            
+            areadx = area.origin.x + areadx < 0 ? -area.origin.x : areadx
+            areadx = area.origin.x + areadx + area.width > frame.width ? frame.width - (area.origin.x + area.width) : areadx
+            
+            areadx = imageFrame.origin.x + imagedx > -area.width && area.origin.x == 0 ? 0: areadx
+            areadx = imageFrame.origin.x + imageFrame.width + imagedx < frame.width + area.width && area.origin.x == frame.width - area.width ? 0: areadx
+            
+            aready = area.origin.y + aready < 0 ? -area.origin.y : aready
+            aready = area.origin.y + aready + area.height > frame.height ? frame.height - (area.origin.y + area.height) : aready
+            
+            aready = imageFrame.origin.y + imagedy > -area.height && area.origin.y == 0 ? 0: aready
+            aready = imageFrame.origin.y + imageFrame.height + imagedy < frame.height + area.height && area.origin.y == frame.height - area.height ? 0: aready
+            
+            self.area?.offsetInPlace(dx: areadx, dy: aready)
+            self.imageFrame?.offsetInPlace(dx: imagedx, dy: imagedy)
+            
             startMovingPoint = point
+            setNeedsDisplay()
         }
     }
     
