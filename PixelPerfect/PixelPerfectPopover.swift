@@ -65,7 +65,7 @@ class PixelPerfectPopover : PixelPerfectView  {
 extension PixelPerfectPopover : UICollectionViewDataSource {
     
     func setupCollectionView() {
-        imagesCollectionView.registerNib(UINib(nibName: "PixelPerfectItemViewCell", bundle: nil), forCellWithReuseIdentifier: "albumItem")
+        imagesCollectionView.registerNib(UINib(nibName: "PixelPerfectItemViewCell", bundle: PixelPerfectCommon.bundle()), forCellWithReuseIdentifier: "albumItem")
     }
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
@@ -78,7 +78,7 @@ extension PixelPerfectPopover : UICollectionViewDataSource {
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("albumItem", forIndexPath: indexPath) as! PixelPerfectItemViewCell
-        cell.setup(PixelPerfectLayout.imageByName(imagesNames[indexPath.row]), label: imagesNames[indexPath.row])
+        cell.setup(PixelPerfectCommon.imageByName(imagesNames[indexPath.row]), label: imagesNames[indexPath.row])
         return cell
     }
 }

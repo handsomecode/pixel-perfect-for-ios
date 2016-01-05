@@ -10,29 +10,32 @@ import UIKit
 
 public class PixelPerfectController {
     
-    public static let sharedInstance = PixelPerfectController()
+    private static let sharedInstance = PixelPerfectController()
     
     private static var shown = false
-    private static var pixelPerfectView : UIView!
+    private static var pixelPerfectLayout : PixelPerfectLayout!
     
     public static func isShown() -> Bool {
-        if let window = UIApplication.sharedApplication().delegate!.window, let views = window?.subviews, let pixelPerfectView = pixelPerfectView {
-            return views.contains(pixelPerfectView)
+        if let window = UIApplication.sharedApplication().delegate!.window, let views = window?.subviews, let pixelPerfectLayout = pixelPerfectLayout {
+            return views.contains(pixelPerfectLayout)
         }
         return false
     }
     
-    public static func show() {
+    public static func show(name : String? = nil) {
         if let window = UIApplication.sharedApplication().delegate!.window {
-            if pixelPerfectView == nil {
-                pixelPerfectView = PixelPerfectLayout(frame: window!.frame)
+            if pixelPerfectLayout == nil {
+                pixelPerfectLayout = PixelPerfectLayout(frame: window!.frame)
             }
-            window!.addSubview(pixelPerfectView)
+            if let name = name {
+                pixelPerfectLayout.setImage(name)
+            }
+            window!.addSubview(pixelPerfectLayout)
         }
     }
     
     public static func hide() {
-        if let pixelPerfectView = pixelPerfectView {
+        if let pixelPerfectView = pixelPerfectLayout {
             pixelPerfectView.removeFromSuperview()
         }
     }
