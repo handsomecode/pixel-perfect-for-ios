@@ -8,14 +8,15 @@
 
 import UIKit
 
-class PixelPerfectPopover : PixelPerfectView, UIPickerViewDelegate, UIPickerViewDataSource  {
+class PixelPerfectPopover : PixelPerfectView  {
     
     var didClose : ((PixelPerfectConfig) -> ())?
 
-    @IBOutlet weak var namesPicker: UIPickerView!
     @IBOutlet weak var activeSwitch: UISwitch!
     @IBOutlet weak var gridSwitch: UISwitch!
     @IBOutlet weak var magnifierShapeSegmentedControl: UISegmentedControl!
+    @IBOutlet weak var imageNameLabel: UILabel!
+    @IBOutlet weak var imagesCollectionView: UICollectionView!
     
     private var imagesNames : [String]!
     
@@ -26,19 +27,19 @@ class PixelPerfectPopover : PixelPerfectView, UIPickerViewDelegate, UIPickerView
         self.layer.shadowOpacity = 0.5
         self.layer.shadowRadius = 6.0
         self.layer.masksToBounds = false
+        
+        setupCollectionView()
     }
     
     func setImageNames(imagesNames : [String]) {
         self.imagesNames = imagesNames
-        namesPicker.delegate = self
-        namesPicker.dataSource = self
     }
     
     func restore(config : PixelPerfectConfig?) {
         if let config = config {
             activeSwitch.on = config.active
-            namesPicker.selectRow(imagesNames.indexOf(config.imageName)!, inComponent: 0, animated: false)
             gridSwitch.on = config.grid
+            imageNameLabel.text = config.imageName
             magnifierShapeSegmentedControl.selectedSegmentIndex = config.magnifierCircular ? 0 : 1
         }
     }
@@ -47,20 +48,52 @@ class PixelPerfectPopover : PixelPerfectView, UIPickerViewDelegate, UIPickerView
         
     }
     
-    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+    @IBAction func closePressed(sender: AnyObject) {
+        if imagesCollectionView.hidden == false {
+            imagesCollectionView.hidden = true
+            return
+        }
+        let config = PixelPerfectConfig(active: activeSwitch.on, imageName: imageNameLabel.text!, grid: gridSwitch.on, magnifierCircular : magnifierShapeSegmentedControl.selectedSegmentIndex == 0)
+        didClose?(config)
+    }
+    
+    @IBAction func changeImagePressed(sender: AnyObject) {
+        imagesCollectionView.hidden = false
+    }
+}
+
+extension PixelPerfectPopover : UICollectionViewDataSource {
+    
+    func setupCollectionView() {
+        imagesCollectionView.registerNib(UINib(nibName: "PixelPerfectItemViewCell", bundle: nil), forCellWithReuseIdentifier: "albumItem")
+    }
+    
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return 1
     }
     
-    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return imagesNames.count
     }
-    
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return imagesNames[row]
+
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("albumItem", forIndexPath: indexPath) as! PixelPerfectItemViewCell
+        cell.setup(PixelPerfectLayout.imageByName(imagesNames[indexPath.row]), label: imagesNames[indexPath.row])
+        return cell
     }
+}
+
+extension PixelPerfectPopover : UICollectionViewDelegateFlowLayout {
+
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        return CGSize(width: 100, height: 100)
+    }
+}
+
+extension PixelPerfectPopover : UICollectionViewDelegate {
     
-    @IBAction func closePressed(sender: AnyObject) {
-        let config = PixelPerfectConfig(active: activeSwitch.on, imageName: imagesNames[namesPicker.selectedRowInComponent(0)], grid: gridSwitch.on, magnifierCircular : magnifierShapeSegmentedControl.selectedSegmentIndex == 0)
-        didClose?(config)
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        imageNameLabel.text = imagesNames[indexPath.row]
+        imagesCollectionView.hidden = true
     }
 }

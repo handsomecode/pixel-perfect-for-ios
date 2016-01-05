@@ -10,8 +10,8 @@ import UIKit
 
 class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
     
-    private let kBundleName = "pixelperfect"
-    private let kBundleExt = "bundle"
+    private static let kBundleName = "pixelperfect"
+    private static let kBundleExt = "bundle"
     private let kMicroPositioningOffset : CGFloat = 7
     private let kMicroPositioningFactor : CGFloat = 7
     
@@ -38,7 +38,7 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
     override init (frame : CGRect) {
         super.init(frame : frame)
         
-        if let path = NSBundle.mainBundle().pathForResource(kBundleName, ofType: kBundleExt), let bundle = NSBundle(path: path), let bundlePath = bundle.resourcePath {
+        if let bundlePath = PixelPerfectLayout.getBundlePath() {
             do {
                 imagesNames = try NSFileManager.defaultManager().contentsOfDirectoryAtPath(bundlePath)
                 setImage(imagesNames[0])
@@ -226,12 +226,23 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
         }
         currentImage = name
         if let delegate = UIApplication.sharedApplication().delegate, let optionalWindow = delegate.window, let window = optionalWindow {
-            let image = UIImage(named: "\(kBundleName).\(kBundleExt)/\(name)")!
+            let image = PixelPerfectLayout.imageByName(name)!
             let ratio = image.size.height / image.size.width
             let frame = CGRect(x: 0, y: 0, width: window.frame.width, height: window.frame.width * ratio)
             imageView.frame = frame
             imageView.image = image
         }
+    }
+    
+    class func imageByName(name : String) -> UIImage? {
+        return UIImage(named: "\(kBundleName).\(kBundleExt)/\(name)")!
+    }
+    
+    class func getBundlePath() -> String? {
+        if let path = NSBundle.mainBundle().pathForResource(kBundleName, ofType: kBundleExt), let bundle = NSBundle(path: path) {
+            return bundle.resourcePath
+        }
+        return nil
     }
     
     private func addActionButton() {
