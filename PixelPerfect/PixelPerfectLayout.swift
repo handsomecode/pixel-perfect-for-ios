@@ -138,7 +138,12 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
         if gestureRecognizer.state == .Ended {
             magnifier = Magnifier(showGrid: getConfigOrDefault().grid, isCircular: getConfigOrDefault().magnifierCircular)
             actionButton.hidden = true
-            magnifier!.setImage(makeScreenshot())
+            imageView.hidden = true
+            let appImage = makeScreenshot()
+            imageView.hidden = false
+            magnifier!.setImages(appImage, overlayImage: imageView.image)
+            magnifier!.setOverlayOffset(imageView.frame.origin.x, dy: imageView.frame.origin.y)
+            magnifier!.setOverlayOpacity(imageView.alpha)
             actionButton.hidden = false
             magnifier!.setPoint(gestureRecognizer.locationInView(self))
             let move =  UIPanGestureRecognizer(target: self, action: "moveMagnifier:")
@@ -211,11 +216,7 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
             actionButton.setOffset(-Int(imageView.frame.origin.x * UIScreen.mainScreen().scale), y: -Int(imageView.frame.origin.y * UIScreen.mainScreen().scale))
             
             if let magnifier = magnifier {
-                magnifier.hidden = true
-                actionButton.hidden = true
-                magnifier.setImage(makeScreenshot())
-                magnifier.hidden = false
-                actionButton.hidden = false
+                magnifier.setOverlayOffset(imageView.frame.origin.x, dy: imageView.frame.origin.y)
             }
         }
     }
@@ -274,6 +275,9 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
         opacitySlider.translatesAutoresizingMaskIntoConstraints = false
         opacitySlider.didValueChanged = { value in
             self.imageView.alpha = value
+            if let magnifier = self.magnifier {
+                magnifier.setOverlayOpacity(value)
+            }
         }
         addSubview(opacitySlider)
 
@@ -283,10 +287,16 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
         addEqualConstraint(opacitySlider, constant: -20, attribute: .Bottom, parent: self)
     }
     
-    private func makeScreenshot() -> UIImage? {
-        if let delegate = UIApplication.sharedApplication().delegate, let optionalWindow = delegate.window, let window = optionalWindow {
+    private func makeScreenshot(view : UIView? = nil) -> UIImage? {
+        var layer : CALayer?
+        if let view = view {
+            layer = view.layer
+        } else if let delegate = UIApplication.sharedApplication().delegate, let optionalWindow = delegate.window, let window = optionalWindow {
+            layer = window.layer
+        }
+        if layer != nil {
             UIGraphicsBeginImageContextWithOptions(self.frame.size, self.opaque, 0.0)
-            window.layer.renderInContext(UIGraphicsGetCurrentContext()!)
+            layer!.renderInContext(UIGraphicsGetCurrentContext()!)
             let image = UIGraphicsGetImageFromCurrentImageContext()
             UIGraphicsEndImageContext()
             return image
@@ -327,15 +337,20 @@ class Magnifier : UIView, UIGestureRecognizerDelegate {
     private let kAreaSize : CGFloat = 200
     private let kZoom : CGFloat = 3
     
-    private let imageView = UIImageView()
     private var showGrid : Bool?
     private var isCircular : Bool?
     
     private var area : CGRect?
-    private var imageFrame : CGRect?
+    private var appImageFrame : CGRect?
+    private var overlayImageFrame : CGRect?
     
-    private var image : UIImage?
+    private var appImage : UIImage?
+    private var overlayImage : UIImage?
     private var startMovingPoint : CGPoint?
+    
+    private var dx : CGFloat = 0
+    private var dy : CGFloat = 0
+    private var overlayAlpha : CGFloat = 0
     
     init (showGrid : Bool, isCircular : Bool) {
         super.init(frame:CGRect.zero)
@@ -357,16 +372,30 @@ class Magnifier : UIView, UIGestureRecognizerDelegate {
         fatalError("Magnifier does not support NSCoding")
     }
     
-    func setImage(image : UIImage?) {
-        if let image = image {
-            self.image = image
-            self.frame = CGRect(x: 0, y: 0, width: image.size.width, height: image.size.height)
+    func setImages(appImage : UIImage?, overlayImage : UIImage?) {
+        self.overlayImage = overlayImage
+        self.appImage = appImage
+        if let appImage = appImage {
+            self.frame = CGRect(x: 0, y: 0, width: appImage.size.width, height: appImage.size.height)
         }
         setNeedsDisplay()
     }
     
+    func setOverlayOpacity(overlayAlpha : CGFloat) {
+        self.overlayAlpha = overlayAlpha
+        setNeedsDisplay()
+    }
+    
+    func setOverlayOffset(dx : CGFloat, dy : CGFloat) {
+        self.dx = dx
+        self.dy = dy
+        self.overlayImageFrame = appImageFrame?.offsetBy(dx: dx * kZoom , dy: dy * kZoom)
+        setNeedsDisplay()
+    }
+    
     func setPoint(point : CGPoint) {
-        imageFrame = CGRect(x: -point.x * (kZoom - 1), y: -point.y * (kZoom - 1), width: frame.width * kZoom, height: frame.height * kZoom)
+        appImageFrame = CGRect(x: -point.x * (kZoom - 1), y: -point.y * (kZoom - 1), width: frame.width * kZoom, height: frame.height * kZoom)
+        overlayImageFrame = appImageFrame?.offsetBy(dx: dx * kZoom , dy: dy * kZoom)
         var x = point.x - kAreaSize / 2
         x = x > 0 ? x : 0
         x = x > frame.width - kAreaSize ? frame.width - kAreaSize : x
@@ -382,7 +411,7 @@ class Magnifier : UIView, UIGestureRecognizerDelegate {
             startMovingPoint = CGPoint(x: point.x - initialTouchPoint.x, y: point.y - initialTouchPoint.y)
         }
         
-        if let area = area, imageFrame = imageFrame {
+        if let area = area, imageFrame = appImageFrame {
             var areadx = point.x - startMovingPoint!.x
             var aready = point.y - startMovingPoint!.y
             var imagedx = -areadx * (kZoom - 1)
@@ -415,7 +444,8 @@ class Magnifier : UIView, UIGestureRecognizerDelegate {
             aready = imageFrame.origin.y + imageFrame.height + imagedy < frame.height + area.height && area.origin.y == frame.height - area.height ? 0: aready
             
             self.area?.offsetInPlace(dx: areadx, dy: aready)
-            self.imageFrame?.offsetInPlace(dx: imagedx, dy: imagedy)
+            self.appImageFrame?.offsetInPlace(dx: imagedx, dy: imagedy)
+            self.overlayImageFrame?.offsetInPlace(dx: imagedx, dy: imagedy)
             
             startMovingPoint = point
             setNeedsDisplay()
@@ -431,11 +461,12 @@ class Magnifier : UIView, UIGestureRecognizerDelegate {
     }
     
     override func drawRect(rect: CGRect) {
-        if let area = area, let imageFrame = imageFrame {
+        if let area = area, let appImageFrame = appImageFrame, let overlayImageFrame = overlayImageFrame {
             
             let circularPath = isCircular == nil || isCircular! ? UIBezierPath(ovalInRect: area) : UIBezierPath(rect: area)
             circularPath.addClip()
-            image?.drawInRect(imageFrame)
+            appImage?.drawInRect(appImageFrame)
+            overlayImage?.drawInRect(overlayImageFrame, blendMode: .Normal, alpha: overlayAlpha)
             circularPath.stroke()
             
             guard let showGrid = showGrid else {
