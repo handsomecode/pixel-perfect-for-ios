@@ -55,9 +55,9 @@ class PixelPerfectActionButton : UIView {
             return
         }
         if state == .PP {
-            image.image = UIImage(named: "pp-pp")
+            image.image = UIImage(named: "pp-pp", inBundle: PixelPerfectCommon.bundle(), compatibleWithTraitCollection: nil)
         } else if state == .APP {
-            image.image = UIImage(named: "pp-app")
+            image.image = UIImage(named: "pp-app", inBundle: PixelPerfectCommon.bundle(), compatibleWithTraitCollection: nil)
         }
     }
     

@@ -140,7 +140,8 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bST-7u-Uxp">
-                            <rect key="frame" x="0.0" y="0.0" width="556" height="44"/>
+                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="changeImagePressed:" destination="iN0-l3-epB" eventType="touchUpInside" id="lK4-L5-CqR"/>
                             </connections>
@@ -159,6 +160,7 @@
                         <constraint firstItem="Pty-GG-jfM" firstAttribute="leading" secondItem="zaQ-Hx-51N" secondAttribute="trailing" constant="16" id="bih-gN-SgH"/>
                         <constraint firstItem="bST-7u-Uxp" firstAttribute="leading" secondItem="Jqp-Tt-FMb" secondAttribute="leading" id="cLS-5e-Hru"/>
                         <constraint firstItem="zaQ-Hx-51N" firstAttribute="leading" secondItem="Jqp-Tt-FMb" secondAttribute="leading" constant="16" id="dGp-1W-euS"/>
+                        <constraint firstAttribute="trailing" secondItem="bST-7u-Uxp" secondAttribute="trailing" id="hHm-aF-Ztz"/>
                         <constraint firstAttribute="bottom" secondItem="31B-TK-NId" secondAttribute="bottom" id="k5l-em-tPS"/>
                         <constraint firstAttribute="bottom" secondItem="bST-7u-Uxp" secondAttribute="bottom" id="nTV-7G-Zpb"/>
                         <constraint firstAttribute="bottom" secondItem="Pty-GG-jfM" secondAttribute="bottom" id="yDq-Tj-KqQ"/>
@@ -167,6 +169,7 @@
                     <variation key="default">
                         <mask key="constraints">
                             <exclude reference="zL4-Gb-4Qk"/>
+                            <exclude reference="9DE-Xv-OyQ"/>
                         </mask>
                     </variation>
                 </view>
