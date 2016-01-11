@@ -18,7 +18,7 @@ class PixelPerfectCommon {
     }
     
     class func imageByName(name : String) -> UIImage? {
-        return UIImage(named: "\(kBundleName).\(kBundleExt)/\(name)")!
+        return UIImage(named: "\(kBundleName).\(kBundleExt)/\(name)")
     }
     
     class func getImagesBundlePath() -> String? {

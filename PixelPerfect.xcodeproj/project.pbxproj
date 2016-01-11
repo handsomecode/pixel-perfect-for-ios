@@ -30,9 +30,20 @@
 		B90C9F821C3E1D8A000F0833 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B90C9F801C3E1D8A000F0833 /* Main.storyboard */; };
 		B90C9F841C3E1D8A000F0833 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B90C9F831C3E1D8A000F0833 /* Assets.xcassets */; };
 		B90C9F871C3E1D8A000F0833 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B90C9F851C3E1D8A000F0833 /* LaunchScreen.storyboard */; };
+		B94EDCE81C43719900D25066 /* UIDoubleTapAndMoveGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94EDCE71C43719900D25066 /* UIDoubleTapAndMoveGestureRecognizer.swift */; };
 		B97629DD1C3BD2AB00E06593 /* PixelPerfect.h in Headers */ = {isa = PBXBuildFile; fileRef = B97629DC1C3BD2AB00E06593 /* PixelPerfect.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B9B2612A1C3E234B00E5BD54 /* pixelperfect.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B9B261291C3E234B00E5BD54 /* pixelperfect.bundle */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		B9B2612F1C3F921700E5BD54 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B97629D01C3BD2AB00E06593 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B97629D81C3BD2AB00E06593;
+			remoteInfo = PixelPerfect;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		B90C9F341C3CD903000F0833 /* icon-close@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-close@3x.png"; sourceTree = "<group>"; };
@@ -60,6 +71,7 @@
 		B90C9F831C3E1D8A000F0833 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B90C9F861C3E1D8A000F0833 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B90C9F881C3E1D8A000F0833 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B94EDCE71C43719900D25066 /* UIDoubleTapAndMoveGestureRecognizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIDoubleTapAndMoveGestureRecognizer.swift; sourceTree = "<group>"; };
 		B97629D91C3BD2AB00E06593 /* PixelPerfect.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PixelPerfect.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B97629DC1C3BD2AB00E06593 /* PixelPerfect.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PixelPerfect.h; sourceTree = "<group>"; };
 		B97629DE1C3BD2AB00E06593 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -138,6 +150,7 @@
 				B90C9F431C3CD903000F0833 /* pp-both@3x.png */,
 				B90C9F441C3CD903000F0833 /* pp-pp@3x.png */,
 				B90C9F451C3CD903000F0833 /* UIDoubleTapAndWaitGestureRecognizer.swift */,
+				B94EDCE71C43719900D25066 /* UIDoubleTapAndMoveGestureRecognizer.swift */,
 				B97629DE1C3BD2AB00E06593 /* Info.plist */,
 			);
 			path = PixelPerfect;
@@ -168,6 +181,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				B9B261301C3F921700E5BD54 /* PBXTargetDependency */,
 			);
 			name = Sample;
 			productName = Sample;
@@ -284,10 +298,19 @@
 				B90C9F4F1C3CD903000F0833 /* PixelPerfectMagnifier.swift in Sources */,
 				B90C9F521C3CD903000F0833 /* PixelPerfectSlider.swift in Sources */,
 				B90C9F491C3CD903000F0833 /* PixelPerfectCommon.swift in Sources */,
+				B94EDCE81C43719900D25066 /* UIDoubleTapAndMoveGestureRecognizer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		B9B261301C3F921700E5BD54 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B97629D81C3BD2AB00E06593 /* PixelPerfect */;
+			targetProxy = B9B2612F1C3F921700E5BD54 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		B90C9F801C3E1D8A000F0833 /* Main.storyboard */ = {

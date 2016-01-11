@@ -17,10 +17,11 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
     private var currentImage : String = ""
     private var abortTouch = true
     private var startDraggingPoint : CGPoint? = nil
+    private var startOpacityPoint : CGPoint? = nil
+    private var startOpacityValue : CGFloat!
     private var isHorizontalDragging : Bool? = nil
     
     private let imageView = UIImageView()
-    private var actionButton : PixelPerfectActionButton!
     private let opacitySlider = PixelPerfectSlider()
     private var popover : PixelPerfectPopover!
     private var magnifier : PixelPerfectMagnifier?
@@ -49,7 +50,6 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
         }
         
         addImageView()
-        addActionButton()
         addSlider()
         addGestureRecognizers()
     }
@@ -59,11 +59,11 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
     }
     
     override func pointInside(point: CGPoint, withEvent event: UIEvent?) -> Bool {
-        return actionButton.frame.contains(point) || popover != nil ? true : abortTouch
+        return imageView.frame.contains(point) || popover != nil
     }
     
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
-        return popover == nil && !actionButton.frame.contains(touch.locationInView(self))
+        return popover == nil
     }
     
     func actionPressed(gestureRecognizer:UIGestureRecognizer) {
@@ -77,7 +77,6 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
         popover.didClose = { pixelPerfectConfig in
             self.config = pixelPerfectConfig
             self.abortTouch = pixelPerfectConfig.active
-            self.actionButton.setState(pixelPerfectConfig.active ? .PP : .APP)
             self.setImage(pixelPerfectConfig.imageName)
             self.popover.removeFromSuperview()
             self.popover = nil
@@ -91,24 +90,6 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
         addEqualConstraint(popover, constant: -20, attribute: .Bottom, parent: self)
     }
     
-    func actionDoubleTapped(gestureRecognizer:UIGestureRecognizer) {
-        hideMagnifierIfNeeded()
-        abortTouch = !abortTouch
-        actionButton.setState(abortTouch ? .PP : .APP)
-        config = PixelPerfectConfig(active : abortTouch, imageName : getConfigOrDefault().imageName, grid : getConfigOrDefault().grid, magnifierCircular : getConfigOrDefault().magnifierCircular)
-    }
-    
-    func actionLongPress(gestureRecognizer:UIGestureRecognizer) {
-        if popover != nil {
-            return
-        }
-        hideMagnifierIfNeeded()
-        actionButton.center = gestureRecognizer.locationInView(self)
-        actionButtonTrailing.constant = actionButton.frame.origin.x + actionButton.frame.width - frame.width
-        actionButtonBottom.constant = actionButton.frame.origin.y + actionButton.frame.height - frame.height
-        layoutIfNeeded()
-    }
-    
     func showZoom(gestureRecognizer:UIGestureRecognizer) {
         if popover != nil {
             return
@@ -119,14 +100,12 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
         if gestureRecognizer.state == .Ended {
             magnifier = PixelPerfectMagnifier(showGrid: getConfigOrDefault().grid, isCircular: getConfigOrDefault().magnifierCircular)
             
-            actionButton.hidden = true
             imageView.hidden = true
             let appImage = makeScreenshot()
             imageView.hidden = false
             magnifier!.setImages(appImage, overlayImage: imageView.image)
             magnifier!.setOverlayOffset(imageView.frame.origin.x, dy: imageView.frame.origin.y)
             magnifier!.setOverlayOpacity(imageView.alpha)
-            actionButton.hidden = false
             magnifier!.setPoint(gestureRecognizer.locationInView(self))
             
             let move =  UIPanGestureRecognizer(target: self, action: "moveMagnifier:")
@@ -145,8 +124,7 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
         }
         let finger = gestureRecognizer.locationInView(self)
         if !magnifier.isPointInside(finger) {
-            magnifier.removeFromSuperview()
-            self.magnifier = nil
+            hideMagnifierIfNeeded()
         }
     }
     
@@ -164,7 +142,25 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
     
     func resetPosition(gestureRecognizer:UIPanGestureRecognizer) {
         if gestureRecognizer.state == .Ended {
-            actionButton.fixOffset(-Int(imageView.frame.origin.x * UIScreen.mainScreen().scale), y: -Int(imageView.frame.origin.y * UIScreen.mainScreen().scale))
+            //actionButton.fixOffset(-Int(imageView.frame.origin.x * UIScreen.mainScreen().scale), y: -Int(imageView.frame.origin.y * UIScreen.mainScreen().scale))
+        }
+    }
+    
+    func changeOpacity(gestureRecognizer:UIGestureRecognizer) {
+        if gestureRecognizer.state == .Began {
+            startOpacityPoint = gestureRecognizer.locationInView(self)
+            startOpacityValue = imageView.alpha
+        } else if gestureRecognizer.state == .Changed {
+            guard let startPoint = startOpacityPoint else {
+                return
+            }
+            let currentPoint = gestureRecognizer.locationInView(self)
+            imageView.alpha = startPoint.y - currentPoint.y
+            if startPoint.y - currentPoint.y > 0 {
+                imageView.alpha = startOpacityValue * (1 - (startPoint.y - currentPoint.y) / startPoint.y) + 0.01
+            } else {
+                imageView.alpha = startOpacityValue + (currentPoint.y - startPoint.y) / (frame.height - startPoint.y) * (1 - startOpacityValue)
+            }
         }
     }
     
@@ -196,7 +192,7 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
             }
             self.startDraggingPoint = currentDraggingPoint
             
-            actionButton.setOffset(-Int(imageView.frame.origin.x * UIScreen.mainScreen().scale), y: -Int(imageView.frame.origin.y * UIScreen.mainScreen().scale))
+            //actionButton.setOffset(-Int(imageView.frame.origin.x * UIScreen.mainScreen().scale), y: -Int(imageView.frame.origin.y * UIScreen.mainScreen().scale))
             
             if let magnifier = magnifier {
                 magnifier.setOverlayOffset(imageView.frame.origin.x, dy: imageView.frame.origin.y)
@@ -223,31 +219,6 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
         imageView.userInteractionEnabled = true
     }
     
-    private func addActionButton() {
-        actionButton = PixelPerfectCommon.bundle().loadNibNamed("PixelPerfectActionButton", owner: self, options: nil).first as! PixelPerfectActionButton
-        
-        actionButton.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(actionButton)
-        
-        actionButtonTrailing = addEqualConstraint(actionButton, constant: -10, attribute: .Trailing, parent: self)
-        actionButtonBottom = addEqualConstraint(actionButton, constant: -10, attribute: .Bottom, parent: self)
-        addEqualConstraint(actionButton, constant: 60, attribute: .Width, parent: nil)
-        addEqualConstraint(actionButton, constant: 60, attribute: .Height, parent: nil)
-        
-        let longPress =  UILongPressGestureRecognizer(target: self, action: "actionLongPress:")
-        actionButton.addGestureRecognizer(longPress)
-        
-        let tap =  UITapGestureRecognizer(target: self, action: "actionPressed:")
-        actionButton.addGestureRecognizer(tap)
-        
-        let doubleTap =  UITapGestureRecognizer(target: self, action: "actionDoubleTapped:")
-        doubleTap.numberOfTapsRequired = 2
-        
-        tap.requireGestureRecognizerToFail(doubleTap)
-        actionButton.addGestureRecognizer(doubleTap)
-        actionButton.setState(.PP)
-    }
-    
     private func addSlider() {
         opacitySlider.translatesAutoresizingMaskIntoConstraints = false
         opacitySlider.didValueChanged = { value in
@@ -267,16 +238,18 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
     private func addGestureRecognizers() {
         let move =  UIPanGestureRecognizer(target: self, action: "moveImage:")
         move.delegate = self
-        addGestureRecognizer(move)
+        imageView.addGestureRecognizer(move)
         
         let doubleTapAndWait =  UIDoubleTapAndWaitGestureRecognizer(target: self, action: "resetPosition:")
-        addGestureRecognizer(doubleTapAndWait)
+        imageView.addGestureRecognizer(doubleTapAndWait)
         
-        let tap =  UITapGestureRecognizer(target: self, action: "showZoom:")
+        let doubleTapAndMove =  UIDoubleTapAndMoveGestureRecognizer(target: self, action: "changeOpacity:")
+        doubleTapAndMove.requireGestureRecognizerToFail(doubleTapAndWait)
+        imageView.addGestureRecognizer(doubleTapAndMove)
+        
+        let tap =  UITapGestureRecognizer(target: self, action: "actionPressed:")
         tap.numberOfTapsRequired = 1
-        tap.delegate = self
-        tap.requireGestureRecognizerToFail(doubleTapAndWait)
-        addGestureRecognizer(tap)
+        imageView.addGestureRecognizer(tap)
     }
     
     private func makeScreenshot(view : UIView? = nil) -> UIImage? {
