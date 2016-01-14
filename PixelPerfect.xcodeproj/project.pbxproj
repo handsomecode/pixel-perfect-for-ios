@@ -233,7 +233,7 @@
 				TargetAttributes = {
 					B90C9F791C3E1D8A000F0833 = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = YT2JVYU83V;
+						DevelopmentTeam = 3K5DP6TYMS;
 					};
 					B97629D81C3BD2AB00E06593 = {
 						CreatedOnToolsVersion = 7.2;
@@ -369,6 +369,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -376,7 +377,7 @@
 				INFOPLIST_FILE = Sample/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = is.handsome.Sample;
+				PRODUCT_BUNDLE_IDENTIFIER = is.handsome.PixelPerfectSample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -385,6 +386,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Handsome LLC (6Y3UWZWJMU)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -392,8 +394,9 @@
 				INFOPLIST_FILE = Sample/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = is.handsome.Sample;
+				PRODUCT_BUNDLE_IDENTIFIER = is.handsome.PixelPerfectSample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "66aa2a32-a7d5-4adf-a7f9-7e412f2812d8";
 			};
 			name = Release;
 		};
