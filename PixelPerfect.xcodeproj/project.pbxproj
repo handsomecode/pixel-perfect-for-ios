@@ -19,7 +19,6 @@
 		B90C9F4F1C3CD903000F0833 /* PixelPerfectMagnifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90C9F3D1C3CD903000F0833 /* PixelPerfectMagnifier.swift */; };
 		B90C9F501C3CD903000F0833 /* PixelPerfectPopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90C9F3E1C3CD903000F0833 /* PixelPerfectPopover.swift */; };
 		B90C9F511C3CD903000F0833 /* PixelPerfectPopover.xib in Resources */ = {isa = PBXBuildFile; fileRef = B90C9F3F1C3CD903000F0833 /* PixelPerfectPopover.xib */; };
-		B90C9F521C3CD903000F0833 /* PixelPerfectSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90C9F401C3CD903000F0833 /* PixelPerfectSlider.swift */; };
 		B90C9F531C3CD903000F0833 /* PixelPerfectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90C9F411C3CD903000F0833 /* PixelPerfectView.swift */; };
 		B90C9F541C3CD903000F0833 /* pp-app@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B90C9F421C3CD903000F0833 /* pp-app@3x.png */; };
 		B90C9F551C3CD903000F0833 /* pp-both@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B90C9F431C3CD903000F0833 /* pp-both@3x.png */; };
@@ -31,6 +30,9 @@
 		B90C9F841C3E1D8A000F0833 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B90C9F831C3E1D8A000F0833 /* Assets.xcassets */; };
 		B90C9F871C3E1D8A000F0833 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B90C9F851C3E1D8A000F0833 /* LaunchScreen.storyboard */; };
 		B94EDCE81C43719900D25066 /* UIDoubleTapAndMoveGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94EDCE71C43719900D25066 /* UIDoubleTapAndMoveGestureRecognizer.swift */; };
+		B94EDCEA1C44AE1700D25066 /* PixelPerfectOffsetView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B94EDCE91C44AE1700D25066 /* PixelPerfectOffsetView.xib */; };
+		B94EDCEC1C44AF4B00D25066 /* PixelPerfectOffsetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94EDCEB1C44AF4B00D25066 /* PixelPerfectOffsetView.swift */; };
+		B94EDCEE1C44B1CE00D25066 /* UIShortPressGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94EDCED1C44B1CE00D25066 /* UIShortPressGestureRecognizer.swift */; };
 		B97629DD1C3BD2AB00E06593 /* PixelPerfect.h in Headers */ = {isa = PBXBuildFile; fileRef = B97629DC1C3BD2AB00E06593 /* PixelPerfect.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B9B2612A1C3E234B00E5BD54 /* pixelperfect.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B9B261291C3E234B00E5BD54 /* pixelperfect.bundle */; };
 /* End PBXBuildFile section */
@@ -58,7 +60,6 @@
 		B90C9F3D1C3CD903000F0833 /* PixelPerfectMagnifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PixelPerfectMagnifier.swift; sourceTree = "<group>"; };
 		B90C9F3E1C3CD903000F0833 /* PixelPerfectPopover.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PixelPerfectPopover.swift; sourceTree = "<group>"; };
 		B90C9F3F1C3CD903000F0833 /* PixelPerfectPopover.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PixelPerfectPopover.xib; sourceTree = "<group>"; };
-		B90C9F401C3CD903000F0833 /* PixelPerfectSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PixelPerfectSlider.swift; sourceTree = "<group>"; };
 		B90C9F411C3CD903000F0833 /* PixelPerfectView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PixelPerfectView.swift; sourceTree = "<group>"; };
 		B90C9F421C3CD903000F0833 /* pp-app@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pp-app@3x.png"; sourceTree = "<group>"; };
 		B90C9F431C3CD903000F0833 /* pp-both@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pp-both@3x.png"; sourceTree = "<group>"; };
@@ -72,6 +73,9 @@
 		B90C9F861C3E1D8A000F0833 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B90C9F881C3E1D8A000F0833 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B94EDCE71C43719900D25066 /* UIDoubleTapAndMoveGestureRecognizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIDoubleTapAndMoveGestureRecognizer.swift; sourceTree = "<group>"; };
+		B94EDCE91C44AE1700D25066 /* PixelPerfectOffsetView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PixelPerfectOffsetView.xib; sourceTree = "<group>"; };
+		B94EDCEB1C44AF4B00D25066 /* PixelPerfectOffsetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PixelPerfectOffsetView.swift; sourceTree = "<group>"; };
+		B94EDCED1C44B1CE00D25066 /* UIShortPressGestureRecognizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIShortPressGestureRecognizer.swift; sourceTree = "<group>"; };
 		B97629D91C3BD2AB00E06593 /* PixelPerfect.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PixelPerfect.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B97629DC1C3BD2AB00E06593 /* PixelPerfect.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PixelPerfect.h; sourceTree = "<group>"; };
 		B97629DE1C3BD2AB00E06593 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -144,13 +148,15 @@
 				B90C9F3D1C3CD903000F0833 /* PixelPerfectMagnifier.swift */,
 				B90C9F3E1C3CD903000F0833 /* PixelPerfectPopover.swift */,
 				B90C9F3F1C3CD903000F0833 /* PixelPerfectPopover.xib */,
-				B90C9F401C3CD903000F0833 /* PixelPerfectSlider.swift */,
+				B94EDCE91C44AE1700D25066 /* PixelPerfectOffsetView.xib */,
+				B94EDCEB1C44AF4B00D25066 /* PixelPerfectOffsetView.swift */,
 				B90C9F411C3CD903000F0833 /* PixelPerfectView.swift */,
 				B90C9F421C3CD903000F0833 /* pp-app@3x.png */,
 				B90C9F431C3CD903000F0833 /* pp-both@3x.png */,
 				B90C9F441C3CD903000F0833 /* pp-pp@3x.png */,
 				B90C9F451C3CD903000F0833 /* UIDoubleTapAndWaitGestureRecognizer.swift */,
 				B94EDCE71C43719900D25066 /* UIDoubleTapAndMoveGestureRecognizer.swift */,
+				B94EDCED1C44B1CE00D25066 /* UIShortPressGestureRecognizer.swift */,
 				B97629DE1C3BD2AB00E06593 /* Info.plist */,
 			);
 			path = PixelPerfect;
@@ -261,6 +267,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B94EDCEA1C44AE1700D25066 /* PixelPerfectOffsetView.xib in Resources */,
 				B90C9F551C3CD903000F0833 /* pp-both@3x.png in Resources */,
 				B90C9F481C3CD903000F0833 /* PixelPerfectActionButton.xib in Resources */,
 				B90C9F4D1C3CD903000F0833 /* PixelPerfectItemViewCell.xib in Resources */,
@@ -288,15 +295,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				B90C9F4C1C3CD903000F0833 /* PixelPerfectImageViewCell.swift in Sources */,
+				B94EDCEC1C44AF4B00D25066 /* PixelPerfectOffsetView.swift in Sources */,
 				B90C9F531C3CD903000F0833 /* PixelPerfectView.swift in Sources */,
 				B90C9F471C3CD903000F0833 /* PixelPerfectActionButton.swift in Sources */,
 				B90C9F501C3CD903000F0833 /* PixelPerfectPopover.swift in Sources */,
 				B90C9F571C3CD903000F0833 /* UIDoubleTapAndWaitGestureRecognizer.swift in Sources */,
+				B94EDCEE1C44B1CE00D25066 /* UIShortPressGestureRecognizer.swift in Sources */,
 				B90C9F4E1C3CD903000F0833 /* PixelPerfectLayout.swift in Sources */,
 				B90C9F4A1C3CD903000F0833 /* PixelPerfectConfig.swift in Sources */,
 				B90C9F4B1C3CD903000F0833 /* PixelPerfectController.swift in Sources */,
 				B90C9F4F1C3CD903000F0833 /* PixelPerfectMagnifier.swift in Sources */,
-				B90C9F521C3CD903000F0833 /* PixelPerfectSlider.swift in Sources */,
 				B90C9F491C3CD903000F0833 /* PixelPerfectCommon.swift in Sources */,
 				B94EDCE81C43719900D25066 /* UIDoubleTapAndMoveGestureRecognizer.swift in Sources */,
 			);

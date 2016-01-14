@@ -20,12 +20,13 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
     private var startOpacityPoint : CGPoint? = nil
     private var startOpacityValue : CGFloat!
     private var isHorizontalDragging : Bool? = nil
+    private var isMicroPositioningEnabled : Bool!
+    private var fixedOverlayOffset = CGPoint(x: 0, y: 0)
     
     private let imageView = UIImageView()
-    private let opacitySlider = PixelPerfectSlider()
     private var popover : PixelPerfectPopover!
     private var magnifier : PixelPerfectMagnifier?
-    private var microPositioningEnabled : Bool!
+    private var offsetView : PixelPerfectOffsetView?
     private var config : PixelPerfectConfig?
     
     private var actionButtonTrailing : NSLayoutConstraint!
@@ -50,7 +51,6 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
         }
         
         addImageView()
-        addSlider()
         addGestureRecognizers()
     }
 
@@ -142,7 +142,7 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
     
     func resetPosition(gestureRecognizer:UIPanGestureRecognizer) {
         if gestureRecognizer.state == .Ended {
-            //actionButton.fixOffset(-Int(imageView.frame.origin.x * UIScreen.mainScreen().scale), y: -Int(imageView.frame.origin.y * UIScreen.mainScreen().scale))
+            fixedOverlayOffset = CGPoint(x: Int(imageView.frame.origin.x * UIScreen.mainScreen().scale), y: Int(imageView.frame.origin.y * UIScreen.mainScreen().scale))
         }
     }
     
@@ -169,12 +169,21 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
             return
         }
         if gestureRecognizer.state == .Began {
+            offsetView = PixelPerfectCommon.bundle().loadNibNamed("PixelPerfectOffsetView", owner: self, options: nil).first as? PixelPerfectOffsetView
+            //offsetView?.frame = CGRect(origin: gestureRecognizer.locationInView(self), size: CGSize(width: 100, height: 50))
+            addSubview(offsetView!)
+            updateOffsetView(gestureRecognizer.locationInView(self))
+            
             startDraggingPoint = gestureRecognizer.locationInView(self)
-            microPositioningEnabled = true
+            isMicroPositioningEnabled = true
         } else if gestureRecognizer.state == .Ended || gestureRecognizer.state == .Failed {
+            offsetView?.removeFromSuperview()
+            offsetView = nil
             isHorizontalDragging = nil
-            microPositioningEnabled = true
-        } else {
+            isMicroPositioningEnabled = true
+        } else if gestureRecognizer.state == .Changed {
+            updateOffsetView(gestureRecognizer.locationInView(self))
+            
             guard let startDraggingPoint = startDraggingPoint else {
                 return
             }
@@ -182,21 +191,22 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
             if isHorizontalDragging == nil {
                 isHorizontalDragging = abs(currentDraggingPoint.x - startDraggingPoint.x) > abs(currentDraggingPoint.y - startDraggingPoint.y)
             }
-            if microPositioningEnabled! {
-                microPositioningEnabled = abs(currentDraggingPoint.x - startDraggingPoint.x) < kMicroPositioningOffset && abs(currentDraggingPoint.y - startDraggingPoint.y) < kMicroPositioningOffset
+            if isMicroPositioningEnabled! {
+                isMicroPositioningEnabled = abs(currentDraggingPoint.x - startDraggingPoint.x) < kMicroPositioningOffset && abs(currentDraggingPoint.y - startDraggingPoint.y) < kMicroPositioningOffset
             }
             if isHorizontalDragging! {
-                imageView.center.x += microPositioningEnabled! ? (currentDraggingPoint.x - startDraggingPoint.x) / kMicroPositioningFactor : currentDraggingPoint.x - startDraggingPoint.x
+                imageView.center.x += isMicroPositioningEnabled! ? (currentDraggingPoint.x - startDraggingPoint.x) / kMicroPositioningFactor : currentDraggingPoint.x - startDraggingPoint.x
             } else {
-                imageView.center.y += microPositioningEnabled! ? (currentDraggingPoint.y - startDraggingPoint.y) / kMicroPositioningFactor : currentDraggingPoint.y - startDraggingPoint.y
+                imageView.center.y += isMicroPositioningEnabled! ? (currentDraggingPoint.y - startDraggingPoint.y) / kMicroPositioningFactor : currentDraggingPoint.y - startDraggingPoint.y
             }
             self.startDraggingPoint = currentDraggingPoint
             
-            //actionButton.setOffset(-Int(imageView.frame.origin.x * UIScreen.mainScreen().scale), y: -Int(imageView.frame.origin.y * UIScreen.mainScreen().scale))
+            //            offsetView?.showOffset(-Int(imageView.frame.origin.x * UIScreen.mainScreen().scale - fixedOverlayOffset.x), y: -Int(imageView.frame.origin.y * UIScreen.mainScreen().scale - fixedOverlayOffset.y))
             
             if let magnifier = magnifier {
                 magnifier.setOverlayOffset(imageView.frame.origin.x, dy: imageView.frame.origin.y)
             }
+            
         }
     }
     
@@ -219,37 +229,30 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
         imageView.userInteractionEnabled = true
     }
     
-    private func addSlider() {
-        opacitySlider.translatesAutoresizingMaskIntoConstraints = false
-        opacitySlider.didValueChanged = { value in
-            self.imageView.alpha = value
-            if let magnifier = self.magnifier {
-                magnifier.setOverlayOpacity(value)
-            }
-        }
-        addSubview(opacitySlider)
-
-        addEqualConstraint(opacitySlider, constant: 0, attribute: .Trailing, parent: self)
-        addEqualConstraint(opacitySlider, constant: 20, attribute: .Width, parent: nil)
-        addEqualConstraint(opacitySlider, constant: 20, attribute: .Top, parent: self)
-        addEqualConstraint(opacitySlider, constant: -20, attribute: .Bottom, parent: self)
-    }
-    
     private func addGestureRecognizers() {
-        let move =  UIPanGestureRecognizer(target: self, action: "moveImage:")
-        move.delegate = self
-        imageView.addGestureRecognizer(move)
+        
+
+        
+//        let doubleTapAndMove =  UIDoubleTapAndMoveGestureRecognizer(target: self, action: "changeOpacity:")
+//        doubleTapAndMove.requireGestureRecognizerToFail(doubleTapAndWait)
+//        imageView.addGestureRecognizer(doubleTapAndMove)
+        
+        let doubletap =  UITapGestureRecognizer(target: self, action: "showZoom:")
+        doubletap.numberOfTapsRequired = 2
+        imageView.addGestureRecognizer(doubletap)
         
         let doubleTapAndWait =  UIDoubleTapAndWaitGestureRecognizer(target: self, action: "resetPosition:")
+        doubleTapAndWait.requireGestureRecognizerToFail(doubletap)
         imageView.addGestureRecognizer(doubleTapAndWait)
-        
-        let doubleTapAndMove =  UIDoubleTapAndMoveGestureRecognizer(target: self, action: "changeOpacity:")
-        doubleTapAndMove.requireGestureRecognizerToFail(doubleTapAndWait)
-        imageView.addGestureRecognizer(doubleTapAndMove)
         
         let tap =  UITapGestureRecognizer(target: self, action: "actionPressed:")
         tap.numberOfTapsRequired = 1
+        tap.requireGestureRecognizerToFail(doubleTapAndWait)
         imageView.addGestureRecognizer(tap)
+        
+        let shortPress = UIShortPressGestureRecognizer(target: self, action: "moveImage:")
+        shortPress.requireGestureRecognizerToFail(doubleTapAndWait)
+        imageView.addGestureRecognizer(shortPress)
     }
     
     private func makeScreenshot(view : UIView? = nil) -> UIImage? {
@@ -284,5 +287,10 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
         magnifier.removeFromSuperview()
         self.magnifier = nil
         return true
+    }
+    
+    private func updateOffsetView(fingerPosition : CGPoint) {
+        offsetView?.showOffset(-Int(imageView.frame.origin.x * UIScreen.mainScreen().scale - fixedOverlayOffset.x), y: -Int(imageView.frame.origin.y * UIScreen.mainScreen().scale - fixedOverlayOffset.y))
+        offsetView?.center = CGPoint(x: fingerPosition.x, y: fingerPosition.y - 20)
     }
 }
