@@ -379,6 +379,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = is.handsome.PixelPerfectSample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "66aa2a32-a7d5-4adf-a7f9-7e412f2812d8";
 			};
 			name = Debug;
 		};

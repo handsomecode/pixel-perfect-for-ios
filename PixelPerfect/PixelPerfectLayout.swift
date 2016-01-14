@@ -192,7 +192,7 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
                 isHorizontalDragging = abs(currentDraggingPoint.x - startDraggingPoint.x) > abs(currentDraggingPoint.y - startDraggingPoint.y)
             }
             if isMicroPositioningEnabled! {
-                isMicroPositioningEnabled = abs(currentDraggingPoint.x - startDraggingPoint.x) < kMicroPositioningOffset && abs(currentDraggingPoint.y - startDraggingPoint.y) < kMicroPositioningOffset
+                isMicroPositioningEnabled = isHorizontalDragging! ? abs(currentDraggingPoint.x - startDraggingPoint.x) < kMicroPositioningOffset : abs(currentDraggingPoint.y - startDraggingPoint.y) < kMicroPositioningOffset
             }
             if isHorizontalDragging! {
                 imageView.center.x += isMicroPositioningEnabled! ? (currentDraggingPoint.x - startDraggingPoint.x) / kMicroPositioningFactor : currentDraggingPoint.x - startDraggingPoint.x
@@ -200,8 +200,6 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
                 imageView.center.y += isMicroPositioningEnabled! ? (currentDraggingPoint.y - startDraggingPoint.y) / kMicroPositioningFactor : currentDraggingPoint.y - startDraggingPoint.y
             }
             self.startDraggingPoint = currentDraggingPoint
-            
-            //            offsetView?.showOffset(-Int(imageView.frame.origin.x * UIScreen.mainScreen().scale - fixedOverlayOffset.x), y: -Int(imageView.frame.origin.y * UIScreen.mainScreen().scale - fixedOverlayOffset.y))
             
             if let magnifier = magnifier {
                 magnifier.setOverlayOffset(imageView.frame.origin.x, dy: imageView.frame.origin.y)
