@@ -10,12 +10,8 @@ import UIKit
 
 class PixelPerfectMagnifier : UIView, UIGestureRecognizerDelegate {
     
-    private let kGridLinesCount : Int = 8
     private let kAreaSize : CGFloat = 200
     private let kZoom : CGFloat = 3
-    
-    private var showGrid : Bool?
-    private var isCircular : Bool?
     
     private var area : CGRect?
     private var appImageFrame : CGRect?
@@ -29,10 +25,8 @@ class PixelPerfectMagnifier : UIView, UIGestureRecognizerDelegate {
     private var dy : CGFloat = 0
     private var overlayAlpha : CGFloat = 0
     
-    init (showGrid : Bool, isCircular : Bool) {
+    init() {
         super.init(frame:CGRect.zero)
-        self.showGrid = showGrid
-        self.isCircular = isCircular
         backgroundColor = UIColor(white: 0.0, alpha: 0.0)
         opaque = false;
     }
@@ -140,29 +134,11 @@ class PixelPerfectMagnifier : UIView, UIGestureRecognizerDelegate {
     override func drawRect(rect: CGRect) {
         if let area = area, let appImageFrame = appImageFrame, let overlayImageFrame = overlayImageFrame {
             
-            let circularPath = isCircular == nil || isCircular! ? UIBezierPath(ovalInRect: area) : UIBezierPath(rect: area)
-            circularPath.addClip()
+            let path =  UIBezierPath(rect: area)
+            path.addClip()
             appImage?.drawInRect(appImageFrame)
             overlayImage?.drawInRect(overlayImageFrame, blendMode: .Normal, alpha: overlayAlpha)
-            circularPath.stroke()
-            
-            guard let showGrid = showGrid else {
-                return
-            }
-            
-            if showGrid {
-                UIColor(red: 1.0, green: 0, blue: 0, alpha: 0.3).setStroke()
-                let linePath = UIBezierPath()
-                let linesDelta = kAreaSize / (CGFloat(kGridLinesCount) + 1)
-                for i in 0..<kGridLinesCount {
-                    linePath.moveToPoint(CGPointMake(area.origin.x + linesDelta * (CGFloat(i) + 1), area.origin.y))
-                    linePath.addLineToPoint(CGPointMake(area.origin.x + linesDelta * (CGFloat(i) + 1), area.origin.y + area.size.height))
-                    
-                    linePath.moveToPoint(CGPointMake(area.origin.x, area.origin.y + linesDelta * (CGFloat(i) + 1)))
-                    linePath.addLineToPoint(CGPointMake(area.origin.x + area.size.width, area.origin.y + linesDelta * (CGFloat(i) + 1)))
-                }
-                linePath.stroke()
-            }
+            path.stroke()
         }
     }
 }

@@ -28,3 +28,24 @@ class PixelPerfectCommon {
         return nil
     }
 }
+
+extension UIImageView {
+    
+    func invertImage() {
+        if let originalImage = image {
+            UIGraphicsBeginImageContext(originalImage.size)
+            CGContextSetBlendMode(UIGraphicsGetCurrentContext(), .Copy)
+            let imageRect = CGRectMake(0, 0, originalImage.size.width, originalImage.size.height)
+            originalImage.drawInRect(imageRect)
+            
+            CGContextSetBlendMode(UIGraphicsGetCurrentContext(), .Difference);
+            CGContextTranslateCTM(UIGraphicsGetCurrentContext(), 0, originalImage.size.height);
+            CGContextScaleCTM(UIGraphicsGetCurrentContext(), 1.0, -1.0);
+            //mask the image
+            CGContextClipToMask(UIGraphicsGetCurrentContext(), imageRect,  originalImage.CGImage);
+            CGContextSetFillColorWithColor(UIGraphicsGetCurrentContext(),UIColor.whiteColor().CGColor);
+            CGContextFillRect(UIGraphicsGetCurrentContext(), CGRectMake(0, 0, originalImage.size.width, originalImage.size.height));
+            image = UIGraphicsGetImageFromCurrentImageContext()
+        }
+    }
+}

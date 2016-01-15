@@ -10,8 +10,10 @@ import Foundation
 
 struct PixelPerfectConfig {
     
-    let active : Bool
-    let imageName : String
-    let grid : Bool
-    let magnifierCircular : Bool
+    var imageName : String
+    var opacity : CGFloat
+    var inverse : Bool
+    
+    var offsetX : Int
+    var offsetY : Int
 }

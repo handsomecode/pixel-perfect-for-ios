@@ -37,6 +37,7 @@
 		B94EDCFF1C4784A600D25066 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B94EDCFD1C4784A600D25066 /* Crashlytics.framework */; };
 		B97629DD1C3BD2AB00E06593 /* PixelPerfect.h in Headers */ = {isa = PBXBuildFile; fileRef = B97629DC1C3BD2AB00E06593 /* PixelPerfect.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B9B2612A1C3E234B00E5BD54 /* pixelperfect.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B9B261291C3E234B00E5BD54 /* pixelperfect.bundle */; };
+		B9D5C4DC1C48AC1B00F30282 /* right-arrow@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B9D5C4DB1C48AC1B00F30282 /* right-arrow@3x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,6 +85,7 @@
 		B97629DC1C3BD2AB00E06593 /* PixelPerfect.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PixelPerfect.h; sourceTree = "<group>"; };
 		B97629DE1C3BD2AB00E06593 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B9B261291C3E234B00E5BD54 /* pixelperfect.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = pixelperfect.bundle; sourceTree = "<group>"; };
+		B9D5C4DB1C48AC1B00F30282 /* right-arrow@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "right-arrow@3x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,6 +164,7 @@
 				B90C9F421C3CD903000F0833 /* pp-app@3x.png */,
 				B90C9F431C3CD903000F0833 /* pp-both@3x.png */,
 				B90C9F441C3CD903000F0833 /* pp-pp@3x.png */,
+				B9D5C4DB1C48AC1B00F30282 /* right-arrow@3x.png */,
 				B90C9F451C3CD903000F0833 /* UIDoubleTapAndWaitGestureRecognizer.swift */,
 				B94EDCE71C43719900D25066 /* UIDoubleTapAndMoveGestureRecognizer.swift */,
 				B94EDCED1C44B1CE00D25066 /* UIShortPressGestureRecognizer.swift */,
@@ -277,6 +280,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B94EDCEA1C44AE1700D25066 /* PixelPerfectOffsetView.xib in Resources */,
+				B9D5C4DC1C48AC1B00F30282 /* right-arrow@3x.png in Resources */,
 				B90C9F551C3CD903000F0833 /* pp-both@3x.png in Resources */,
 				B90C9F481C3CD903000F0833 /* PixelPerfectActionButton.xib in Resources */,
 				B90C9F4D1C3CD903000F0833 /* PixelPerfectItemViewCell.xib in Resources */,

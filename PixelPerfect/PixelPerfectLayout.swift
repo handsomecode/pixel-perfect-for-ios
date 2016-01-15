@@ -22,12 +22,13 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
     private var isHorizontalDragging : Bool? = nil
     private var isMicroPositioningEnabled : Bool!
     private var fixedOverlayOffset = CGPoint(x: 0, y: 0)
+    private var inverse = false
+    private var config : PixelPerfectConfig?
     
     private let imageView = UIImageView()
     private var popover : PixelPerfectPopover!
     private var magnifier : PixelPerfectMagnifier?
     private var offsetView : PixelPerfectOffsetView?
-    private var config : PixelPerfectConfig?
     
     private var actionButtonTrailing : NSLayoutConstraint!
     private var actionButtonBottom : NSLayoutConstraint!
@@ -73,13 +74,20 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
         hideMagnifierIfNeeded()
         popover = PixelPerfectCommon.bundle().loadNibNamed("PixelPerfectPopover", owner: self, options: nil).first as! PixelPerfectPopover
         popover.setImageNames(imagesNames)
-        popover.restore(getConfigOrDefault())
+        popover.restore(getConfig())
         popover.didClose = { pixelPerfectConfig in
             self.config = pixelPerfectConfig
-            self.abortTouch = pixelPerfectConfig.active
             self.setImage(pixelPerfectConfig.imageName)
+            self.imageView.alpha = pixelPerfectConfig.opacity
+            if self.inverse != pixelPerfectConfig.inverse {
+                self.inverse = pixelPerfectConfig.inverse
+                self.imageView.invertImage()
+            }
             self.popover.removeFromSuperview()
             self.popover = nil
+        }
+        popover.didFixOffset = {
+            self.fixedOverlayOffset = CGPoint(x: Int(self.imageView.frame.origin.x * UIScreen.mainScreen().scale), y: Int(self.imageView.frame.origin.y * UIScreen.mainScreen().scale))
         }
         popover.translatesAutoresizingMaskIntoConstraints = false
         addSubview(popover)
@@ -98,7 +106,7 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
             return
         }
         if gestureRecognizer.state == .Ended {
-            magnifier = PixelPerfectMagnifier(showGrid: getConfigOrDefault().grid, isCircular: getConfigOrDefault().magnifierCircular)
+            magnifier = PixelPerfectMagnifier()
             
             imageView.hidden = true
             let appImage = makeScreenshot()
@@ -228,13 +236,6 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
     }
     
     private func addGestureRecognizers() {
-        
-
-        
-//        let doubleTapAndMove =  UIDoubleTapAndMoveGestureRecognizer(target: self, action: "changeOpacity:")
-//        doubleTapAndMove.requireGestureRecognizerToFail(doubleTapAndWait)
-//        imageView.addGestureRecognizer(doubleTapAndMove)
-        
         let doubletap =  UITapGestureRecognizer(target: self, action: "showZoom:")
         doubletap.numberOfTapsRequired = 2
         imageView.addGestureRecognizer(doubletap)
@@ -270,12 +271,8 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
         return nil
     }
     
-    private func getConfigOrDefault() -> PixelPerfectConfig {
-        if config != nil {
-            return config!
-        }
-        config = PixelPerfectConfig(active : true, imageName : imagesNames.count == 0 ? "" : imagesNames[0], grid : false, magnifierCircular : false)
-        return config!
+    private func getConfig() -> PixelPerfectConfig {
+        return PixelPerfectConfig(imageName : currentImage, opacity : imageView.alpha, inverse : inverse, offsetX : -Int(imageView.frame.origin.x * UIScreen.mainScreen().scale - fixedOverlayOffset.x), offsetY: -Int(imageView.frame.origin.y * UIScreen.mainScreen().scale - fixedOverlayOffset.y))
     }
     
     private func hideMagnifierIfNeeded() -> Bool {

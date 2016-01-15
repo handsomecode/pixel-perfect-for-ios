@@ -11,14 +11,17 @@ import UIKit
 class PixelPerfectPopover : PixelPerfectView  {
     
     var didClose : ((PixelPerfectConfig) -> ())?
-
-    @IBOutlet weak var activeSwitch: UISwitch!
-    @IBOutlet weak var gridSwitch: UISwitch!
-    @IBOutlet weak var magnifierShapeSegmentedControl: UISegmentedControl!
+    var didFixOffset : (() -> ())?
+    
     @IBOutlet weak var imageNameLabel: UILabel!
     @IBOutlet weak var imagesCollectionView: UICollectionView!
+    @IBOutlet weak var inverseSwitch: UISwitch!
+    @IBOutlet weak var opacityView: UIView!
+    @IBOutlet weak var opacitySlider: UISlider!
+    @IBOutlet weak var offsetLabel: UILabel!
     
     private var imagesNames : [String]!
+    private var config : PixelPerfectConfig!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -37,10 +40,12 @@ class PixelPerfectPopover : PixelPerfectView  {
     
     func restore(config : PixelPerfectConfig?) {
         if let config = config {
-            activeSwitch.on = config.active
-            gridSwitch.on = config.grid
+            self.config = config
             imageNameLabel.text = config.imageName
-            magnifierShapeSegmentedControl.selectedSegmentIndex = config.magnifierCircular ? 0 : 1
+            opacitySlider.value = Float(config.opacity)
+            opacityView.alpha = config.opacity
+            inverseSwitch.on = config.inverse
+            setOffset(config.offsetX, y: config.offsetY)
         }
     }
     
@@ -53,12 +58,26 @@ class PixelPerfectPopover : PixelPerfectView  {
             imagesCollectionView.hidden = true
             return
         }
-        let config = PixelPerfectConfig(active: activeSwitch.on, imageName: imageNameLabel.text!, grid: gridSwitch.on, magnifierCircular : magnifierShapeSegmentedControl.selectedSegmentIndex == 0)
+        config.inverse = inverseSwitch.on
+        config.opacity = CGFloat(opacitySlider.value)
         didClose?(config)
     }
     
     @IBAction func changeImagePressed(sender: AnyObject) {
         imagesCollectionView.hidden = false
+    }
+    
+    @IBAction func fixPressed(sender: AnyObject) {
+        didFixOffset?()
+        setOffset(0, y: 0)
+    }
+    
+    @IBAction func opacityChanged(sender: AnyObject) {
+        opacityView.alpha = CGFloat((sender as! UISlider).value)
+    }
+    
+    private func setOffset(x: Int, y: Int) {
+        offsetLabel.text = "(\(x)px, \(y)px)"
     }
 }
 
@@ -94,6 +113,7 @@ extension PixelPerfectPopover : UICollectionViewDelegate {
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         imageNameLabel.text = imagesNames[indexPath.row]
+        config.imageName = imagesNames[indexPath.row]
         imagesCollectionView.hidden = true
     }
 }
