@@ -36,8 +36,8 @@
 		B94EDCFE1C4784A600D25066 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B94EDCFC1C4784A600D25066 /* Fabric.framework */; };
 		B94EDCFF1C4784A600D25066 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B94EDCFD1C4784A600D25066 /* Crashlytics.framework */; };
 		B97629DD1C3BD2AB00E06593 /* PixelPerfect.h in Headers */ = {isa = PBXBuildFile; fileRef = B97629DC1C3BD2AB00E06593 /* PixelPerfect.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B9B2612A1C3E234B00E5BD54 /* pixelperfect.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B9B261291C3E234B00E5BD54 /* pixelperfect.bundle */; };
 		B9D5C4DC1C48AC1B00F30282 /* right-arrow@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B9D5C4DB1C48AC1B00F30282 /* right-arrow@3x.png */; };
+		B9D5C4DF1C48DDA300F30282 /* pixelperfect.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B9D5C4DE1C48DDA300F30282 /* pixelperfect.bundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,8 +84,8 @@
 		B97629D91C3BD2AB00E06593 /* PixelPerfect.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PixelPerfect.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B97629DC1C3BD2AB00E06593 /* PixelPerfect.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PixelPerfect.h; sourceTree = "<group>"; };
 		B97629DE1C3BD2AB00E06593 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B9B261291C3E234B00E5BD54 /* pixelperfect.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = pixelperfect.bundle; sourceTree = "<group>"; };
 		B9D5C4DB1C48AC1B00F30282 /* right-arrow@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "right-arrow@3x.png"; sourceTree = "<group>"; };
+		B9D5C4DE1C48DDA300F30282 /* pixelperfect.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = pixelperfect.bundle; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,7 +116,7 @@
 				B90C9F7C1C3E1D8A000F0833 /* AppDelegate.swift */,
 				B90C9F7E1C3E1D8A000F0833 /* ViewController.swift */,
 				B90C9F801C3E1D8A000F0833 /* Main.storyboard */,
-				B9B261291C3E234B00E5BD54 /* pixelperfect.bundle */,
+				B9D5C4DE1C48DDA300F30282 /* pixelperfect.bundle */,
 				B90C9F831C3E1D8A000F0833 /* Assets.xcassets */,
 				B90C9F851C3E1D8A000F0833 /* LaunchScreen.storyboard */,
 				B90C9F881C3E1D8A000F0833 /* Info.plist */,
@@ -269,7 +269,7 @@
 			files = (
 				B90C9F871C3E1D8A000F0833 /* LaunchScreen.storyboard in Resources */,
 				B90C9F841C3E1D8A000F0833 /* Assets.xcassets in Resources */,
-				B9B2612A1C3E234B00E5BD54 /* pixelperfect.bundle in Resources */,
+				B9D5C4DF1C48DDA300F30282 /* pixelperfect.bundle in Resources */,
 				B90C9F821C3E1D8A000F0833 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

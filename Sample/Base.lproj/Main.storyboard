@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -17,18 +18,40 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cat" translatesAutoresizingMaskIntoConstraints="NO" id="cM5-w9-ohL">
+                                <rect key="frame" x="205" y="52" width="191" height="232"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="232" id="8vH-k5-Mb6"/>
+                                    <constraint firstAttribute="width" constant="191" id="N9F-21-3sa"/>
+                                </constraints>
+                            </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HIz-aA-tQ5">
+                                <rect key="frame" x="45" y="365" width="510" height="1"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="jY9-nF-Lqs"/>
+                                </constraints>
+                            </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JbN-8m-CKh">
-                                <rect key="frame" x="277" y="285" width="46" height="30"/>
-                                <state key="normal" title="Button"/>
+                                <rect key="frame" x="202" y="393" width="197" height="55"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="36"/>
+                                <state key="normal" title="Pixel Perfect">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
                                 <connections>
                                     <action selector="ppPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="TB5-VT-jZc"/>
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.84705882352941175" green="0.84705882352941175" blue="0.84705882352941175" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="JbN-8m-CKh" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="7gZ-3m-sP4"/>
-                            <constraint firstItem="JbN-8m-CKh" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="W1D-9Y-yNc"/>
+                            <constraint firstItem="JbN-8m-CKh" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="1nc-qP-eYx"/>
+                            <constraint firstItem="cM5-w9-ohL" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="7IU-H1-8xx"/>
+                            <constraint firstItem="HIz-aA-tQ5" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="25" id="Gnu-GT-5vS"/>
+                            <constraint firstItem="HIz-aA-tQ5" firstAttribute="top" secondItem="cM5-w9-ohL" secondAttribute="bottom" constant="81" id="Sfx-14-xs4"/>
+                            <constraint firstItem="cM5-w9-ohL" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" constant="52" id="UcA-Pb-o8l"/>
+                            <constraint firstItem="JbN-8m-CKh" firstAttribute="top" secondItem="HIz-aA-tQ5" secondAttribute="bottom" constant="27" id="Wnl-NN-2kS"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="HIz-aA-tQ5" secondAttribute="trailing" constant="25" id="e9E-55-uea"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -36,4 +59,7 @@
             </objects>
         </scene>
     </scenes>
+    <resources>
+        <image name="cat" width="764" height="928"/>
+    </resources>
 </document>

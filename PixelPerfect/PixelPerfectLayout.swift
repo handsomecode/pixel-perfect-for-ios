@@ -71,7 +71,9 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
         if popover != nil {
             return
         }
-        hideMagnifierIfNeeded()
+        if hideMagnifierIfNeeded() {
+            return
+        }
         popover = PixelPerfectCommon.bundle().loadNibNamed("PixelPerfectPopover", owner: self, options: nil).first as! PixelPerfectPopover
         popover.setImageNames(imagesNames)
         popover.restore(getConfig())
