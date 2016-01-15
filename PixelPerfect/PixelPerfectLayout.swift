@@ -180,7 +180,6 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
         }
         if gestureRecognizer.state == .Began {
             offsetView = PixelPerfectCommon.bundle().loadNibNamed("PixelPerfectOffsetView", owner: self, options: nil).first as? PixelPerfectOffsetView
-            //offsetView?.frame = CGRect(origin: gestureRecognizer.locationInView(self), size: CGSize(width: 100, height: 50))
             addSubview(offsetView!)
             updateOffsetView(gestureRecognizer.locationInView(self))
             
