@@ -15,7 +15,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="600" height="55"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pixel Perfect" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lyI-kJ-3gz">
-                            <rect key="frame" x="250" y="17" width="101" height="20.5"/>
+                            <rect key="frame" x="250" y="17" width="101" height="21"/>
                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
@@ -83,11 +83,11 @@
                                         <constraint firstAttribute="width" constant="9" id="ucV-R6-Gee"/>
                                     </constraints>
                                 </imageView>
-                                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="onR-Sj-8sO">
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="onR-Sj-8sO">
                                     <rect key="frame" x="0.0" y="13" width="529" height="35"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Image" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pyd-AK-Ozg">
-                                            <rect key="frame" x="0.0" y="0.0" width="529" height="20.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="529" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -151,7 +151,7 @@
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KpC-q5-LF6">
                                     <rect key="frame" x="518" y="20" width="40" height="40"/>
-                                    <color key="backgroundColor" red="0.29411764705882354" green="0.84313725490196079" blue="0.38823529411764707" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="40" id="0RP-Y9-2mW"/>
                                         <constraint firstAttribute="height" constant="40" id="PoJ-jr-M9F"/>
@@ -159,12 +159,13 @@
                                 </view>
                                 <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="O8l-w9-DaK">
                                     <rect key="frame" x="-2" y="40" width="502" height="31"/>
+                                    <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="0.90353146114864868" colorSpace="calibratedRGB"/>
                                     <connections>
                                         <action selector="opacityChanged:" destination="iN0-l3-epB" eventType="valueChanged" id="xgz-kD-Wiz"/>
                                     </connections>
                                 </slider>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Transparency" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CPP-H0-m3m">
-                                    <rect key="frame" x="0.0" y="10" width="498" height="20.5"/>
+                                    <rect key="frame" x="0.0" y="10" width="498" height="21"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
@@ -194,13 +195,14 @@
                             <rect key="frame" x="22" y="142" width="558" height="46"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Inverse" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rLX-XG-jY0">
-                                    <rect key="frame" x="0.0" y="13" width="55" height="20.5"/>
+                                    <rect key="frame" x="0.0" y="13" width="55" height="21"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="qYe-2D-2q7">
                                     <rect key="frame" x="509" y="8" width="51" height="31"/>
+                                    <color key="onTintColor" white="0.0" alpha="0.7466216216216216" colorSpace="calibratedWhite"/>
                                 </switch>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

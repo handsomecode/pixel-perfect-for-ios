@@ -223,9 +223,8 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
             return
         }
         currentImage = name
-        if let delegate = UIApplication.sharedApplication().delegate, let optionalWindow = delegate.window, let window = optionalWindow, let image = PixelPerfectCommon.imageByName(name) {
-            let ratio = image.size.height / image.size.width
-            let frame = CGRect(x: 0, y: 0, width: window.frame.width, height: window.frame.width * ratio)
+        if let image = PixelPerfectCommon.imageByName(name) {
+            let frame = CGRect(x: 0, y: 0, width: image.size.width / UIScreen.mainScreen().scale, height: image.size.height / UIScreen.mainScreen().scale)
             imageView.frame = frame
             imageView.image = image
         }
