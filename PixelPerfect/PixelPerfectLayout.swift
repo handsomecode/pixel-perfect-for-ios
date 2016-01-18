@@ -16,7 +16,7 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
     private var imagesNames : [String]!
     private var currentImage : String = ""
     
-    private var images : [PixelPerfectImage]!
+    private var pixelPerfectImages : [PixelPerfectImage]!
     private var currentImagePosition : Int?
     
     private var startDraggingPoint : CGPoint? = nil
@@ -42,16 +42,16 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
         imageDensity = config.imageDensity
         
         if let images = config.withImages {
-            self.images = images
+            self.pixelPerfectImages = images
             self.imagesNames = []
         } else {
-            self.images = []
+            self.pixelPerfectImages = []
             if !loadFromBundle(config.withBundle) && !loadFromBundle(PixelPerfectCommon.getImagesBundlePath()) {
                 self.imagesNames = []
             }
         }
-        if images.count > 0 {
-            setImageWithNameOrDefault(config.image, defaultName: images[0].imageName)
+        if pixelPerfectImages.count > 0 {
+            setImageWithNameOrDefault(config.image, defaultName: pixelPerfectImages[0].imageName)
         } else if imagesNames.count > 0 {
             setImageWithNameOrDefault(config.image, defaultName: imagesNames[0])
         }
@@ -93,7 +93,7 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
             return
         }
         popover = PixelPerfectCommon.bundle().loadNibNamed("PixelPerfectPopover", owner: self, options: nil).first as! PixelPerfectPopover
-        popover.setImageNames(imagesNames)
+        popover.setImages(imagesNames, pixelPerfectImages: pixelPerfectImages)
         popover.restore(getConfig())
         popover.didClose = { pixelPerfectConfig in
             self.setImage(pixelPerfectConfig.imageName)
@@ -238,11 +238,25 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
         if name == currentImage {
             return false
         }
-        if let image = PixelPerfectCommon.imageByName(name) {
+        if pixelPerfectImages.count > 0 {
+            for image in pixelPerfectImages {
+                if image.imageName == name {
+                    return setImage(image.image, name: image.imageName)
+                }
+            }
+        }
+        return setImage(PixelPerfectCommon.imageByName(name), name: name)
+    }
+    
+    private func setImage(image: UIImage?, name : String) -> Bool {
+        if let image = image {
             currentImage = name
             let frame = CGRect(x: 0, y: 0, width: image.size.width / imageDensity, height: image.size.height / imageDensity)
             imageView.frame = frame
             imageView.image = image
+            if inverse {
+                imageView.invertImage()
+            }
             return true
         }
         return false

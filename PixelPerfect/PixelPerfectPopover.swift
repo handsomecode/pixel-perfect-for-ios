@@ -21,6 +21,7 @@ class PixelPerfectPopover : PixelPerfectView  {
     @IBOutlet weak var offsetLabel: UILabel!
     
     private var imagesNames : [String]!
+    private var pixelPerfectImages : [PixelPerfectImage]!
     private var config : PixelPerfectConfig!
     
     override func awakeFromNib() {
@@ -31,11 +32,15 @@ class PixelPerfectPopover : PixelPerfectView  {
         self.layer.shadowRadius = 6.0
         self.layer.masksToBounds = false
         
+        opacitySlider.minimumValue = 0.05
+        opacitySlider.maximumValue = 0.95
+        
         setupCollectionView()
     }
     
-    func setImageNames(imagesNames : [String]) {
+    func setImages(imagesNames : [String], pixelPerfectImages : [PixelPerfectImage]) {
         self.imagesNames = imagesNames
+        self.pixelPerfectImages = pixelPerfectImages
     }
     
     func restore(config : PixelPerfectConfig?) {
@@ -92,12 +97,21 @@ extension PixelPerfectPopover : UICollectionViewDataSource {
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return imagesNames.count
+        return pixelPerfectImages.count > 0 ? pixelPerfectImages.count : imagesNames.count
     }
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("albumItem", forIndexPath: indexPath) as! PixelPerfectItemViewCell
-        cell.setup(PixelPerfectCommon.imageByName(imagesNames[indexPath.row]), label: imagesNames[indexPath.row])
+        var image : UIImage!
+        var name : String!
+        if pixelPerfectImages.count > 0 {
+           image = pixelPerfectImages[indexPath.row].image
+           name = pixelPerfectImages[indexPath.row].imageName
+        } else {
+            image = PixelPerfectCommon.imageByName(imagesNames[indexPath.row])
+            name = imagesNames[indexPath.row]
+        }
+        cell.setup(image, label: name)
         return cell
     }
 }
@@ -112,8 +126,9 @@ extension PixelPerfectPopover : UICollectionViewDelegateFlowLayout {
 extension PixelPerfectPopover : UICollectionViewDelegate {
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        imageNameLabel.text = imagesNames[indexPath.row]
-        config.imageName = imagesNames[indexPath.row]
+        let imageName = pixelPerfectImages.count > 0 ? pixelPerfectImages[indexPath.row].imageName : imagesNames[indexPath.row]
+        imageNameLabel.text = imageName
+        config.imageName = imageName
         imagesCollectionView.hidden = true
     }
 }
