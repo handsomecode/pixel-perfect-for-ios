@@ -16,11 +16,12 @@ class ViewController: UIViewController {
     }
 
     @IBAction func ppPressed(sender: AnyObject) {
-        if PixelPerfectController.isShown() {
-            PixelPerfectController.hide()
+        if PixelPerfect.instance().isShown() {
+            PixelPerfect.instance().hide()
         } else {
-            PixelPerfectController.show()
+            PixelPerfect.instance().show()
         }
+        
     }
 }
 

@@ -35,6 +35,7 @@
 		B94EDCEE1C44B1CE00D25066 /* UIShortPressGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94EDCED1C44B1CE00D25066 /* UIShortPressGestureRecognizer.swift */; };
 		B94EDCFE1C4784A600D25066 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B94EDCFC1C4784A600D25066 /* Fabric.framework */; };
 		B94EDCFF1C4784A600D25066 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B94EDCFD1C4784A600D25066 /* Crashlytics.framework */; };
+		B960E75F1C4CB8A9008BF7C0 /* PixelPerfectImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B960E75E1C4CB8A9008BF7C0 /* PixelPerfectImage.swift */; };
 		B97629DD1C3BD2AB00E06593 /* PixelPerfect.h in Headers */ = {isa = PBXBuildFile; fileRef = B97629DC1C3BD2AB00E06593 /* PixelPerfect.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B9D5C4DC1C48AC1B00F30282 /* right-arrow@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B9D5C4DB1C48AC1B00F30282 /* right-arrow@3x.png */; };
 		B9D5C4DF1C48DDA300F30282 /* pixelperfect.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B9D5C4DE1C48DDA300F30282 /* pixelperfect.bundle */; };
@@ -97,6 +98,7 @@
 		B94EDCED1C44B1CE00D25066 /* UIShortPressGestureRecognizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIShortPressGestureRecognizer.swift; sourceTree = "<group>"; };
 		B94EDCFC1C4784A600D25066 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = SOURCE_ROOT; };
 		B94EDCFD1C4784A600D25066 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = SOURCE_ROOT; };
+		B960E75E1C4CB8A9008BF7C0 /* PixelPerfectImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PixelPerfectImage.swift; sourceTree = "<group>"; };
 		B97629D91C3BD2AB00E06593 /* PixelPerfect.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PixelPerfect.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B97629DC1C3BD2AB00E06593 /* PixelPerfect.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PixelPerfect.h; sourceTree = "<group>"; };
 		B97629DE1C3BD2AB00E06593 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -170,6 +172,7 @@
 				B90C9F381C3CD903000F0833 /* PixelPerfectConfig.swift */,
 				B90C9F391C3CD903000F0833 /* PixelPerfectController.swift */,
 				B90C9F3A1C3CD903000F0833 /* PixelPerfectImageViewCell.swift */,
+				B960E75E1C4CB8A9008BF7C0 /* PixelPerfectImage.swift */,
 				B90C9F3B1C3CD903000F0833 /* PixelPerfectItemViewCell.xib */,
 				B90C9F3C1C3CD903000F0833 /* PixelPerfectLayout.swift */,
 				B90C9F3D1C3CD903000F0833 /* PixelPerfectMagnifier.swift */,
@@ -349,6 +352,7 @@
 				B90C9F571C3CD903000F0833 /* UIDoubleTapAndWaitGestureRecognizer.swift in Sources */,
 				B94EDCEE1C44B1CE00D25066 /* UIShortPressGestureRecognizer.swift in Sources */,
 				B90C9F4E1C3CD903000F0833 /* PixelPerfectLayout.swift in Sources */,
+				B960E75F1C4CB8A9008BF7C0 /* PixelPerfectImage.swift in Sources */,
 				B90C9F4A1C3CD903000F0833 /* PixelPerfectConfig.swift in Sources */,
 				B90C9F4B1C3CD903000F0833 /* PixelPerfectController.swift in Sources */,
 				B90C9F4F1C3CD903000F0833 /* PixelPerfectMagnifier.swift in Sources */,

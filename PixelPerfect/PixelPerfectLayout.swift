@@ -15,7 +15,10 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
     
     private var imagesNames : [String]!
     private var currentImage : String = ""
-    private var abortTouch = true
+    
+    private var images : [PixelPerfectImage]!
+    private var currentImagePosition : Int?
+    
     private var startDraggingPoint : CGPoint? = nil
     private var startOpacityPoint : CGPoint? = nil
     private var startOpacityValue : CGFloat!
@@ -23,32 +26,47 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
     private var isMicroPositioningEnabled : Bool!
     private var fixedOverlayOffset = CGPoint(x: 0, y: 0)
     private var inverse = false
-    private var config : PixelPerfectConfig?
+    private var actionButtonTrailing : NSLayoutConstraint!
+    private var actionButtonBottom : NSLayoutConstraint!
     
     private let imageView = UIImageView()
     private var popover : PixelPerfectPopover!
     private var magnifier : PixelPerfectMagnifier?
     private var offsetView : PixelPerfectOffsetView?
     
-    private var actionButtonTrailing : NSLayoutConstraint!
-    private var actionButtonBottom : NSLayoutConstraint!
+    private var imageDensity : CGFloat!
     
-    convenience init () {
-        self.init(frame:CGRect.zero)
-    }
-    
-    override init (frame : CGRect) {
+    init(config : PixelPerfectBuilderConfig, frame : CGRect) {
         super.init(frame : frame)
         
-        if let bundlePath = PixelPerfectCommon.getImagesBundlePath() {
-            do {
-                imagesNames = try NSFileManager.defaultManager().contentsOfDirectoryAtPath(bundlePath)
-                setImage(imagesNames[0])
-            } catch {
-                imagesNames = []
-            }
+        imageDensity = config.imageDensity
+        
+        if let images = config.withImages {
+            self.images = images
+            self.imagesNames = []
         } else {
-            imagesNames = []
+            self.images = []
+            if !loadFromBundle(config.withBundle) && !loadFromBundle(PixelPerfectCommon.getImagesBundlePath()) {
+                self.imagesNames = []
+            }
+        }
+        if images.count > 0 {
+            setImageWithNameOrDefault(config.image, defaultName: images[0].imageName)
+        } else if imagesNames.count > 0 {
+            setImageWithNameOrDefault(config.image, defaultName: imagesNames[0])
+        }
+        
+        if let inverse = config.inverse {
+            if inverse {
+                self.inverse = true
+                imageView.invertImage()
+            }
+        }
+        
+        if let transparency = config.transparency {
+            imageView.alpha = CGFloat(transparency)
+        } else {
+            imageView.alpha = 0.5
         }
         
         addImageView()
@@ -78,7 +96,6 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
         popover.setImageNames(imagesNames)
         popover.restore(getConfig())
         popover.didClose = { pixelPerfectConfig in
-            self.config = pixelPerfectConfig
             self.setImage(pixelPerfectConfig.imageName)
             self.imageView.alpha = pixelPerfectConfig.opacity
             if self.inverse != pixelPerfectConfig.inverse {
@@ -217,21 +234,44 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
         }
     }
     
-    func setImage(name : String) {
+    func setImage(name : String) -> Bool {
         if name == currentImage {
-            return
+            return false
         }
-        currentImage = name
         if let image = PixelPerfectCommon.imageByName(name) {
-            let frame = CGRect(x: 0, y: 0, width: image.size.width / UIScreen.mainScreen().scale, height: image.size.height / UIScreen.mainScreen().scale)
+            currentImage = name
+            let frame = CGRect(x: 0, y: 0, width: image.size.width / imageDensity, height: image.size.height / imageDensity)
             imageView.frame = frame
             imageView.image = image
+            return true
         }
+        return false
+    }
+    
+    private func setImageWithNameOrDefault(name : String?, defaultName : String) {
+        if let name = name {
+            if !setImage(name) {
+                setImage(defaultName)
+            }
+        } else {
+            setImage(defaultName)
+        }
+    }
+    
+    private func loadFromBundle(bundlePath : String?) -> Bool {
+        if let bundlePath = bundlePath {
+            do {
+                imagesNames = try NSFileManager.defaultManager().contentsOfDirectoryAtPath(bundlePath)
+                return true
+            } catch {
+                return false
+            }
+        }
+        return false
     }
     
     private func addImageView() {
         addSubview(imageView)
-        imageView.alpha = 0.5
         imageView.userInteractionEnabled = true
     }
     
