@@ -12,6 +12,7 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
     
     private let kMicroPositioningOffset : CGFloat = 7
     private let kMicroPositioningFactor : CGFloat = 7
+    private let kOverlayMinimumVisibleSize : CGFloat = 50
     
     private var imagesNames : [String]!
     private var currentImage : String = ""
@@ -208,8 +209,6 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
             isHorizontalDragging = nil
             isMicroPositioningEnabled = true
         } else if gestureRecognizer.state == .Changed {
-            updateOffsetView(gestureRecognizer.locationInView(self))
-            
             guard let startDraggingPoint = startDraggingPoint else {
                 return
             }
@@ -221,11 +220,26 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
                 isMicroPositioningEnabled = isHorizontalDragging! ? abs(currentDraggingPoint.x - startDraggingPoint.x) < kMicroPositioningOffset : abs(currentDraggingPoint.y - startDraggingPoint.y) < kMicroPositioningOffset
             }
             if isHorizontalDragging! {
-                imageView.center.x += isMicroPositioningEnabled! ? (currentDraggingPoint.x - startDraggingPoint.x) / kMicroPositioningFactor : currentDraggingPoint.x - startDraggingPoint.x
+                let dx = isMicroPositioningEnabled! ? (currentDraggingPoint.x - startDraggingPoint.x) / kMicroPositioningFactor : currentDraggingPoint.x - startDraggingPoint.x
+                if imageView.frame.origin.x + imageView.frame.size.width + dx < kOverlayMinimumVisibleSize {
+                   imageView.frame.origin.x = kOverlayMinimumVisibleSize - imageView.frame.size.width
+                } else if imageView.frame.origin.x + dx > frame.size.width - kOverlayMinimumVisibleSize {
+                   imageView.frame.origin.x = frame.size.width - kOverlayMinimumVisibleSize
+                } else {
+                    imageView.center.x += dx
+                }
             } else {
-                imageView.center.y += isMicroPositioningEnabled! ? (currentDraggingPoint.y - startDraggingPoint.y) / kMicroPositioningFactor : currentDraggingPoint.y - startDraggingPoint.y
+                let dy = isMicroPositioningEnabled! ? (currentDraggingPoint.y - startDraggingPoint.y) / kMicroPositioningFactor : currentDraggingPoint.y - startDraggingPoint.y
+                if imageView.frame.origin.y + imageView.frame.size.height + dy < kOverlayMinimumVisibleSize {
+                    imageView.frame.origin.y = kOverlayMinimumVisibleSize - imageView.frame.size.height
+                } else if imageView.frame.origin.y + dy > frame.size.height - kOverlayMinimumVisibleSize {
+                    imageView.frame.origin.y = frame.size.height - kOverlayMinimumVisibleSize
+                } else {
+                    imageView.center.y += dy
+                }
             }
             self.startDraggingPoint = currentDraggingPoint
+            updateOffsetView(gestureRecognizer.locationInView(self))
             
             if let magnifier = magnifier {
                 magnifier.setOverlayOffset(imageView.frame.origin.x, dy: imageView.frame.origin.y)
@@ -254,6 +268,7 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
             let frame = CGRect(x: 0, y: 0, width: image.size.width / imageDensity, height: image.size.height / imageDensity)
             imageView.frame = frame
             imageView.image = image
+            imageView.addDashedBorder()
             if inverse {
                 imageView.invertImage()
             }

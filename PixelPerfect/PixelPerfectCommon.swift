@@ -48,4 +48,25 @@ extension UIImageView {
             image = UIGraphicsGetImageFromCurrentImageContext()
         }
     }
+    
+    func addDashedBorder() {
+        layer.sublayers?.removeAll()
+        
+        let frameSize = frame.size
+        let shapeRect = CGRect(x: -0.5, y: -0.5, width: frameSize.width + 1, height: frameSize.height + 1)
+        let color = UIColor.blackColor().CGColor
+        
+        let shapeLayer:CAShapeLayer = CAShapeLayer()
+        
+        shapeLayer.bounds = shapeRect
+        shapeLayer.position = CGPoint(x: frameSize.width / 2, y: frameSize.height / 2)
+        shapeLayer.fillColor = UIColor.clearColor().CGColor
+        shapeLayer.strokeColor = color
+        shapeLayer.lineWidth = 0.5
+        shapeLayer.lineJoin = kCALineJoinRound
+        shapeLayer.lineDashPattern = [6,3]
+        shapeLayer.path = UIBezierPath(roundedRect: shapeRect, cornerRadius: 0).CGPath
+        
+        self.layer.addSublayer(shapeLayer)
+    }
 }
