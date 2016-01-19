@@ -11,8 +11,25 @@ import PixelPerfect
 
 class ViewController: UIViewController {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    @IBOutlet weak var labelTopConstaint: NSLayoutConstraint!
+    
+    private let originalTopConstraint : CGFloat = 290
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        labelTopConstaint.constant = originalTopConstraint - 3
+        view.layoutIfNeeded()
+        let incorrect = PixelPerfectImage(image: makeScreenshot(), imageName: "incorrect")
+        labelTopConstaint.constant = originalTopConstraint
+        view.layoutIfNeeded()
+        let correct = PixelPerfectImage(image: makeScreenshot(), imageName: "correct")
+        
+        let pixelPerfect = PixelPerfect.Builder(buildClosure: { builder in
+            builder.withImages = [incorrect, correct]
+            builder.imageDensity = 1
+        }).build()
+        PixelPerfect.setSingletonInstance(pixelPerfect)
     }
 
     @IBAction func ppPressed(sender: AnyObject) {
@@ -22,6 +39,14 @@ class ViewController: UIViewController {
             PixelPerfect.instance().show()
         }
         
+    }
+    
+    private func makeScreenshot() -> UIImage {
+        UIGraphicsBeginImageContextWithOptions(self.view.frame.size, false, 0)
+        view.layer.renderInContext(UIGraphicsGetCurrentContext()!)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return image
     }
 }
 

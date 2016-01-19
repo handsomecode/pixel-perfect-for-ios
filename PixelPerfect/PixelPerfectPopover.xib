@@ -203,6 +203,9 @@
                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="qYe-2D-2q7">
                                     <rect key="frame" x="509" y="8" width="51" height="31"/>
                                     <color key="onTintColor" white="0.0" alpha="0.7466216216216216" colorSpace="calibratedWhite"/>
+                                    <connections>
+                                        <action selector="inverseChanged:" destination="iN0-l3-epB" eventType="valueChanged" id="1ZS-50-lFI"/>
+                                    </connections>
                                 </switch>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

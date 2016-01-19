@@ -24,6 +24,10 @@ public class PixelPerfect {
     }
     
     public static func setSingletonInstance(instance: PixelPerfect) {
+        if inst == nil {
+            inst = instance
+            return
+        }
         let wasShown = inst.shown
         inst = instance
         if wasShown {

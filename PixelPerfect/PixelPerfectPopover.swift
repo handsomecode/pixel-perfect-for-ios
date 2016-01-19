@@ -81,6 +81,13 @@ class PixelPerfectPopover : PixelPerfectView  {
         opacityView.alpha = CGFloat((sender as! UISlider).value)
     }
     
+    @IBAction func inverseChanged(sender: AnyObject) {
+        if (sender as! UISwitch).on {
+            opacitySlider.value = 0.5
+            opacityChanged(opacitySlider)
+        }
+    }
+    
     private func setOffset(x: Int, y: Int) {
         offsetLabel.text = "(\(x)px, \(y)px)"
     }
