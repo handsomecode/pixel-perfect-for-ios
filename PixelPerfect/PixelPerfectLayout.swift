@@ -86,7 +86,7 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
         return popover == nil
     }
     
-    func actionPressed(gestureRecognizer:UIGestureRecognizer) {
+    func overlayTapped(gestureRecognizer:UIGestureRecognizer) {
         if popover != nil {
             return
         }
@@ -305,15 +305,10 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
     }
     
     private func addGestureRecognizers() {
-        let doubletap =  UITapGestureRecognizer(target: self, action: "showZoom:")
-        doubletap.numberOfTapsRequired = 2
-        imageView.addGestureRecognizer(doubletap)
-        
         let doubleTapAndWait =  UIDoubleTapAndWaitGestureRecognizer(target: self, action: "resetPosition:")
-        doubleTapAndWait.requireGestureRecognizerToFail(doubletap)
         imageView.addGestureRecognizer(doubleTapAndWait)
         
-        let tap =  UITapGestureRecognizer(target: self, action: "actionPressed:")
+        let tap =  UITapGestureRecognizer(target: self, action: "overlayTapped:")
         tap.numberOfTapsRequired = 1
         tap.requireGestureRecognizerToFail(doubleTapAndWait)
         imageView.addGestureRecognizer(tap)
@@ -355,6 +350,6 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
     
     private func updateOffsetView(fingerPosition : CGPoint) {
         offsetView?.showOffset(-Int(imageView.frame.origin.x * UIScreen.mainScreen().scale - fixedOverlayOffset.x), y: -Int(imageView.frame.origin.y * UIScreen.mainScreen().scale - fixedOverlayOffset.y))
-        offsetView?.center = CGPoint(x: fingerPosition.x, y: fingerPosition.y - 20)
+        offsetView?.center = CGPoint(x: fingerPosition.x, y: fingerPosition.y - 50)
     }
 }
