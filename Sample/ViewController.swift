@@ -29,7 +29,6 @@ class ViewController: UIViewController {
         
         let pixelPerfect = PixelPerfect.Builder(buildClosure: { builder in
             builder.withImages = [incorrect, correct]
-            builder.imageDensity = 2
         }).build()
         ppButton.hidden = false
         PixelPerfect.setSingletonInstance(pixelPerfect)
