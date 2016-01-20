@@ -15,29 +15,30 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UjF-DB-p2f">
-                        <rect key="frame" x="47" y="59" width="100" height="100"/>
+                        <rect key="frame" x="0.0" y="0.0" width="193" height="217"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kyn-8H-qrz">
-                                <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                <rect key="frame" x="1" y="1" width="191" height="215"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xtB-Dg-Y1X">
-                                <rect key="frame" x="0.0" y="80" width="100" height="20"/>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="0.51520270270270274" colorSpace="calibratedWhite"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xtB-Dg-Y1X">
+                                <rect key="frame" x="0.0" y="187" width="193" height="30"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.60383234797297303" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="dhB-FJ-FcS"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="kyn-8H-qrz" firstAttribute="top" secondItem="UjF-DB-p2f" secondAttribute="top" id="8SM-Qo-WEX"/>
+                            <constraint firstItem="kyn-8H-qrz" firstAttribute="top" secondItem="UjF-DB-p2f" secondAttribute="top" constant="1" id="8SM-Qo-WEX"/>
                             <constraint firstAttribute="trailing" secondItem="xtB-Dg-Y1X" secondAttribute="trailing" id="AwS-rS-kkX"/>
-                            <constraint firstItem="kyn-8H-qrz" firstAttribute="leading" secondItem="UjF-DB-p2f" secondAttribute="leading" id="Fg9-AR-0Qd"/>
+                            <constraint firstItem="kyn-8H-qrz" firstAttribute="leading" secondItem="UjF-DB-p2f" secondAttribute="leading" constant="1" id="Fg9-AR-0Qd"/>
                             <constraint firstItem="xtB-Dg-Y1X" firstAttribute="leading" secondItem="UjF-DB-p2f" secondAttribute="leading" id="GYV-k3-jdj"/>
-                            <constraint firstAttribute="height" constant="100" id="NkM-KR-Bt8"/>
-                            <constraint firstAttribute="width" constant="100" id="Rrd-e9-64a"/>
-                            <constraint firstAttribute="trailing" secondItem="kyn-8H-qrz" secondAttribute="trailing" id="ZzS-Dm-1bb"/>
-                            <constraint firstAttribute="bottom" secondItem="kyn-8H-qrz" secondAttribute="bottom" id="ceq-UQ-bah"/>
+                            <constraint firstAttribute="trailing" secondItem="kyn-8H-qrz" secondAttribute="trailing" constant="1" id="ZzS-Dm-1bb"/>
+                            <constraint firstAttribute="bottom" secondItem="kyn-8H-qrz" secondAttribute="bottom" constant="1" id="ceq-UQ-bah"/>
                             <constraint firstAttribute="bottom" secondItem="xtB-Dg-Y1X" secondAttribute="bottom" id="vD3-hi-oc0"/>
                         </constraints>
                     </view>
@@ -45,14 +46,20 @@
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <constraints>
+                <constraint firstItem="UjF-DB-p2f" firstAttribute="leading" secondItem="wDO-1B-BMz" secondAttribute="leading" id="1Yl-9q-oAj"/>
+                <constraint firstItem="UjF-DB-p2f" firstAttribute="top" secondItem="wDO-1B-BMz" secondAttribute="top" id="S2I-gv-JqX"/>
+                <constraint firstAttribute="bottom" secondItem="UjF-DB-p2f" secondAttribute="bottom" id="Sav-5I-IVk"/>
                 <constraint firstItem="UjF-DB-p2f" firstAttribute="leading" secondItem="wDO-1B-BMz" secondAttribute="leading" id="X5N-Rz-x2j"/>
                 <constraint firstItem="UjF-DB-p2f" firstAttribute="centerY" secondItem="wDO-1B-BMz" secondAttribute="centerY" id="aOR-4t-1h8"/>
                 <constraint firstItem="UjF-DB-p2f" firstAttribute="centerX" secondItem="wDO-1B-BMz" secondAttribute="centerX" id="kVV-ti-o9Y"/>
+                <constraint firstAttribute="trailing" secondItem="UjF-DB-p2f" secondAttribute="trailing" id="wTi-bJ-QFn"/>
             </constraints>
             <size key="customSize" width="193" height="217"/>
             <variation key="default">
                 <mask key="constraints">
                     <exclude reference="X5N-Rz-x2j"/>
+                    <exclude reference="aOR-4t-1h8"/>
+                    <exclude reference="kVV-ti-o9Y"/>
                 </mask>
             </variation>
             <connections>

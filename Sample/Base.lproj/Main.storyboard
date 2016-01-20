@@ -3,7 +3,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -18,50 +17,57 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cat" translatesAutoresizingMaskIntoConstraints="NO" id="cM5-w9-ohL">
-                                <rect key="frame" x="167" y="52" width="267" height="297"/>
+                            <view clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dxb-zp-aCP">
+                                <rect key="frame" x="20" y="30" width="560" height="500"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cat" translatesAutoresizingMaskIntoConstraints="NO" id="cM5-w9-ohL">
+                                        <rect key="frame" x="0.0" y="0.0" width="560" height="500"/>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pixel Perfect" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4c4-co-cWO">
+                                        <rect key="frame" x="171" y="432" width="218" height="48"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="40"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="232" id="8vH-k5-Mb6"/>
-                                    <constraint firstAttribute="width" constant="191" id="N9F-21-3sa"/>
-                                    <constraint firstAttribute="width" constant="267" id="l0q-jB-0XW"/>
-                                    <constraint firstAttribute="height" constant="297" id="m5T-NB-yfN"/>
+                                    <constraint firstAttribute="bottom" secondItem="4c4-co-cWO" secondAttribute="bottom" constant="20" id="1fO-Gd-o5f"/>
+                                    <constraint firstAttribute="bottom" secondItem="cM5-w9-ohL" secondAttribute="bottom" id="9KZ-Iv-9kj"/>
+                                    <constraint firstItem="4c4-co-cWO" firstAttribute="centerX" secondItem="dxb-zp-aCP" secondAttribute="centerX" id="SBn-bJ-UMa"/>
+                                    <constraint firstItem="cM5-w9-ohL" firstAttribute="top" secondItem="dxb-zp-aCP" secondAttribute="top" id="rt5-XL-vZ3"/>
+                                    <constraint firstAttribute="trailing" secondItem="cM5-w9-ohL" secondAttribute="trailing" id="t35-dm-SKl"/>
+                                    <constraint firstItem="cM5-w9-ohL" firstAttribute="leading" secondItem="dxb-zp-aCP" secondAttribute="leading" id="zje-SJ-wfD"/>
                                 </constraints>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="8vH-k5-Mb6"/>
-                                        <exclude reference="N9F-21-3sa"/>
-                                    </mask>
-                                </variation>
-                            </imageView>
+                            </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JbN-8m-CKh">
-                                <rect key="frame" x="255" y="396" width="90" height="55"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="36"/>
-                                <state key="normal" title="Show">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
+                                <rect key="frame" x="279" y="547" width="43" height="33"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <state key="normal" title="Show"/>
                                 <connections>
                                     <action selector="ppPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="TB5-VT-jZc"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pixel Perfect" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4c4-co-cWO">
-                                <rect key="frame" x="236" y="290" width="127" height="28"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="23"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
-                        <color key="backgroundColor" red="0.84705882352941175" green="0.84705882352941175" blue="0.84705882352941175" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="JbN-8m-CKh" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="1nc-qP-eYx"/>
-                            <constraint firstItem="4c4-co-cWO" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="3YD-WH-dEf"/>
-                            <constraint firstItem="cM5-w9-ohL" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="7IU-H1-8xx"/>
-                            <constraint firstItem="4c4-co-cWO" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" constant="290" id="Rz1-QG-SaI"/>
-                            <constraint firstItem="cM5-w9-ohL" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" constant="52" id="UcA-Pb-o8l"/>
-                            <constraint firstItem="JbN-8m-CKh" firstAttribute="top" secondItem="cM5-w9-ohL" secondAttribute="bottom" constant="47" id="gaD-Sp-DbP"/>
+                            <constraint firstAttribute="trailing" secondItem="dxb-zp-aCP" secondAttribute="trailing" constant="20" id="AlJ-da-VRP"/>
+                            <constraint firstAttribute="bottom" secondItem="JbN-8m-CKh" secondAttribute="bottom" constant="20" id="ben-3r-6VM"/>
+                            <constraint firstAttribute="bottom" secondItem="dxb-zp-aCP" secondAttribute="bottom" constant="70" id="fSf-G9-guy"/>
+                            <constraint firstItem="JbN-8m-CKh" firstAttribute="top" secondItem="dxb-zp-aCP" secondAttribute="bottom" constant="20" id="jpc-bv-Xcf"/>
+                            <constraint firstItem="dxb-zp-aCP" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="30" id="m3C-7Y-PYL"/>
+                            <constraint firstItem="dxb-zp-aCP" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="20" id="qlq-0n-GAy"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="jpc-bv-Xcf"/>
+                            </mask>
+                        </variation>
                     </view>
                     <connections>
-                        <outlet property="labelTopConstaint" destination="Rz1-QG-SaI" id="z48-VE-gOd"/>
+                        <outlet property="labelBottomConstaint" destination="1fO-Gd-o5f" id="iSD-u6-WYg"/>
+                        <outlet property="ppButton" destination="JbN-8m-CKh" id="eWR-zV-uCM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

@@ -39,10 +39,10 @@ extension UIImageView {
             originalImage.drawInRect(imageRect)
             
             CGContextSetBlendMode(UIGraphicsGetCurrentContext(), .Difference);
-            CGContextTranslateCTM(UIGraphicsGetCurrentContext(), 0, originalImage.size.height);
-            CGContextScaleCTM(UIGraphicsGetCurrentContext(), 1.0, -1.0);
+            //CGContextTranslateCTM(UIGraphicsGetCurrentContext(), 0, originalImage.size.height);
+            //CGContextScaleCTM(UIGraphicsGetCurrentContext(), 1.0, -1.0);
             //mask the image
-            CGContextClipToMask(UIGraphicsGetCurrentContext(), imageRect,  originalImage.CGImage);
+            //CGContextClipToMask(UIGraphicsGetCurrentContext(), imageRect,  originalImage.CGImage);
             CGContextSetFillColorWithColor(UIGraphicsGetCurrentContext(),UIColor.whiteColor().CGColor);
             CGContextFillRect(UIGraphicsGetCurrentContext(), CGRectMake(0, 0, originalImage.size.width, originalImage.size.height));
             image = UIGraphicsGetImageFromCurrentImageContext()

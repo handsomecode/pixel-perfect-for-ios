@@ -112,8 +112,8 @@ extension PixelPerfectPopover : UICollectionViewDataSource {
         var image : UIImage!
         var name : String!
         if pixelPerfectImages.count > 0 {
-           image = pixelPerfectImages[indexPath.row].image
-           name = pixelPerfectImages[indexPath.row].imageName
+            image = pixelPerfectImages[indexPath.row].image
+            name = pixelPerfectImages[indexPath.row].imageName
         } else {
             image = PixelPerfectCommon.imageByName(imagesNames[indexPath.row])
             name = imagesNames[indexPath.row]
@@ -126,7 +126,8 @@ extension PixelPerfectPopover : UICollectionViewDataSource {
 extension PixelPerfectPopover : UICollectionViewDelegateFlowLayout {
 
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        return CGSize(width: 100, height: 100)
+        let width = (UIScreen.mainScreen().bounds.width - 100 ) / 3
+        return CGSize(width: width, height: UIScreen.mainScreen().bounds.height / UIScreen.mainScreen().bounds.width * width)
     }
 }
 
