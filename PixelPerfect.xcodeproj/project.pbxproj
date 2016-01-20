@@ -36,6 +36,7 @@
 		B94EDCFE1C4784A600D25066 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B94EDCFC1C4784A600D25066 /* Fabric.framework */; };
 		B94EDCFF1C4784A600D25066 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B94EDCFD1C4784A600D25066 /* Crashlytics.framework */; };
 		B960E75F1C4CB8A9008BF7C0 /* PixelPerfectImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B960E75E1C4CB8A9008BF7C0 /* PixelPerfectImage.swift */; };
+		B96A43CA1C4F6F5F0084EC97 /* icon-back@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B96A43C91C4F6F5F0084EC97 /* icon-back@3x.png */; };
 		B97629DD1C3BD2AB00E06593 /* PixelPerfect.h in Headers */ = {isa = PBXBuildFile; fileRef = B97629DC1C3BD2AB00E06593 /* PixelPerfect.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B9D5C4DC1C48AC1B00F30282 /* right-arrow@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B9D5C4DB1C48AC1B00F30282 /* right-arrow@3x.png */; };
 		B9D5C4DF1C48DDA300F30282 /* pixelperfect.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B9D5C4DE1C48DDA300F30282 /* pixelperfect.bundle */; };
@@ -99,6 +100,7 @@
 		B94EDCFC1C4784A600D25066 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = SOURCE_ROOT; };
 		B94EDCFD1C4784A600D25066 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = SOURCE_ROOT; };
 		B960E75E1C4CB8A9008BF7C0 /* PixelPerfectImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PixelPerfectImage.swift; sourceTree = "<group>"; };
+		B96A43C91C4F6F5F0084EC97 /* icon-back@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-back@3x.png"; sourceTree = "<group>"; };
 		B97629D91C3BD2AB00E06593 /* PixelPerfect.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PixelPerfect.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B97629DC1C3BD2AB00E06593 /* PixelPerfect.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PixelPerfect.h; sourceTree = "<group>"; };
 		B97629DE1C3BD2AB00E06593 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -166,6 +168,7 @@
 			children = (
 				B97629DC1C3BD2AB00E06593 /* PixelPerfect.h */,
 				B90C9F341C3CD903000F0833 /* icon-close@3x.png */,
+				B96A43C91C4F6F5F0084EC97 /* icon-back@3x.png */,
 				B90C9F351C3CD903000F0833 /* PixelPerfectActionButton.swift */,
 				B90C9F361C3CD903000F0833 /* PixelPerfectActionButton.xib */,
 				B90C9F371C3CD903000F0833 /* PixelPerfectCommon.swift */,
@@ -303,6 +306,7 @@
 				B94EDCEA1C44AE1700D25066 /* PixelPerfectOffsetView.xib in Resources */,
 				B9D5C4DC1C48AC1B00F30282 /* right-arrow@3x.png in Resources */,
 				B90C9F551C3CD903000F0833 /* pp-both@3x.png in Resources */,
+				B96A43CA1C4F6F5F0084EC97 /* icon-back@3x.png in Resources */,
 				B90C9F481C3CD903000F0833 /* PixelPerfectActionButton.xib in Resources */,
 				B90C9F4D1C3CD903000F0833 /* PixelPerfectItemViewCell.xib in Resources */,
 				B90C9F511C3CD903000F0833 /* PixelPerfectPopover.xib in Resources */,

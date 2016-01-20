@@ -15,7 +15,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="600" height="55"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pixel Perfect" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lyI-kJ-3gz">
-                            <rect key="frame" x="250" y="17" width="101" height="21"/>
+                            <rect key="frame" x="250" y="17" width="101" height="20.5"/>
                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
@@ -34,13 +34,27 @@
                                 <action selector="closePressed:" destination="iN0-l3-epB" eventType="touchUpInside" id="fpo-iB-bhh"/>
                             </connections>
                         </button>
+                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yeQ-bI-pK6">
+                            <rect key="frame" x="0.0" y="5.5" width="44" height="44"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="44" id="9yK-Py-lPe"/>
+                                <constraint firstAttribute="width" constant="44" id="iLX-hW-r1o"/>
+                            </constraints>
+                            <inset key="imageEdgeInsets" minX="12" minY="12" maxX="12" maxY="12"/>
+                            <state key="normal" image="icon-back.png"/>
+                            <connections>
+                                <action selector="backPressed:" destination="iN0-l3-epB" eventType="touchUpInside" id="oDf-fz-TdG"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" red="0.96470588235294119" green="0.96470588235294119" blue="0.96862745098039216" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="bottom" secondItem="lyI-kJ-3gz" secondAttribute="bottom" constant="20" id="1kn-MY-hC1"/>
+                        <constraint firstItem="yeQ-bI-pK6" firstAttribute="leading" secondItem="fR3-pT-lbb" secondAttribute="leading" id="2Xh-cB-H0V"/>
                         <constraint firstItem="lyI-kJ-3gz" firstAttribute="centerX" secondItem="fR3-pT-lbb" secondAttribute="centerX" id="B1W-Mx-1DT"/>
                         <constraint firstItem="lyI-kJ-3gz" firstAttribute="centerY" secondItem="x5n-8w-oZ7" secondAttribute="centerY" id="BdA-q2-dqW"/>
                         <constraint firstAttribute="height" constant="55" id="T47-eI-gOZ"/>
+                        <constraint firstItem="lyI-kJ-3gz" firstAttribute="centerY" secondItem="yeQ-bI-pK6" secondAttribute="centerY" id="XaU-MP-hgp"/>
                         <constraint firstItem="lyI-kJ-3gz" firstAttribute="centerY" secondItem="fR3-pT-lbb" secondAttribute="centerY" id="guA-T9-P9m"/>
                         <constraint firstItem="x5n-8w-oZ7" firstAttribute="leading" secondItem="fR3-pT-lbb" secondAttribute="leading" id="iVd-Aw-Mtc"/>
                     </constraints>
@@ -84,10 +98,10 @@
                                     </constraints>
                                 </imageView>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="onR-Sj-8sO">
-                                    <rect key="frame" x="0.0" y="13" width="529" height="35"/>
+                                    <rect key="frame" x="0.0" y="13.5" width="529" height="34.5"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Image" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pyd-AK-Ozg">
-                                            <rect key="frame" x="0.0" y="0.0" width="529" height="21"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="529" height="20.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -165,7 +179,7 @@
                                     </connections>
                                 </slider>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Transparency" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CPP-H0-m3m">
-                                    <rect key="frame" x="0.0" y="10" width="498" height="21"/>
+                                    <rect key="frame" x="0.0" y="10" width="498" height="20.5"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
@@ -195,7 +209,7 @@
                             <rect key="frame" x="22" y="142" width="558" height="46"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Inverse" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rLX-XG-jY0">
-                                    <rect key="frame" x="0.0" y="13" width="55" height="21"/>
+                                    <rect key="frame" x="0.0" y="13.5" width="55" height="20.5"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
@@ -371,6 +385,8 @@
                 </mask>
             </variation>
             <connections>
+                <outlet property="backButton" destination="yeQ-bI-pK6" id="fH6-B9-7XC"/>
+                <outlet property="closeButton" destination="x5n-8w-oZ7" id="HrM-lK-Ml3"/>
                 <outlet property="imageNameLabel" destination="l3s-Bk-o22" id="zpj-Ec-TO5"/>
                 <outlet property="imagesCollectionView" destination="UaK-jq-ZIF" id="HLG-O0-qUx"/>
                 <outlet property="inverseSwitch" destination="qYe-2D-2q7" id="99t-dU-mNX"/>
@@ -381,6 +397,7 @@
         </view>
     </objects>
     <resources>
+        <image name="icon-back.png" width="42" height="42"/>
         <image name="icon-close.png" width="44" height="44"/>
         <image name="right-arrow.png" width="8" height="13"/>
     </resources>

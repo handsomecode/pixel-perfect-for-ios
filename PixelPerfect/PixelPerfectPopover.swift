@@ -13,6 +13,9 @@ class PixelPerfectPopover : PixelPerfectView  {
     var didClose : ((PixelPerfectConfig) -> ())?
     var didFixOffset : (() -> ())?
     
+    @IBOutlet weak var backButton: UIButton!
+    @IBOutlet weak var closeButton: UIButton!
+    
     @IBOutlet weak var imageNameLabel: UILabel!
     @IBOutlet weak var imagesCollectionView: UICollectionView!
     @IBOutlet weak var inverseSwitch: UISwitch!
@@ -59,16 +62,20 @@ class PixelPerfectPopover : PixelPerfectView  {
     }
     
     @IBAction func closePressed(sender: AnyObject) {
-        if imagesCollectionView.hidden == false {
-            imagesCollectionView.hidden = true
-            return
-        }
         config.inverse = inverseSwitch.on
         config.opacity = CGFloat(opacitySlider.value)
         didClose?(config)
     }
     
+    @IBAction func backPressed(sender: AnyObject) {
+        imagesCollectionView.hidden = true
+        backButton.hidden = true
+        closeButton.hidden = false
+    }
+    
     @IBAction func changeImagePressed(sender: AnyObject) {
+        backButton.hidden = false
+        closeButton.hidden = true
         imagesCollectionView.hidden = false
     }
     
@@ -137,6 +144,6 @@ extension PixelPerfectPopover : UICollectionViewDelegate {
         let imageName = pixelPerfectImages.count > 0 ? pixelPerfectImages[indexPath.row].imageName : imagesNames[indexPath.row]
         imageNameLabel.text = imageName
         config.imageName = imageName
-        imagesCollectionView.hidden = true
+        closePressed(self)
     }
 }
