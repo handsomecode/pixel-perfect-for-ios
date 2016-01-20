@@ -38,7 +38,7 @@ extension UIImageView {
             let imageRect = CGRectMake(0, 0, originalImage.size.width, originalImage.size.height)
             originalImage.drawInRect(imageRect)
             
-            CGContextSetBlendMode(UIGraphicsGetCurrentContext(), .Exclusion);
+            CGContextSetBlendMode(UIGraphicsGetCurrentContext(), .Difference);
             CGContextSetFillColorWithColor(UIGraphicsGetCurrentContext(),UIColor.whiteColor().CGColor);
             CGContextFillRect(UIGraphicsGetCurrentContext(), CGRectMake(0, 0, originalImage.size.width, originalImage.size.height));
             image = UIGraphicsGetImageFromCurrentImageContext()

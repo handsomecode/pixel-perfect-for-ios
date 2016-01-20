@@ -26,7 +26,7 @@ class ViewController: UIViewController {
         labelBottomConstaint.constant = originalBottomConstraint
         view.layoutIfNeeded()
         let correct = PixelPerfectImage(image: makeScreenshot(), imageName: "correct")
-        
+
         let pixelPerfect = PixelPerfect.Builder(buildClosure: { builder in
             builder.withImages = [incorrect, correct]
         }).build()
@@ -45,8 +45,8 @@ class ViewController: UIViewController {
     }
     
     private func makeScreenshot() -> UIImage {
-        UIGraphicsBeginImageContextWithOptions(self.view.frame.size, true, 0)
-        view.drawViewHierarchyInRect(view.bounds, afterScreenUpdates: true)
+        UIGraphicsBeginImageContextWithOptions(self.view.frame.size, true, UIScreen.mainScreen().nativeScale)
+        view.layer.renderInContext(UIGraphicsGetCurrentContext()!)
         let screen = UIGraphicsGetImageFromCurrentImageContext()
         let data : NSData = UIImagePNGRepresentation(screen)!
         let image = UIImage(data: data)
