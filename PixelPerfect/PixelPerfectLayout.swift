@@ -40,6 +40,8 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
     init(config : PixelPerfectBuilderConfig, frame : CGRect) {
         super.init(frame : frame)
         
+        autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        
         imageDensity = config.imageDensity
         
         if let images = config.withImages {

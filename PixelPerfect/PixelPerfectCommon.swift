@@ -33,7 +33,7 @@ extension UIImageView {
     
     func invertImage() {
         if let originalImage = image {
-            UIGraphicsBeginImageContext(originalImage.size)
+            UIGraphicsBeginImageContextWithOptions(originalImage.size, true, UIScreen.mainScreen().scale)
             CGContextSetBlendMode(UIGraphicsGetCurrentContext(), .Copy)
             let imageRect = CGRectMake(0, 0, originalImage.size.width, originalImage.size.height)
             originalImage.drawInRect(imageRect)
@@ -42,6 +42,7 @@ extension UIImageView {
             CGContextSetFillColorWithColor(UIGraphicsGetCurrentContext(),UIColor.whiteColor().CGColor);
             CGContextFillRect(UIGraphicsGetCurrentContext(), CGRectMake(0, 0, originalImage.size.width, originalImage.size.height));
             image = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
         }
     }
     
