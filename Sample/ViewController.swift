@@ -19,19 +19,19 @@ class ViewController: UIViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-//        ppButton.hidden = true
-//        labelBottomConstaint.constant = originalBottomConstraint + 3
-//        view.layoutIfNeeded()
-//        let incorrect = PixelPerfectImage(image: makeScreenshot(), imageName: "incorrect")
-//        labelBottomConstaint.constant = originalBottomConstraint
-//        view.layoutIfNeeded()
-//        let correct = PixelPerfectImage(image: makeScreenshot(), imageName: "correct")
-//
-//        let pixelPerfect = PixelPerfect.Builder(buildClosure: { builder in
-//            builder.withImages = [incorrect, correct]
-//        }).build()
-//        ppButton.hidden = false
-//        PixelPerfect.setSingletonInstance(pixelPerfect)
+        ppButton.hidden = true
+        labelBottomConstaint.constant = originalBottomConstraint + 3
+        view.layoutIfNeeded()
+        let incorrect = PixelPerfectImage(image: makeScreenshot(), imageName: "incorrect")
+        labelBottomConstaint.constant = originalBottomConstraint
+        view.layoutIfNeeded()
+        let correct = PixelPerfectImage(image: makeScreenshot(), imageName: "correct")
+
+        let pixelPerfect = PixelPerfect.Builder(buildClosure: { builder in
+            builder.withImages = [incorrect, correct]
+        }).build()
+        ppButton.hidden = false
+        PixelPerfect.setSingletonInstance(pixelPerfect)
     }
 
     @IBAction func ppPressed(sender: AnyObject) {
