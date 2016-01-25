@@ -1,11 +1,3 @@
-//
-//  UIDoubleTapAndWaitGestureRecognizer.swift
-//  PixelPerfect
-//
-//  Created by Anton Rozhkov on 23/12/15.
-//  Copyright © 2015 Farecompare. All rights reserved.
-//
-
 import UIKit
 import UIKit.UIGestureRecognizerSubclass
 

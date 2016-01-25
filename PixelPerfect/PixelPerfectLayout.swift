@@ -1,11 +1,3 @@
-//
-//  PixelPerfectLayout.swift
-//  PixelPerfect
-//
-//  Created by Anton Rozhkov on 15/12/15.
-//  Copyright © 2015 Farecompare. All rights reserved.
-//
-
 import UIKit
 
 class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {

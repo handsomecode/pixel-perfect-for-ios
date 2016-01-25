@@ -1,11 +1,3 @@
-//
-//  PixelPerfectView.swift
-//  PixelPerfect
-//
-//  Created by Anton Rozhkov on 16/12/15.
-//  Copyright © 2015 Farecompare. All rights reserved.
-//
-
 import UIKit
 
 class PixelPerfectView : UIView {

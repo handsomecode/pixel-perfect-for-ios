@@ -1,11 +1,3 @@
-//
-//  PixelPerfectOffsetView.swift
-//  PixelPerfect
-//
-//  Created by Anton Rozhkov on 12/01/16.
-//  Copyright © 2016 Handsome. All rights reserved.
-//
-
 import UIKit
 
 class PixelPerfectOffsetView : PixelPerfectView {

@@ -1,11 +1,3 @@
-//
-//  PixelPerfectCommon.swift
-//  PixelPerfect
-//
-//  Created by Anton Rozhkov on 05/01/16.
-//  Copyright © 2016 Farecompare. All rights reserved.
-//
-
 import UIKit
 
 class PixelPerfectCommon {

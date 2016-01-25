@@ -1,11 +1,3 @@
-//
-//  PixelPerfectActionButton.swift
-//  PixelPerfect
-//
-//  Created by Anton Rozhkov on 22/12/15.
-//  Copyright © 2015 Farecompare. All rights reserved.
-//
-
 import UIKit
 
 class PixelPerfectActionButton : UIView {
