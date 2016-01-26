@@ -21,6 +21,7 @@ class ViewController: UIViewController {
 
         let pixelPerfect = PixelPerfect.Builder(buildClosure: { builder in
             builder.withImages = [incorrect, correct]
+            builder.imageDensity = 1
         }).build()
         ppButton.hidden = false
         PixelPerfect.setSingletonInstance(pixelPerfect)
@@ -37,13 +38,11 @@ class ViewController: UIViewController {
     }
     
     private func makeScreenshot() -> UIImage {
-        UIGraphicsBeginImageContextWithOptions(self.view.frame.size, true, UIScreen.mainScreen().scale)
-        view.layer.renderInContext(UIGraphicsGetCurrentContext()!)
+        UIGraphicsBeginImageContextWithOptions(self.view.frame.size, true, 0.0)
+        view.drawViewHierarchyInRect(view.bounds, afterScreenUpdates : true)
         let screen = UIGraphicsGetImageFromCurrentImageContext()
-        let data : NSData = UIImagePNGRepresentation(screen)!
-        let image = UIImage(data: data)
         UIGraphicsEndImageContext()
-        return image!
+        return screen
     }
 }
 
