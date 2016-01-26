@@ -198,16 +198,22 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
             addSubview(offsetView!)
             updateOffsetView(gestureRecognizer.locationInView(self))
             
-            startDraggingPoint = gestureRecognizer.locationInView(self)
+            startDraggingPoint = nil
             microOffsetDx = 0
             microOffsetDy = 0
         } else if gestureRecognizer.state == .Ended || gestureRecognizer.state == .Failed {
             offsetView?.removeFromSuperview()
             offsetView = nil
+            startDraggingPoint = nil
             isHorizontalDragging = nil
             microOffsetDx = 0
             microOffsetDy = 0
         } else if gestureRecognizer.state == .Changed {
+            if startDraggingPoint ==  nil {
+                updateOffsetView(gestureRecognizer.locationInView(self))
+                startDraggingPoint = gestureRecognizer.locationInView(self)
+                return
+            }
             guard let startDraggingPoint = startDraggingPoint else {
                 return
             }
@@ -255,12 +261,11 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
                 }
             }
             self.startDraggingPoint = currentDraggingPoint
-            updateOffsetView(gestureRecognizer.locationInView(self))
+            self.updateOffsetView(gestureRecognizer.locationInView(self))
             
             if let magnifier = magnifier {
                 magnifier.setOverlayOffset(imageView.frame.origin.x, dy: imageView.frame.origin.y)
             }
-            
         }
     }
     
