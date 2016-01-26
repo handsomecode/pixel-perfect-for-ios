@@ -362,7 +362,7 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
     }
     
     private func updateOffsetView(fingerPosition : CGPoint) {
-        offsetView?.showOffset(-Int(imageView.frame.origin.x * UIScreen.mainScreen().scale - fixedOverlayOffset.x), y: -Int(imageView.frame.origin.y * UIScreen.mainScreen().scale - fixedOverlayOffset.y))
+        offsetView?.showOffset(-Int(round(imageView.frame.origin.x * UIScreen.mainScreen().scale - fixedOverlayOffset.x)), y: -Int(round(imageView.frame.origin.y * UIScreen.mainScreen().scale - fixedOverlayOffset.y)))
         offsetView?.center = CGPoint(x: fingerPosition.x, y: fingerPosition.y - 50)
     }
 }
