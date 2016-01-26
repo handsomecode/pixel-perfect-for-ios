@@ -14,11 +14,12 @@
                 <rect key="frame" x="0.0" y="0.0" width="193" height="217"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UjF-DB-p2f">
+                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UjF-DB-p2f">
                         <rect key="frame" x="0.0" y="0.0" width="193" height="217"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kyn-8H-qrz">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="first-screen.png" translatesAutoresizingMaskIntoConstraints="NO" id="kyn-8H-qrz">
                                 <rect key="frame" x="1" y="1" width="191" height="215"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xtB-Dg-Y1X">
                                 <rect key="frame" x="0.0" y="187" width="193" height="30"/>
@@ -69,4 +70,7 @@
             <point key="canvasLocation" x="276.5" y="410.5"/>
         </collectionViewCell>
     </objects>
+    <resources>
+        <image name="first-screen.png" width="640" height="1136"/>
+    </resources>
 </document>

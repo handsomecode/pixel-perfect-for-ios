@@ -125,8 +125,10 @@ extension PixelPerfectPopover : UICollectionViewDataSource {
 extension PixelPerfectPopover : UICollectionViewDelegateFlowLayout {
 
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        let width = (UIScreen.mainScreen().bounds.width - 100 ) / 3
-        return CGSize(width: width, height: UIScreen.mainScreen().bounds.height / UIScreen.mainScreen().bounds.width * width)
+        let bigSize = max(frame.width, frame.height)
+        let smallSize = min(frame.width, frame.height)
+        let width = (smallSize - 100 ) / 3
+        return CGSize(width: width, height: bigSize / smallSize * width)
     }
 }
 
