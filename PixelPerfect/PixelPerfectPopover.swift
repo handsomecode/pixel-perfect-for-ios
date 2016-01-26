@@ -136,6 +136,7 @@ extension PixelPerfectPopover : UICollectionViewDelegate {
         let imageName = pixelPerfectImages.count > 0 ? pixelPerfectImages[indexPath.row].imageName : imagesNames[indexPath.row]
         imageNameLabel.text = imageName
         config.imageName = imageName
+        inverseSwitch.on = false
         closePressed(self)
     }
 }

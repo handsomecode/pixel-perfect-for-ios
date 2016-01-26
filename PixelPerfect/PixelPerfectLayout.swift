@@ -91,11 +91,13 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
         popover.setImages(imagesNames, pixelPerfectImages: pixelPerfectImages)
         popover.restore(getConfig())
         popover.didClose = { pixelPerfectConfig in
-            self.setImage(pixelPerfectConfig.imageName)
+            let imageChanged = self.setImage(pixelPerfectConfig.imageName)
             self.imageView.alpha = pixelPerfectConfig.opacity
             if self.inverse != pixelPerfectConfig.inverse {
                 self.inverse = pixelPerfectConfig.inverse
-                self.imageView.invertImage()
+                if !imageChanged {
+                    self.imageView.invertImage()
+                }
             }
             self.popover.removeFromSuperview()
             self.popover = nil
@@ -263,9 +265,6 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
             imageView.frame = frame
             imageView.image = image
             imageView.addDashedBorder()
-            if inverse {
-                imageView.invertImage()
-            }
             return true
         }
         return false
