@@ -2,8 +2,7 @@ import UIKit
 
 class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
     
-    private let kMicroPositioningOffset : CGFloat = 7
-    private let kMicroPositioningFactor : CGFloat = 7
+    private let kMicroPositioningOffset : CGFloat = 5
     private let kOverlayMinimumVisibleSize : CGFloat = 50
     
     private var imagesNames : [String]!
@@ -16,7 +15,6 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
     private var startOpacityPoint : CGPoint? = nil
     private var startOpacityValue : CGFloat!
     private var isHorizontalDragging : Bool? = nil
-    private var isMicroPositioningEnabled : Bool!
     private var fixedOverlayOffset = CGPoint(x: 0, y: 0)
     private var inverse = false
     private var actionButtonTrailing : NSLayoutConstraint!
@@ -26,6 +24,9 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
     private var popover : PixelPerfectPopover!
     private var magnifier : PixelPerfectMagnifier?
     private var offsetView : PixelPerfectOffsetView?
+
+    private var microOffsetDx : CGFloat = 0
+    private var microOffsetDy : CGFloat = 0
     
     private var imageDensity : CGFloat!
     
@@ -198,12 +199,14 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
             updateOffsetView(gestureRecognizer.locationInView(self))
             
             startDraggingPoint = gestureRecognizer.locationInView(self)
-            isMicroPositioningEnabled = true
+            microOffsetDx = 0
+            microOffsetDy = 0
         } else if gestureRecognizer.state == .Ended || gestureRecognizer.state == .Failed {
             offsetView?.removeFromSuperview()
             offsetView = nil
             isHorizontalDragging = nil
-            isMicroPositioningEnabled = true
+            microOffsetDx = 0
+            microOffsetDy = 0
         } else if gestureRecognizer.state == .Changed {
             guard let startDraggingPoint = startDraggingPoint else {
                 return
@@ -212,11 +215,18 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
             if isHorizontalDragging == nil {
                 isHorizontalDragging = abs(currentDraggingPoint.x - startDraggingPoint.x) > abs(currentDraggingPoint.y - startDraggingPoint.y)
             }
-            if isMicroPositioningEnabled! {
-                isMicroPositioningEnabled = isHorizontalDragging! ? abs(currentDraggingPoint.x - startDraggingPoint.x) < kMicroPositioningOffset : abs(currentDraggingPoint.y - startDraggingPoint.y) < kMicroPositioningOffset
-            }
             if isHorizontalDragging! {
-                let dx = isMicroPositioningEnabled! ? (currentDraggingPoint.x - startDraggingPoint.x) / kMicroPositioningFactor : currentDraggingPoint.x - startDraggingPoint.x
+                var dx = currentDraggingPoint.x - startDraggingPoint.x
+                if abs(dx) < kMicroPositioningOffset {
+                    microOffsetDx += dx / (kMicroPositioningOffset)
+                    dx = round(microOffsetDx) / UIScreen.mainScreen().scale
+                    print(dx)
+                    if dx != 0 {
+                        microOffsetDx = 0;
+                    }
+                } else {
+                    microOffsetDx = 0;
+                }
                 if imageView.frame.origin.x + imageView.frame.size.width + dx < kOverlayMinimumVisibleSize {
                    imageView.frame.origin.x = kOverlayMinimumVisibleSize - imageView.frame.size.width
                 } else if imageView.frame.origin.x + dx > frame.size.width - kOverlayMinimumVisibleSize {
@@ -225,7 +235,17 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
                     imageView.center.x += dx
                 }
             } else {
-                let dy = isMicroPositioningEnabled! ? (currentDraggingPoint.y - startDraggingPoint.y) / kMicroPositioningFactor : currentDraggingPoint.y - startDraggingPoint.y
+                var dy = currentDraggingPoint.y - startDraggingPoint.y
+                if abs(dy) < kMicroPositioningOffset {
+                    microOffsetDy += dy / (kMicroPositioningOffset)
+                    dy = round(microOffsetDy) / UIScreen.mainScreen().scale
+                    print(dy)
+                    if dy != 0 {
+                        microOffsetDy = 0;
+                    }
+                } else {
+                    microOffsetDy = 0;
+                }
                 if imageView.frame.origin.y + imageView.frame.size.height + dy < kOverlayMinimumVisibleSize {
                     imageView.frame.origin.y = kOverlayMinimumVisibleSize - imageView.frame.size.height
                 } else if imageView.frame.origin.y + dy > frame.size.height - kOverlayMinimumVisibleSize {
