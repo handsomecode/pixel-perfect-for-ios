@@ -165,9 +165,21 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
         }
     }
     
-    func resetPosition(gestureRecognizer:UIPanGestureRecognizer) {
+    func handleTripleTap(gestureRecognizer: UITripleTapGestureRecognizer) {
         if gestureRecognizer.state == .Ended {
+            inverse = !inverse
+            imageView.invertImage()
+        }
+    }
+    
+    func resetPosition(gestureRecognizer:UIDoubleTapAndWaitGestureRecognizer) {
+        if gestureRecognizer.state == .Ended {
+            if gestureRecognizer.isSecondJustTap {
+                inverse = !inverse
+                imageView.invertImage()
+            } else {
             fixedOverlayOffset = CGPoint(x: Int(imageView.frame.origin.x * UIScreen.mainScreen().scale), y: Int(imageView.frame.origin.y * UIScreen.mainScreen().scale))
+            }
         }
     }
     
@@ -226,7 +238,6 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
                 if abs(dx) < kMicroPositioningOffset {
                     microOffsetDx += dx / (kMicroPositioningOffset)
                     dx = round(microOffsetDx) / UIScreen.mainScreen().scale
-                    print(dx)
                     if dx != 0 {
                         microOffsetDx = 0;
                     }
@@ -245,7 +256,6 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
                 if abs(dy) < kMicroPositioningOffset {
                     microOffsetDy += dy / (kMicroPositioningOffset)
                     dy = round(microOffsetDy) / UIScreen.mainScreen().scale
-                    print(dy)
                     if dy != 0 {
                         microOffsetDy = 0;
                     }
@@ -323,14 +333,15 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
     }
     
     private func addGestureRecognizers() {
+        
         let doubleTapAndWait =  UIDoubleTapAndWaitGestureRecognizer(target: self, action: "resetPosition:")
         imageView.addGestureRecognizer(doubleTapAndWait)
-        
+
         let tap =  UITapGestureRecognizer(target: self, action: "overlayTapped:")
         tap.numberOfTapsRequired = 1
         tap.requireGestureRecognizerToFail(doubleTapAndWait)
         imageView.addGestureRecognizer(tap)
-        
+
         let shortPress = UIShortPressGestureRecognizer(target: self, action: "moveImage:")
         shortPress.requireGestureRecognizerToFail(doubleTapAndWait)
         imageView.addGestureRecognizer(shortPress)
