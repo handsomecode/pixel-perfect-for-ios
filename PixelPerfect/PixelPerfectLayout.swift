@@ -24,11 +24,13 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
     private var popover : PixelPerfectPopover!
     private var magnifier : PixelPerfectMagnifier?
     private var offsetView : PixelPerfectOffsetView?
-
+    private var stubLabel : UILabel?
+    
     private var microOffsetDx : CGFloat = 0
     private var microOffsetDy : CGFloat = 0
     
     private var imageDensity : CGFloat!
+    private var isStubMode = false
     
     init(config : PixelPerfectBuilderConfig, frame : CGRect) {
         super.init(frame : frame)
@@ -36,6 +38,7 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
         autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
         
         imageDensity = config.imageDensity
+        addImageView()
         
         if let images = config.withImages {
             self.pixelPerfectImages = images
@@ -46,12 +49,13 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
                 self.imagesNames = []
             }
         }
-        if pixelPerfectImages.count > 0 {
-            setImageWithNameOrDefault(config.image, defaultName: pixelPerfectImages[0].imageName)
-        } else if imagesNames.count > 0 {
-            setImageWithNameOrDefault(config.image, defaultName: imagesNames[0])
+        if (pixelPerfectImages.count > 0 || imagesNames.count > 0) && config.image != nil {
+            if !setImage(config.image!) {
+                showStubView()
+            }
+        } else {
+            showStubView()
         }
-        
         if let inverse = config.inverse {
             if inverse {
                 self.inverse = true
@@ -64,8 +68,7 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
         } else {
             imageView.alpha = 0.5
         }
-        
-        addImageView()
+    
         addGestureRecognizers()
     }
 
@@ -74,7 +77,7 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
     }
     
     override func pointInside(point: CGPoint, withEvent event: UIEvent?) -> Bool {
-        return imageView.frame.contains(point) || popover != nil
+        return (stubLabel != nil && stubLabel!.frame.contains(point)) || imageView.frame.contains(point) || popover != nil
     }
     
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
@@ -293,6 +296,69 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
         return setImage(PixelPerfectCommon.imageByName(name), name: name)
     }
     
+    func moveStub(gestureRecognizer:UIPanGestureRecognizer) {
+        if popover != nil {
+            return
+        }
+        if gestureRecognizer.state == .Changed {
+            let currentDraggingPoint = gestureRecognizer.locationInView(self)
+            if startDraggingPoint ==  nil {
+                let translation = gestureRecognizer.translationInView(self)
+                startDraggingPoint = CGPoint(x: currentDraggingPoint.x - translation.x, y: currentDraggingPoint.y - translation.y)
+            }
+            guard let startDraggingPoint = startDraggingPoint, stubLabel = stubLabel else {
+                return
+            }
+            if isHorizontalDragging == nil {
+                isHorizontalDragging = abs(currentDraggingPoint.x - startDraggingPoint.x) > abs(currentDraggingPoint.y - startDraggingPoint.y)
+            }
+            if isHorizontalDragging! {
+                let dx = currentDraggingPoint.x - startDraggingPoint.x
+                if stubLabel.frame.origin.x + stubLabel.frame.size.width + dx < kOverlayMinimumVisibleSize {
+                    stubLabel.frame.origin.x = kOverlayMinimumVisibleSize - stubLabel.frame.size.width
+                } else if stubLabel.frame.origin.x + dx > frame.size.width - kOverlayMinimumVisibleSize {
+                    stubLabel.frame.origin.x = frame.size.width - kOverlayMinimumVisibleSize
+                } else {
+                    stubLabel.center.x += dx
+                }
+            } else {
+                let dy = currentDraggingPoint.y - startDraggingPoint.y
+                if stubLabel.frame.origin.y + stubLabel.frame.size.height + dy < kOverlayMinimumVisibleSize {
+                    stubLabel.frame.origin.y = kOverlayMinimumVisibleSize - stubLabel.frame.size.height
+                } else if stubLabel.frame.origin.y + dy > frame.size.height - kOverlayMinimumVisibleSize {
+                    stubLabel.frame.origin.y = frame.size.height - kOverlayMinimumVisibleSize
+                } else {
+                    stubLabel.center.y += dy
+                }
+            }
+            self.startDraggingPoint = currentDraggingPoint
+        } else {
+            startDraggingPoint = nil
+            isHorizontalDragging = nil
+        }
+    }
+    
+    private func showStubView() {
+        stubLabel = UILabel(frame: frame)
+        stubLabel?.backgroundColor = UIColor(white: 0, alpha: 0.3)
+        stubLabel?.textAlignment = .Center
+        stubLabel?.text = "Tap to add image"
+        stubLabel?.font = UIFont.systemFontOfSize(30)
+        stubLabel?.textColor = UIColor.whiteColor()
+        stubLabel?.userInteractionEnabled = true
+
+        let tap =  UITapGestureRecognizer(target: self, action: "overlayTapped:")
+        tap.numberOfTapsRequired = 1
+        stubLabel?.addGestureRecognizer(tap)
+        
+        let pan = UIPanGestureRecognizer(target: self, action: "moveStub:")
+        stubLabel?.addGestureRecognizer(pan)
+        
+        stubLabel?.addDashedBorder()
+        
+        addSubview(stubLabel!)
+    }
+    
     private func setImage(image: UIImage?, name : String) -> Bool {
         if let image = image {
             currentImage = name
@@ -300,19 +366,13 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
             imageView.frame = frame
             imageView.image = image
             imageView.addDashedBorder()
+            if let stubLabel = stubLabel {
+                stubLabel.removeFromSuperview()
+                self.stubLabel = nil
+            }
             return true
         }
         return false
-    }
-    
-    private func setImageWithNameOrDefault(name : String?, defaultName : String) {
-        if let name = name {
-            if !setImage(name) {
-                setImage(defaultName)
-            }
-        } else {
-            setImage(defaultName)
-        }
     }
     
     private func loadFromBundle(bundlePath : String?) -> Bool {
@@ -333,7 +393,6 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
     }
     
     private func addGestureRecognizers() {
-        
         let doubleTapAndWait =  UIDoubleTapAndWaitGestureRecognizer(target: self, action: "resetPosition:")
         imageView.addGestureRecognizer(doubleTapAndWait)
 

@@ -21,22 +21,7 @@ class PixelPerfectCommon {
     }
 }
 
-extension UIImageView {
-    
-    func invertImage() {
-        if let originalImage = image {
-            UIGraphicsBeginImageContextWithOptions(originalImage.size, true, UIScreen.mainScreen().scale)
-            CGContextSetBlendMode(UIGraphicsGetCurrentContext(), .Copy)
-            let imageRect = CGRectMake(0, 0, originalImage.size.width, originalImage.size.height)
-            originalImage.drawInRect(imageRect)
-            
-            CGContextSetBlendMode(UIGraphicsGetCurrentContext(), .Difference);
-            CGContextSetFillColorWithColor(UIGraphicsGetCurrentContext(),UIColor.whiteColor().CGColor);
-            CGContextFillRect(UIGraphicsGetCurrentContext(), CGRectMake(0, 0, originalImage.size.width, originalImage.size.height));
-            image = UIGraphicsGetImageFromCurrentImageContext()
-            UIGraphicsEndImageContext()
-        }
-    }
+extension UIView {
     
     func addDashedBorder() {
         layer.sublayers?.removeAll()
@@ -57,5 +42,23 @@ extension UIImageView {
         shapeLayer.path = UIBezierPath(roundedRect: shapeRect, cornerRadius: 0).CGPath
         
         self.layer.addSublayer(shapeLayer)
+    }
+}
+
+extension UIImageView {
+    
+    func invertImage() {
+        if let originalImage = image {
+            UIGraphicsBeginImageContextWithOptions(originalImage.size, true, UIScreen.mainScreen().scale)
+            CGContextSetBlendMode(UIGraphicsGetCurrentContext(), .Copy)
+            let imageRect = CGRectMake(0, 0, originalImage.size.width, originalImage.size.height)
+            originalImage.drawInRect(imageRect)
+            
+            CGContextSetBlendMode(UIGraphicsGetCurrentContext(), .Difference);
+            CGContextSetFillColorWithColor(UIGraphicsGetCurrentContext(),UIColor.whiteColor().CGColor);
+            CGContextFillRect(UIGraphicsGetCurrentContext(), CGRectMake(0, 0, originalImage.size.width, originalImage.size.height));
+            image = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+        }
     }
 }
