@@ -339,11 +339,14 @@ class PixelPerfectLayout : PixelPerfectView, UIGestureRecognizerDelegate {
     }
     
     private func showStubView() {
+        let frameSize :CGFloat = 20.0
+        let frame = CGRect(x: frameSize, y: frameSize, width: self.frame.width - 2 * frameSize, height: self.frame.height - 2 * frameSize)
         stubLabel = UILabel(frame: frame)
-        stubLabel?.backgroundColor = UIColor(white: 0, alpha: 0.3)
+        stubLabel?.backgroundColor = UIColor(white: 0, alpha: 0.5)
         stubLabel?.textAlignment = .Center
-        stubLabel?.text = "Tap to add image"
-        stubLabel?.font = UIFont.systemFontOfSize(30)
+        stubLabel?.text = "Tap to set\noverlay image"
+        stubLabel?.numberOfLines = 2
+        stubLabel?.font = UIFont.systemFontOfSize(20)
         stubLabel?.textColor = UIColor.whiteColor()
         stubLabel?.userInteractionEnabled = true
 

@@ -24,9 +24,9 @@
                                         <rect key="frame" x="0.0" y="0.0" width="560" height="500"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pixel Perfect" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4c4-co-cWO">
-                                        <rect key="frame" x="171" y="432" width="217.5" height="48"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="40"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <rect key="frame" x="192" y="441" width="175" height="38.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
@@ -41,9 +41,13 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JbN-8m-CKh">
-                                <rect key="frame" x="279" y="547" width="43" height="33"/>
+                                <rect key="frame" x="20" y="547" width="560" height="33"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <state key="normal" title="Show"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Show">
+                                    <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
                                 <connections>
                                     <action selector="ppPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="TB5-VT-jZc"/>
                                 </connections>
@@ -51,8 +55,9 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="JbN-8m-CKh" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="1nc-qP-eYx"/>
                             <constraint firstAttribute="trailing" secondItem="dxb-zp-aCP" secondAttribute="trailing" constant="20" id="AlJ-da-VRP"/>
+                            <constraint firstItem="JbN-8m-CKh" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="20" id="XGB-Gg-ZP1"/>
+                            <constraint firstAttribute="trailing" secondItem="JbN-8m-CKh" secondAttribute="trailing" constant="20" id="ZSh-aa-xLS"/>
                             <constraint firstAttribute="bottom" secondItem="JbN-8m-CKh" secondAttribute="bottom" constant="20" id="ben-3r-6VM"/>
                             <constraint firstAttribute="bottom" secondItem="dxb-zp-aCP" secondAttribute="bottom" constant="70" id="fSf-G9-guy"/>
                             <constraint firstItem="JbN-8m-CKh" firstAttribute="top" secondItem="dxb-zp-aCP" secondAttribute="bottom" constant="20" id="jpc-bv-Xcf"/>
@@ -66,6 +71,7 @@
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="imageContainer" destination="dxb-zp-aCP" id="Fc9-ZO-98v"/>
                         <outlet property="labelBottomConstaint" destination="1fO-Gd-o5f" id="iSD-u6-WYg"/>
                         <outlet property="ppButton" destination="JbN-8m-CKh" id="eWR-zV-uCM"/>
                     </connections>

@@ -5,12 +5,15 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var labelBottomConstaint: NSLayoutConstraint!
     @IBOutlet weak var ppButton: UIButton!
+    @IBOutlet weak var imageContainer: UIView!
     
-    private let originalBottomConstraint : CGFloat = 20
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         
+        let originalBottomConstraint = 0.2 * imageContainer.frame.size.height
+        ppButton.layer.cornerRadius = 4
+        ppButton.layer.borderWidth = 1
+        ppButton.layer.borderColor = UIColor(red: 0, green: 122/255, blue: 1, alpha: 1).CGColor
         ppButton.hidden = true
         labelBottomConstaint.constant = originalBottomConstraint + 3
         view.layoutIfNeeded()
