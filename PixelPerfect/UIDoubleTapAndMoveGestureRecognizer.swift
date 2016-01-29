@@ -3,9 +3,14 @@ import UIKit.UIGestureRecognizerSubclass
 
 class UIDoubleTapAndMoveGestureRecognizer : UIGestureRecognizer {
     
-    private var timer : NSTimer?
+    private let kDoubleTapInterval = 0.2
+    private let kWailInterval = 0.6
+    private let touchSlop : CGFloat = 2
+    
+    private var doubleTapTimer : NSTimer?
     private var isFirstTapDetected = false
     private var isDoubleTapDetected = false
+    private var startTouchPoint : CGPoint?
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent) {
         super.touchesBegan(touches, withEvent: event)
@@ -14,16 +19,20 @@ class UIDoubleTapAndMoveGestureRecognizer : UIGestureRecognizer {
             state = .Failed
             return
         }
+        if let touch = touches.first, let view = view {
+            startTouchPoint = touch.locationInView(view)
+        }
         if !isFirstTapDetected {
             isFirstTapDetected = true
+            isDoubleTapDetected = false
             
-            timer = NSTimer.scheduledTimerWithTimeInterval(0.2, target: self, selector: "doubleTapTimeExpired", userInfo: nil, repeats: false)
+            doubleTapTimer = NSTimer.scheduledTimerWithTimeInterval(kDoubleTapInterval, target: self, selector: "doubleTapTimeExpired", userInfo: nil, repeats: false)
             state = .Possible
         } else {
-            isFirstTapDetected = false
             isDoubleTapDetected = true
-            timer?.invalidate()
-            state = .Began
+            isFirstTapDetected = false
+            doubleTapTimer?.invalidate()
+            state = .Possible
         }
     }
     
@@ -35,7 +44,7 @@ class UIDoubleTapAndMoveGestureRecognizer : UIGestureRecognizer {
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent) {
         super.touchesEnded(touches, withEvent: event)
-        if !isFirstTapDetected {
+        if isDoubleTapDetected {
             state = .Ended
         }
         isDoubleTapDetected = false
@@ -43,12 +52,20 @@ class UIDoubleTapAndMoveGestureRecognizer : UIGestureRecognizer {
     
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent) {
         super.touchesMoved(touches, withEvent: event)
-        if !isDoubleTapDetected {
-            state = .Failed
-        }
-        if state == .Failed {
-            isFirstTapDetected = false
-            isDoubleTapDetected = false
+        if state != .Changed {
+            if let currentTouch = touches.first, let startTouchPoint = startTouchPoint, let view = view {
+                let currentTouchPoint = currentTouch.locationInView(view)
+                if abs(currentTouchPoint.x - startTouchPoint.x) > touchSlop ||
+                    abs(currentTouchPoint.y - startTouchPoint.y) > touchSlop {
+                        isFirstTapDetected = false
+                        doubleTapTimer?.invalidate()
+                        if !isDoubleTapDetected {
+                            state = .Failed
+                            return
+                        }
+                        state = .Changed
+                }
+            }
             return
         }
         state = .Changed

@@ -32,6 +32,7 @@ class UIDoubleTapAndWaitGestureRecognizer : UIGestureRecognizer {
             isFirstTapDetected = true
             
             doubleTapTimer = NSTimer.scheduledTimerWithTimeInterval(kDoubleTapInterval, target: self, selector: "doubleTapTimeExpired", userInfo: nil, repeats: false)
+            state = .Possible
         } else {
             isFirstTapDetected = false
             isDoubleTapDetected = true
